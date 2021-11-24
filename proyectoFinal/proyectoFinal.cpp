@@ -17,9 +17,9 @@ void generarSalarios(float salarios[]);
 void mostrarTodosContactos();   // listo
 void buscarContactoPorNombre(); // iniciado
 void buscarContactoPorClave();  // listo
-void ordenarContactosClave();
-void ordenarContactosNombre();
-void ordenarContactosSalario();
+void ordenarContactosClave();   // listo
+void ordenarContactosNombre();  // listo
+void ordenarContactosSalario(); // listo
 void insertarNuevoRegistro();
 void eliminarRegistroClave();
 void eliminarRegistroNombre();
@@ -139,12 +139,14 @@ int main() {
 				}
 				if (ordenar == 1){
             	    ordenarContactosClave();
+                    fflush(stdin);
                 } else if (ordenar == 2){
                 	ordenarContactosNombre();
-				} else if (ordenar == 3){
+                    fflush(stdin);
+                } else if (ordenar == 3){
                 	ordenarContactosSalario();
+                    fflush(stdin);
 				}
-                fflush(stdin);
                 break;
             case 4:
                 break;
