@@ -49,38 +49,38 @@ const char baseNombres[15][15] = {
     {"Axel"}
 };
 const char baseApellidosP[15][15] = {  
-    {"Pérez"},
-    {"Rodríguez"},
-    {"Sánchez"},
-    {"Ramírez"},
+    {"Perez"},
+    {"Rodriguez"},
+    {"Sanchez"},
+    {"Ramirez"},
     {"Cruz"},
     {"Flores"},
-    {"Gómez"},
-    {"Hernández"},
-    {"García"},
-    {"Martínez"},
-    {"López"},
-    {"González"},
+    {"Gomez"},
+    {"Hernandez"},
+    {"Garcia"},
+    {"Martinez"},
+    {"Lopez"},
+    {"Gonzalez"},
     {"Campos"},
-    {"Chávez"},
+    {"Chavez"},
     {"Cruz"}
 };
 const char baseApellidosM[15][15] = {  
     {"Espinoza"},
-    {"Gómez"},
+    {"Gomez"},
     {"Guerrero"},
     {"Maldonado"},
     {"Ortiz"},
     {"Padilla"},
     {"Ramos"},
-    {"Ríos"},
+    {"Rios"},
     {"Ruiz"},
     {"Soto"},
-    {"Vázquez"},
-    {"Sánchez"},
+    {"Vazquez"},
+    {"Sanchez"},
     {"Sandoval"},
     {"Rojas"},
-    {"Muñoz"}
+    {"Moreno"}
 };
 
 // definicion de variables
@@ -114,16 +114,37 @@ int main() {
                 do {
                     printf("Ingrese la opcion: ");
                     scanf("%d", &opcion);
+                    fflush(stdin);
                     if (opcion == 1) {
                         buscarContactoPorNombre();
+                        fflush(stdin);
                     } else if (opcion == 2) {
                         buscarContactoPorClave();
+                        fflush(stdin);
                     } else {
                         printf("Digite una opcion valida\n");
+                        fflush(stdin);
                     }
-                } while ( opcion < 1 || opcion > 2 );
+                } while (opcion < 1 || opcion > 2);
                 break;
             case 3:
+                int ordenar;
+            	printf("Como quiere ordenar la lista?\n");
+            	printf("1.-Por clave \n2.-Por nombre \n3.-Por Sueldo\n");
+                printf("Ingrese la opcion: ");
+            	scanf("%d", &ordenar);
+            	while (ordenar != 1 && ordenar != 2 && ordenar != 3){
+            		printf("Esa no es una opcion valida, ingresa 1, 2 o 3\n");
+            		scanf("%d",&ordenar);
+				}
+				if (ordenar == 1){
+            	    ordenarContactosClave();
+                } else if (ordenar == 2){
+                	ordenarContactosNombre();
+				} else if (ordenar == 3){
+                	ordenarContactosSalario();
+				}
+                fflush(stdin);
                 break;
             case 4:
                 break;
@@ -139,6 +160,7 @@ int main() {
                 printf("Opcion incorrecta");
                 break;
         }
+        fflush(stdin);
     } while (salir == false);
     return 0;
 }
@@ -188,12 +210,44 @@ void mostrarTodosContactos() {
     printf("\n");
 }
 void buscarContactoPorNombre() {
-    char persona[50];
+    char persona[50]; // guarda el nombre de la persona
+    int contactosEncontrados[20]; // guarda la posicion de las personas encontradas
+    int encontrados = 0,
+        pos = 0,
+        val = 0;
+    bool bien = false;
+    encontrado = false;
+    printf("\n");
     do {
         printf("Ingrese el nombre de quien desee buscar el contacto: ");
         gets(persona);
-        // codigo aqui para buscar a la persona
+        for(i = 0; i < totalContactos; i++) {
+            for (j = 0; j < strlen(persona); j++) {
+                if (nombres[i][j] == persona[j]) {
+                    if (j == strlen(persona) - 1 && bien == true) {
+                        val = i;
+                        contactosEncontrados[encontrados] = val;
+                        encontrado = true;
+                        encontrados++;
+                    }
+                    bien = true;
+                } else {
+                    bien = false;
+                }
+            }
+        }
+        printf("\n");
+        if (encontrado == true) {
+            printf("  clave  |  salario  |  nombre  \n");
+            printf("=======================================================\n");
+            for(i = 0; i < encontrados; i++) {
+                pos = contactosEncontrados[i];
+                printf("  %d   |  %.2f |  %s\n", claves[pos], salarios[pos], nombres[pos]);
+            }
+        }
+        printf("\n\n");
     } while( encontrado == false);
+    fflush(stdin);
 }
 void buscarContactoPorClave() {
     int buscarClave;
@@ -224,13 +278,88 @@ void buscarContactoPorClave() {
     system("cls");
 }
 void ordenarContactosClave() {
-
+    int i,
+        j,
+        aux;
+	char aux3[70];
+	for (i = 0; i < totalContactos; i++) {
+		for (j = i + 1; j < totalContactos; j++) {
+			if (claves[i] > claves[j]) {
+				aux = claves[i];
+				claves[i] = claves[j];
+				claves[j] = aux;
+				aux = salarios[i];           
+				salarios[i] = salarios[j];
+				salarios[j] = aux;
+				strcpy(aux3, nombres[i]);
+				strcpy(nombres[i], nombres[j]);
+				strcpy(nombres[j], aux3);
+			}
+		}
+	}
+	system("cls");
+    printf("  clave  |  salario  |  nombre  \n");
+    printf("=======================================================\n");
+    for (i = 0; i < totalContactos; i++) {
+        printf("  %d   |  %.2f |  %s\n", claves[i], salarios[i], nombres[i]);
+    }
+    printf("\n");
 }
 void ordenarContactosNombre() {
-
+    int i,
+        j,
+        aux;
+	char temp[50];
+	for (i = 0; i < totalContactos; i++) {
+		for (j = i; j < totalContactos; j++) {
+			if (strcmp(nombres[i], nombres[j]) > 0) {
+				strcpy(temp, nombres[i]);
+				strcpy(nombres[i], nombres[j]);
+				strcpy(nombres[j], temp);
+				aux = salarios[i];           
+				salarios[i] = salarios[j];
+				salarios[j] = aux;
+				aux = claves[i];
+				claves[i] = claves[j];
+				claves[j] = aux;
+			}
+		}
+	}
+	system("cls");
+    printf("  clave  |  salario  |  nombre  \n");
+    printf("=======================================================\n");
+    for (i = 0; i < totalContactos; i++) {
+        printf("  %d   |  %.2f |  %s\n", claves[i], salarios[i], nombres[i]);
+    }
+    printf("\n");
 }
 void ordenarContactosSalario() {
-
+    int i,
+        j,
+        aux;
+	char aux3[50];
+	for (i = 0; i < totalContactos; i++) {
+		for (j = i + 1; j < totalContactos; j++) {
+			if(salarios[i] > salarios[j]) {
+				aux = salarios[i];           
+				salarios[i] = salarios[j];
+				salarios[j] = aux;
+				aux = claves[i];
+				claves[i] = claves[j];
+				claves[j] = aux;
+				strcpy(aux3, nombres[i]);
+				strcpy(nombres[i], nombres[j]);
+				strcpy(nombres[j], aux3);
+			}
+		}
+	}
+	system("cls");
+    printf("  clave  |  salario  |  nombre  \n");
+    printf("=======================================================\n");
+    for (i = 0; i < totalContactos; i++) {
+        printf("  %d   |  %.2f |  %s\n", claves[i], salarios[i], nombres[i]);
+    }
+    printf("\n");
 }
 void insertarNuevoRegistro() {
 
