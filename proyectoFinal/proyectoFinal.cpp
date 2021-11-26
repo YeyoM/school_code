@@ -15,17 +15,20 @@ void generarNombres(char nombres[][50], const char baseNombres[][15], const char
 void generarClaves(int claves[]);
 void generarSalarios(float salarios[]);
 void mostrarTodosContactos();   // listo
-void buscarContactoPorNombre(); // iniciado
+void buscarContactoPorNombre(); // listo
 void buscarContactoPorClave();  // listo
 void ordenarContactosClave();   // listo
 void ordenarContactosNombre();  // listo
 void ordenarContactosSalario(); // listo
-void insertarNuevoRegistro();
-void eliminarRegistroClave();
-void eliminarRegistroNombre();
-void modificarRegistroClave();
-void modificarRegistroNombre();
-void modificarRegistroSalario();
+////////////////////////////////////////////////////////////////
+// Falta verificar que la clave o el nombre no existan ya en la base
+void insertarNuevoRegistro(int&, int claves[], float salarios[], char nombres[][50]); 
+////////////////////////////////////////////////////////////////
+void eliminarRegistroClave(int&, int claves[], float salarios[], char nombres[][50]);   //listo
+void eliminarRegistroNombre(int&, int claves[], float salarios[], char nombres[][50]);  //listo
+void modificarRegistroClave(int modificarRegistro, int modificarRegistroPos, int claves[]);
+void modificarRegistroNombre(int modificarRegistro, int modificarRegistroPos, char nombres[][50]);
+void modificarRegistroSalario(int modificarRegistro, int modificarRegistroPos, float salarios[]);
 
 
 // definicion de constantes
@@ -91,7 +94,8 @@ int i, j, k;            // variables de iteracion
 bool salir = false,
      encontrado = false;
 int opcion = 0;
-int totalContactos = 10;
+int totalContactos = 9;
+int modificarRegistro, modificarRegistroPos;
 
 // main
 int main() {
@@ -116,7 +120,7 @@ int main() {
                     scanf("%d", &opcion);
                     fflush(stdin);
                     if (opcion == 1) {
-                        buscarContactoPorNombre();
+                        buscarContactoPorNombre(); 
                         fflush(stdin);
                     } else if (opcion == 2) {
                         buscarContactoPorClave();
@@ -133,9 +137,9 @@ int main() {
             	printf("1.-Por clave \n2.-Por nombre \n3.-Por Sueldo\n");
                 printf("Ingrese la opcion: ");
             	scanf("%d", &ordenar);
-            	while (ordenar != 1 && ordenar != 2 && ordenar != 3){
+            	while (ordenar != 1 && ordenar != 2 && ordenar != 3) {
             		printf("Esa no es una opcion valida, ingresa 1, 2 o 3\n");
-            		scanf("%d",&ordenar);
+            		scanf("%d", &ordenar);
 				}
 				if (ordenar == 1){
             	    ordenarContactosClave();
@@ -149,10 +153,68 @@ int main() {
 				}
                 break;
             case 4:
+                if (totalContactos >= 20) {
+                    printf("La base de datos ha alcanzado su maxima capacidad\n");
+                } else {
+                    insertarNuevoRegistro(totalContactos, claves, salarios, nombres);
+                }
+                fflush(stdin);
                 break;
             case 5:
+                printf("Desea eliminar el registro por\n1.- Nombre\n2.- Clave\n");
+                do {
+                    printf("Ingrese la opcion: ");
+                    scanf("%d", &opcion);
+                    fflush(stdin);
+                    if (opcion == 1) {
+                        eliminarRegistroNombre(totalContactos, claves, salarios, nombres);
+                        fflush(stdin);
+                    } else if (opcion == 2) {
+                        eliminarRegistroClave(totalContactos, claves, salarios, nombres);
+                        fflush(stdin);
+                    } else {
+                        printf("Digite una opcion valida\n");
+                        fflush(stdin);
+                    }
+                } while (opcion < 1 || opcion > 2);
                 break;
             case 6:
+                encontrado = false;
+                do {
+                    printf("Ingrese la clave del registro que desee modificar: ");
+                    scanf("%d", &modificarRegistro);
+                    printf("\n");
+                    for (int i = 0; i < totalContactos; i++) {
+                        if (modificarRegistro == claves[i]) {
+                            modificarRegistroPos = i;
+                            encontrado = true;
+                        }
+                    }
+                    if (encontrado == false) {
+                        printf("Registro no encontrado\n");
+                    }
+                } while (encontrado == false);
+                if (encontrado == true) {
+                    do {
+                        printf("Que desea modificar del registro?\n1.-Clave\n2.-Salario\n3.-Nombre\n");
+                        printf("Ingrese la opcion: ");
+                        scanf("%d", &opcion);
+                        fflush(stdin);
+                        if (opcion == 1) {
+                            modificarRegistroClave(modificarRegistro, modificarRegistroPos, claves);
+                            fflush(stdin);
+                        } else if (opcion == 2) {
+                            modificarRegistroSalario(modificarRegistro, modificarRegistroPos, salarios);
+                            fflush(stdin);
+                        } else if (opcion == 3) {
+                            modificarRegistroNombre(modificarRegistro, modificarRegistroPos, nombres);
+                            fflush(stdin);
+                        } else {
+                            printf("Digite una opcion valida\n");
+                            fflush(stdin);
+                        }
+                    } while (opcion < 1 || opcion > 3);
+                }
                 break;
             case 7:
                 salir = true;
@@ -206,7 +268,7 @@ void mostrarTodosContactos() {
     system("cls");
     printf("  clave  |  salario  |  nombre  \n");
     printf("=======================================================\n");
-    for (i = 0; i < totalContactos; i++) {
+    for (i = 0; i <= totalContactos; i++) {
         printf("  %d   |  %.2f |  %s\n", claves[i], salarios[i], nombres[i]);
     }
     printf("\n");
@@ -223,7 +285,7 @@ void buscarContactoPorNombre() {
     do {
         printf("Ingrese el nombre de quien desee buscar el contacto: ");
         gets(persona);
-        for(i = 0; i < totalContactos; i++) {
+        for(i = 0; i <= totalContactos; i++) {
             for (j = 0; j < strlen(persona); j++) {
                 if (nombres[i][j] == persona[j]) {
                     if (j == strlen(persona) - 1 && bien == true) {
@@ -363,21 +425,114 @@ void ordenarContactosSalario() {
     }
     printf("\n");
 }
-void insertarNuevoRegistro() {
-
+void insertarNuevoRegistro(int& totalContactos, int claves[], float salarios[], char nombres[][50]) {
+    int nuevaClave;
+    float nuevoSalario;
+    char nuevoNombre[50];
+    bool claveInvalida = false;
+    printf("La clave debe estar compuesta por 4 digitos\n");
+    do {
+        claveInvalida = false;
+        printf("Ingrese la clave del nuevo trabajador: ");
+        scanf("%d", &nuevaClave);
+        printf("\n");
+        for (i = 0; i < totalContactos; i++) {
+            if (claves[i] == nuevaClave) {
+                printf("Esa clave ya existe, pertenece a:\n");
+                 printf("  clave  |  salario  |  nombre  \n");
+                printf("=======================================================\n");
+                printf("  %d   |  %.2f |  %s\n", claves[i], salarios[i], nombres[i]);
+                claveInvalida = true;
+            } 
+        }
+    } while (nuevaClave < 1000 || nuevaClave > 9999 || claveInvalida == true);
+    if(claveInvalida == false){
+        do {
+            printf("Ingrese el salario del nuevo trabajador: ");
+            scanf("%f", &nuevoSalario);
+            printf("\n");
+        } while (nuevoSalario < 1000.0 || nuevoSalario > 99999.9);
+        fflush(stdin);
+        printf("Ingrese el nombre del nuevo trabajador: ");
+        gets(nuevoNombre);
+        totalContactos++; 
+        claves[totalContactos] = nuevaClave;
+        salarios[totalContactos] = nuevoSalario;
+        strcpy(nombres[totalContactos], nuevoNombre);
+    }
 }
-void eliminarRegistroClave() {
-
+void eliminarRegistroClave(int& totalContactos, int claves[], float salarios[], char nombres[][50]) {
+    int borrarClave;
+    encontrado = false;
+    do {
+        printf("Ingrese la clave de quien desee elminar el registro: ");
+        scanf("%d", &borrarClave);
+        printf("\n");
+        for (i = 0; i < totalContactos; i++) {
+            if (claves[i] == borrarClave) {
+                for(j = i; j <= (totalContactos-1); j++) {
+                    if ( j == totalContactos) {
+                        claves[j] = claves[j];
+                        salarios[j] = salarios[j];
+                        strcpy(nombres[j], nombres[j]);
+                    } else {
+                        claves[j] = claves[j + 1];
+                        salarios[j] = salarios[j + 1];
+                        strcpy(nombres[j], nombres[j + 1]);
+                    }
+                }
+                i--;
+                totalContactos--;
+                encontrado = true;
+            } 
+        }
+    } while (encontrado == false);
 }
-void eliminarRegistroNombre() {
-
+void eliminarRegistroNombre(int& totalContactos, int claves[], float salarios[], char nombres[][50]) {
+    char borrarNombre[50];
+    encontrado = false;
+    do {
+        printf("Ingrese el nombre completo de quien desee elminar el registro: ");
+        gets(borrarNombre);
+        for (i = 0; i < totalContactos; i++) {
+            if (strcmp(nombres[i], borrarNombre) == 0) {
+                for(j = i; j <= (totalContactos-1); j++) {
+                    if ( j == totalContactos) {
+                        claves[j] = claves[j];
+                        salarios[j] = salarios[j];
+                        strcpy(nombres[j], nombres[j]);
+                    } else {
+                        claves[j] = claves[j + 1];
+                        salarios[j] = salarios[j + 1];
+                        strcpy(nombres[j], nombres[j + 1]);
+                    }
+                }
+                i--;
+                totalContactos--;
+                encontrado = true;
+            } 
+        }
+    } while (encontrado == false);
 }
-void modificarRegistroClave() {
-
+void modificarRegistroClave(int modificarRegistro, int modificarRegistroPos, int claves[]) {
+    int nuevaClave;
+    do {
+        printf("Ingrese la nueva clave (4 digitos): ");
+        scanf("%d", nuevaClave);
+    } while (nuevaClave < 1000 || nuevaClave > 9999);
+    claves[modificarRegistroPos] = nuevaClave;
 }
-void modificarRegistroNombre() {
-
+void modificarRegistroNombre(int modificarRegistro, int modificarRegistroPos, char nombres[][50]) {
+    char nuevoNombre[50];
+    printf("Ingrese el nuevo nombre: ");
+    gets(nuevoNombre);
+    strcpy(nombres[modificarRegistroPos], nuevoNombre);
 }
-void modificarRegistroSalario() {
-
+void modificarRegistroSalario(int modificarRegistro, int modificarRegistroPos, float salarios[]) {
+    float nuevoSalario;
+    do {
+        printf("Ingrese el nuevo salario (10000.0 - 99999.99): ");
+        scanf("%f", nuevoSalario);
+    } while (nuevoSalario < 10000.00 || nuevoSalario > 99999.99);
+    salarios[modificarRegistroPos] = nuevoSalario;
 }
