@@ -1,11 +1,21 @@
+/* @autores:    Diego Emilio Moreno Sanchez,
+                Hector Alejandro Perez, 
+			    Angel David Ortiz.  
+    Fecha:      10 de diciembre de 2021      */   
+
 #include<stdio.h>
  
+// inicializamos la funcion 
 void busquedaProf(int);
-int matriz[30][30],visited[30],nodo,cuenta;    //n is no of vertices and graph is sorted in array G[10][10]
-int main()
-{
+
+int matriz[30][30],
+    visitados[30],
+    nodo,
+    cuenta;
+
+int main() {
     int i,j;
-printf("\nIngrese el numero de nodos del grafo: ");
+    printf("\nIngrese el numero de nodos del grafo: ");
     scanf("%d", &nodo);
     for (i = 0; i < nodo; i++){
         for (j = 0; j < nodo; j++){
@@ -20,13 +30,15 @@ printf("\nIngrese el numero de nodos del grafo: ");
             }
         }
     }
-    //visited is initialized to zero
+    //el arreglo de visitados lo inicializamos en 0
     for(i = 0; i < nodo; i++) {
-        visited[i] = 0;
+        visitados[i] = 0;
     } 
+
     busquedaProf(0);
     
     printf("\n");
+    // evaluamos si se visitaron todos los nodos, en caso de que si, significa que el grafo es conexo
     if(cuenta == nodo) {
         printf("El grafo es conexo\n");
     } else {
@@ -36,12 +48,14 @@ printf("\nIngrese el numero de nodos del grafo: ");
 }
 void busquedaProf(int i) {
     int j;
+    // vamos añadiendo a la cuenta cada que pasemos por aquí
     cuenta++;
-    visited[i] = 1;
+    visitados[i] = 1;
     for(j = 0; j < nodo; j++) {
-        if(!visited[j] && matriz[i][j] == 1) {
+        // evaluamos la siguiente expresion, en caso de True usaremos recursividad
+        // evalua el arreglo de visitados en la posicion j y la matriz en la posicion i, j en caso de que exista conexiones (1)
+        if(!visitados[j] && matriz[i][j] == 1) {
             busquedaProf(j);
         }
     }
-       
 }
