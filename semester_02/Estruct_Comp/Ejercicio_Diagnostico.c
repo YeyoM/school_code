@@ -88,7 +88,7 @@ void encontrarRepetidos(int arr[], int n_rep[], int v_rep[], int long_arr) {
   // mostramos el arreglo original 
   printf("\nArreglo original\n");
   for (int i = 0; i < long_arr; i++){
-    printf("%d ", arr[i]);
+    printf("%d, ", arr[i]);
   }
   printf("\n");
   // mostramos los valores que encontramos con numeros repetidos
