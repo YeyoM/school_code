@@ -13,7 +13,6 @@
 
 // librerias
 #include <stdio.h>
-#include <conio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
@@ -47,6 +46,8 @@ void generarArr(int long_arr, int arr[], int n_rep[], int v_rep[]) {
   // inicializamos los arreglos, el primero con numeros aleatorios y los siguientes con ceros
   for (int i = 0; i < long_arr; i++) {
     arr[i] = rand()%10+1;
+    // para generar un arreglo de 1 hasta n en lugar de 1 hasta 10
+    // arr[i] = rand()%long_arr+1;
     n_rep[i] = 0;
     v_rep[i] = 0;
   }
