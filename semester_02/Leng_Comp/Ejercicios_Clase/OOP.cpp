@@ -18,6 +18,10 @@ Person::Person(int _age, string _name){
   name = _name;
 }
 
+Person::~Person(){
+  cout<<"eliminando a "<<name<<endl;
+}
+
 void Person::read(){
   cout<<"My name is "<<name<<" Im "<<age<<" and Im reading a book"<<endl;
 }
