@@ -57,7 +57,6 @@ void verificarSimetrica(int mat[][99], int n) {
   } else {
     cout << "La matriz no es simetrica";
   }
-
 }
 
 
