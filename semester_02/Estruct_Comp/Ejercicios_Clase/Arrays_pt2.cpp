@@ -6,6 +6,9 @@
 #include <string.h>
 using namespace std;
 
+// pasar un array como parametro de funciones
+void suma_arreglo(int arr[]);
+
 int main(){
 
   // Bidimensional
@@ -43,4 +46,21 @@ int main(){
     }
   }
 
+  // llamado a funcion con paso de parametro
+  suma_arreglo(arr5);
+
+  return 0;
+
+}
+
+// implementacion de la funcion
+void suma_arreglo(int arr[]) {
+  int suma,
+      i;
+  
+  for(i = 0; i < 3; i++) {
+    suma = suma + arr[i];
+  }
+
+  cout<<endl<<"La suma del arreglo: "<<suma;
 }
