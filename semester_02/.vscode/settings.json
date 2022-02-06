@@ -2,7 +2,10 @@
   "files.associations": {
     "*.ejs": "html",
     "iostream": "cpp",
-    "time.h": "c"
+    "time.h": "c",
+    "system_error": "cpp",
+    "xlocale": "cpp",
+    "xstring": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }
