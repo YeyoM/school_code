@@ -6,9 +6,9 @@
 
 
 #include <iostream>
-#include<stdlib.h>
-#include <string.h>
-#include<time.h>
+#include <stdlib.h>
+#include <string>
+#include <time.h>
 using namespace std;
 string baseNombres[15] = {  
     "Juan",
@@ -63,27 +63,22 @@ string baseApellidosM[15] = {
 };
 
 class Trabajador {
-private:
+  private:
     string nombre;
     int id;
   
-public:
-  Trabajador(int, string);
-  Trabajador() = default;
-  void Mostrardatos();
- 
+  public:
+    void setName(string _nombre) {
+  		nombre = _nombre;
+  	}
+  	void setID(int _id){
+  		id = _id;
+  	}
+  	void displayInfo(){
+  		cout << "Name : " << nombre << endl;
+  		cout << "ID : " << id << endl;
+  	}
 };
-Trabajador::Trabajador(int _id, string _nombre) {
-    id = _id;
-    nombre.assign(_nombre);
-}
-
-void Trabajador::Mostrardatos() {
-  printf("%s\n", nombre.c_str());
-  printf("%d\n", id);
-}
-
-
 
 string generarNombre(string nombre, string baseNombres[15], string baseApellidosP[15], string baseApellidosM[15]);
 
@@ -94,16 +89,17 @@ int main()
     srand(time(NULL));
     string nombre;
     int id;
-    nombre = generarNombre(nombre, baseNombres, baseApellidosP, baseApellidosM);
-    id = generarID(id);
-    Trabajador trab(id, nombre);
-    trab.Mostrardatos();
+
+    Trabajador arreglo_trabajadores[10];
 
     for (int i = 0; i < 10; i++) {
-      generarDatos(idParaTrabajador, nombreParaTrabajador, baseNombres, baseApellidosP, baseApellidosM);
-      arreglo_trabajadores[i] = Trabajador t1(idParaTrabajador, nombreParaTrabajador[50]);
-      arreglo_trabajadores[i].Mostrardatos();
+      nombre = generarNombre(nombre, baseNombres, baseApellidosP, baseApellidosM);
+      id = generarID(id);
+      arreglo_trabajadores[i].setName(nombre);
+      arreglo_trabajadores[i].setID(id);
     }
+
+    arreglo_trabajadores[1].displayInfo();
 
   return 0;
 }
