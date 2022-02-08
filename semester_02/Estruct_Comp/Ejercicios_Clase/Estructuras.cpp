@@ -20,7 +20,7 @@ int main(){
   strcpy(arreglo_alumnos[0].id, "1111");
   arreglo_alumnos[0].nombre = "Juan ";
   arreglo_alumnos[0].edad = 18;
-  strcpy(arreglo_alumnos[0].direccion, "Otra calle #numero")
+  strcpy(arreglo_alumnos[0].direccion, "Otra calle #numero");
   
   // para acceder a los datos de los structs
   // se usa <nombre_struct>.<propiedad>
