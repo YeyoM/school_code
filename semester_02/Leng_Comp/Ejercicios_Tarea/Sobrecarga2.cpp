@@ -1,4 +1,3 @@
-//clase, atributos, m�todos, m�todo constructor, destructor, sobrecarga de operadores y objeto (s).
 //07/02/2022
 #include<iostream>
 #include<stdio.h>
