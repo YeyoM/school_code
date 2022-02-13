@@ -5,7 +5,8 @@
     "time.h": "c",
     "system_error": "cpp",
     "xlocale": "cpp",
-    "xstring": "cpp"
+    "xstring": "cpp",
+    "ostream": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }
