@@ -55,7 +55,7 @@ void imprimirDatos(alumno alumnos[], datos_complementarios datos_comp_alum[], in
     cout << alumnos[i].id;
     cout << "\n Nombre del alumno " << i + 1 << ": ";
     cout << alumnos[i].nombre;
-    cout << "\n Tipo del alumno ([1]Deportista [2] Becario): " << alumnos[i].tipo;
+    cout << "\n Tipo del alumno ([1]Deportista [2]Becario): " << alumnos[i].tipo;
     if (alumnos[i].tipo == 1) {
       cout << "\n El nombre del deporte "
            << "del alumno es: " << datos_comp_alum[i].deporte;
