@@ -153,10 +153,10 @@ int main () {
 
     } else if (opcion == 3) {
       // triangulo
-      cout << "op3" << endl;
+
     } else if (opcion == 4) {
       // circulo
-      cout << "op4" << endl;
+      
     } else if (opcion == 5) {
       // salir
       salir = true;
