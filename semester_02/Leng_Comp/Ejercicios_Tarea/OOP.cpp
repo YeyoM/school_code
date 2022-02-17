@@ -27,7 +27,7 @@ class Figura {
   public:
     float lado1;
     Figura(float);
-    virtual void mostrar();x
+    virtual void mostrar();
 };
 
 Figura::Figura(float _lado1) {
