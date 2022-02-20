@@ -302,6 +302,7 @@ int main () {
       // salir
       salir = true;
       cout << "Nos vemos!" << endl;
+      cout << '' << endl;
     } else {
       // default
       cout << "Digite una opcion valida" << endl;
