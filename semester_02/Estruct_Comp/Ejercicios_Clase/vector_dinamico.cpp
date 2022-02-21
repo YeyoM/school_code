@@ -42,16 +42,23 @@ int main(){
 
     for (int i = 0; i < dimension_arreglo; i++){
       for (int j = 0; j < dimension_arreglo; j++){
+        // verificamos si existen elementos repetidos
         if (j != i && *(arreglo + i) == *(arreglo + j)) {
-          if(j == dimension_arreglo - 1) {
+          // en caso de que sea el ultimo elemento el repetido
+          // simplemente "cortamos" el ultimo elemento
+          if (j == dimension_arreglo - 1) {
             dimension_arreglo =  dimension_arreglo - 1;
             arreglo = (int*)realloc(arreglo, dimension_arreglo * sizeof(int));
-            for (int i = 0; i < dimension_arreglo; i++){
-              cout << *(arreglo + i) << ", ";
-            }
-            cout << "i: " << i << ", j: " << j << endl;
-            cout << endl;
+            // el bloque de codigo comentado es para ver como se van eliminando
+            // for (int i = 0; i < dimension_arreglo; i++){
+            //   cout << *(arreglo + i) << ", ";
+            // }
+            // cout << endl;
           } else {
+            // caso contrario, recorremos todos los elementos
+            // a una posicion adelante a partir de la posicion
+            // del elemento que queremos eliminar y luego
+            // redimensionamos el arreglo 
             pos_para_eliminar = j;
             for (int k = pos_para_eliminar; k < dimension_arreglo - 1; k++) {
               if (k >- pos_para_eliminar) {
@@ -61,11 +68,11 @@ int main(){
             }
             dimension_arreglo =  dimension_arreglo - 1;
             arreglo = (int*)realloc(arreglo, dimension_arreglo * sizeof(int));
-            for (int i = 0; i < dimension_arreglo; i++){
-              cout << *(arreglo + i) << ", ";
-            }
-            cout << "i: " << i << ", j: " << j << endl;
-            cout << endl;
+            // el bloque de codigo comentado es para ver como se van eliminando
+            // for (int i = 0; i < dimension_arreglo; i++){
+            //   cout << *(arreglo + i) << ", ";
+            // }
+            // cout << endl;
           }
           j--;
         }
