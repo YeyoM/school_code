@@ -1,0 +1,16 @@
+/*
+  Ejercicio Apuntadores y Estructuras: En el Hospital “La Fraternidad” almacenan la siguiente
+  información de sus N pacientes.
+  Nombre y apellidos: Cadena de caracteres.
+  Edad: Entero.
+  Sexo: Carácter.
+  Condición: Entero (Se refiere al estado de salud en que ingresa el paciente. Los valores
+  que toma van de 1…5, y representan el máximo grado de gravedad.)
+  Teléfono.
+  Escribir un programa en C que genere lo siguiente:
+  • El porcentaje de hombres y mujeres registrados en el hospital.
+  • El número de paciente de cada una de las categorías de condición.
+  • El nombre y teléfono de todos los pacientes que tuvieron una condición de ingreso
+  de máxima gravedad (5).
+  Consideraciones: Utilizar apuntadores a estructuras (con sintaxis abreviada -> ó con punto .)
+*/

@@ -50,10 +50,10 @@ int main(){
             dimension_arreglo =  dimension_arreglo - 1;
             arreglo = (int*)realloc(arreglo, dimension_arreglo * sizeof(int));
             // el bloque de codigo comentado es para ver como se van eliminando
-            // for (int i = 0; i < dimension_arreglo; i++){
-            //   cout << *(arreglo + i) << ", ";
-            // }
-            // cout << endl;
+            for (int i = 0; i < dimension_arreglo; i++){
+              cout << *(arreglo + i) << ", ";
+            }
+            cout << endl;
           } else {
             // caso contrario, recorremos todos los elementos
             // a una posicion adelante a partir de la posicion
@@ -69,10 +69,10 @@ int main(){
             dimension_arreglo =  dimension_arreglo - 1;
             arreglo = (int*)realloc(arreglo, dimension_arreglo * sizeof(int));
             // el bloque de codigo comentado es para ver como se van eliminando
-            // for (int i = 0; i < dimension_arreglo; i++){
-            //   cout << *(arreglo + i) << ", ";
-            // }
-            // cout << endl;
+            for (int i = 0; i < dimension_arreglo; i++){
+              cout << *(arreglo + i) << ", ";
+            }
+            cout << endl;
           }
           j--;
         }
