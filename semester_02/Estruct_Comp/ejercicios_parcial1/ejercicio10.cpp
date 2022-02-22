@@ -14,3 +14,47 @@
   de máxima gravedad (5).
   Consideraciones: Utilizar apuntadores a estructuras (con sintaxis abreviada -> ó con punto .)
 */
+
+#include <iostream>
+using namespace std;
+
+struct paciente {
+  char nombre[20];
+  char apellido[20];
+  int edad;
+  char sexo;
+  int condicion;
+  long int telefono;
+};
+
+int cantidad_pacientes;
+char nombre[20];
+
+int main() {
+
+  cout << "Ingrese la cantidad de pacientes: ";
+  cin >> cantidad_pacientes;
+  cout << endl;
+
+  struct paciente *paciente_apuntador;//[cantidad_pacientes];
+  struct paciente pacientes[cantidad_pacientes];
+
+  paciente_apuntador = pacientes;
+
+  for (int i = 0; i < cantidad_pacientes; i++) {
+    //paciente_apuntador[i] = &pacientes[i];
+    cout << "Ingrese el nombre del paciente " << i + 1 << ": ";
+    cin >> pacientes[i].nombre;
+    cout << endl;
+  }
+
+  for (int i = 0; i < cantidad_pacientes; i++) {
+    cout << &pacientes[i].nombre << endl;
+    cout << (paciente_apuntador + i) << endl;
+  }
+
+    cout << *(paciente_apuntador + i) -> nombre << endl;
+
+
+  return 0;
+}
