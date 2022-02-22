@@ -2,6 +2,25 @@
 
 using namespace std;
 
+/*union user_id {
+  struct NIF {
+    unsigned int number;
+    char ch;
+  } nif;
+  struct CIF {
+    char ch;
+    unsigned int number;
+  } cif;
+  char passport[8];
+  struct NIE {
+    char prefix;
+    unsigned int number;
+    char suffix;
+  } nie;
+  char username[16];
+};*/
+
+
 /*union ids 
 {
   struct nif {
@@ -21,7 +40,7 @@ using namespace std;
   //char username[10];
 };*/
 
-union ids {
+/*union ids {
   struct Nif {
     int nif_number;
     string nif_string;
@@ -37,17 +56,22 @@ union ids {
   };
   char pasaporte[8];
   char username[10];
-};
+};*/
+
+union ids {
+  char NIF[9];
+  char CIF[9];
+  char NIE[9];
+  char pasaporte[8];
+  char username[16];
+} users[5];
 
 int opcion;
+int opciones[5];
 
 int main() {
 
-  union ids usuario[5];
-
-  usuario[1].pasaporte = "fasdf"; 
-
-  /* cout << "Registro de Usuarios" << endl;
+  cout << "Registro de Usuarios" << endl;
   cout << "1) NIF" << endl;
   cout << "2) CIF" << endl;
   cout << "3) NIE" << endl;
@@ -60,37 +84,30 @@ int main() {
     cin >> opcion;
     cout << endl;
     if (opcion == 1) {
-      cout << "Ingrese los 8 digitos del NIF: ";
-      cin >> users[i].NIF.number;
+      cout << "Ingrese los 9 digitos del NIF: ";
+      cin >> users[i].NIF;
       cout << endl;
-      cout << "Ingrese la letra del NIF: ";
-      cin >> users[i].NIF.nif_string;
-      cout << endl;
+      opciones[i] = 1;
     } else if (opcion == 2) {
-      cout << "Ingrese la letra del CIF: ";
-      cin >> users[i].CIF.cif_string;
+      cout << "Ingrese los 9 digitos del CIF: ";
+      cin >> users[i].CIF;
       cout << endl;
-      cout << "Ingrese los 8 digitos del CIF: ";
-      cin >> users[i].CIF.number;
-      cout << endl;
+      opciones[i] = 2;
     } else if (opcion == 3) {
-      cout << "Ingrese la letra inicial del NIE: ";
-      cin >> users[i].NIE.prefix;
+      cout << "Ingrese los 9 digitos del NIE: ";
+      cin >> users[i].NIE;
       cout << endl;
-      cout << "Ingrese los 7 digitos del NIE: ";
-      cin >> users[i].NIE.number;
-      cout << endl;
-      cout << "Ingrese la letra final del NIE: ";
-      cin >> users[i].NIE.suffix;
-      cout << endl;
+      opciones[i] = 3;
     } else if (opcion == 4) {
       cout << "Ingrese el pasaporte: ";
       cin >> users[i].pasaporte;
       cout << endl;
+      opciones[i] = 4;
     } else if (opcion == 5) {
       cout << "Ingrese el username: ";
       cin >> users[i].username;
       cout << endl;
+      opciones[i] = 5;
     }
   }
 
@@ -98,8 +115,20 @@ int main() {
   cout << "No. de Usuario        Identificacion         Dato de Identificaion" << endl;
   cout << endl;
   for(int i = 0; i < 5; i++) {
-    cout << i + 1 << "        " << "Identificacion      " << endl; 
+    cout << i + 1 << "                        ";
+    if (opciones[i] == 1) {
+      cout << "NIF                   " << users[i].NIF;
+    } else if (opciones[i] == 2) {
+      cout << "CIF                   " << users[i].CIF;
+    } else if (opciones[i] == 3) {
+      cout << "NIE                   " << users[i].NIE;
+    } else if (opciones[i] == 4) {
+      cout << "Pasaporte             " << users[i].pasaporte;
+    } else if (opciones[i] == 5) {
+      cout << "Username             " << users[i].username;
+    }
+    cout << endl;
   }
-  */
+  
   return 0;
 }
