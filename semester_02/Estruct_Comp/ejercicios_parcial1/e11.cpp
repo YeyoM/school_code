@@ -20,7 +20,7 @@ using namespace std;
 
 struct paciente {
   string nombre;
-  char apellido[20];
+  string apellido;
   int edad;
   char sexo;
   int condicion;
@@ -43,7 +43,7 @@ int main() {
 
   for (int i = 0; i < cantidad_pacientes; i++) {
     cout << "Ingrese el nombre del paciente " << i + 1 << ": ";
-    cin >> pacientes[i].nombre;
+    cin >> (paciente_apuntador) -> nombre;
     cout << endl;
   }
 
