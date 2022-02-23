@@ -39,20 +39,24 @@ int main() {
   struct paciente *paciente_apuntador;//[cantidad_pacientes];
   struct paciente pacientes[cantidad_pacientes];
 
+  // aqui se asigna el apuntador al vector pacientes
   paciente_apuntador = pacientes;
 
   for (int i = 0; i < cantidad_pacientes; i++) {
     cout << "Ingrese el nombre del paciente " << i + 1 << ": ";
+    // asi se puede guardar valores usando ->
     cin >> (paciente_apuntador) -> nombre;
     cout << endl;
   }
 
+  // estos dos muestran la direccion de memoria
   for (int i = 0; i < cantidad_pacientes; i++) {
     cout << &pacientes[i].nombre << endl;
     cout << (paciente_apuntador + i) << endl;
   }
 
-    cout << (paciente_apuntador) -> nombre << endl;
+  // este muestra el valor al que apunta el puntero
+  cout << (paciente_apuntador) -> nombre << endl;
 
 
   return 0;
