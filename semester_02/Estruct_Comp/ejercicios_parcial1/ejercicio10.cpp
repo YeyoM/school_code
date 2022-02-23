@@ -28,6 +28,12 @@ struct paciente {
 };
 
 int cantidad_pacientes;
+
+float porcentaje_m,
+      porcentaje_f,
+      cuenta_m,
+      cuenta_f;
+
 string name;
 
 int main() {
@@ -56,6 +62,11 @@ int main() {
     cout << "Ingrese el sexo del paciente " << i + 1 << " (F o M): ";
     cin >> (paciente_apuntador + i) -> sexo;
     cout << endl;
+    if ((paciente_apuntador + i) -> sexo == 'M' || (paciente_apuntador + i) -> sexo == 'm') {
+      cuenta_m++;
+    } else if ((paciente_apuntador + i) -> sexo == 'F' || (paciente_apuntador + i) -> sexo == 'f') {
+      cuenta_f++;
+    }
     cout << "Ingrese la condicion del paciente " << i + 1 << ", entre 1 y 5 (1 -> no tan grave, 5 -> lo mas grave): ";
     cin >> (paciente_apuntador + i) -> condicion;
     cout << endl;
@@ -68,14 +79,20 @@ int main() {
   // cout << &pacientes[i].nombre << endl;
   // cout << (paciente_apuntador + i) << endl;
 
+  porcentaje_m = (cuenta_m / cantidad_pacientes) * 100;
+  porcentaje_f = (cuenta_f / cantidad_pacientes) * 100;
+
+  cout << porcentaje_m << "%" << endl;
+  cout << porcentaje_f << "%" << endl;
+
   // este muestra el valor al que apunta el puntero
   for (int i = 0; i < cantidad_pacientes; i++) {
-    cout << (paciente_apuntador + i) -> nombre << endl;
-    cout << (paciente_apuntador + i) -> apellido << endl;
-    cout << (paciente_apuntador + i) -> edad << endl;
-    cout << (paciente_apuntador + i) -> sexo << endl;
+    cout << (paciente_apuntador + i) -> nombre    << endl;
+    cout << (paciente_apuntador + i) -> apellido  << endl;
+    cout << (paciente_apuntador + i) -> edad      << endl;
+    cout << (paciente_apuntador + i) -> sexo      << endl;
     cout << (paciente_apuntador + i) -> condicion << endl;
-    cout << (paciente_apuntador + i) -> telefono << endl;
+    cout << (paciente_apuntador + i) -> telefono  << endl;
   }
 
   
