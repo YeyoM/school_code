@@ -24,7 +24,7 @@ struct paciente {
   int edad;
   char sexo;
   int condicion;
-  long int telefono;
+  string telefono;
 };
 
 int cantidad_pacientes;
@@ -47,14 +47,35 @@ int main() {
     // asi se puede guardar valores usando ->
     cin >> (paciente_apuntador + i) -> nombre;
     cout << endl;
+    cout << "Ingrese el primer apellido del paciente " << i + 1 << ": ";
+    cin >> (paciente_apuntador + i) -> apellido;
+    cout << endl;
+    cout << "Ingrese la edad del paciente " << i + 1 << ": ";
+    cin >> (paciente_apuntador + i) -> edad;
+    cout << endl;
+    cout << "Ingrese el sexo del paciente " << i + 1 << " (F o M): ";
+    cin >> (paciente_apuntador + i) -> sexo;
+    cout << endl;
+    cout << "Ingrese la condicion del paciente " << i + 1 << ", entre 1 y 5 (1 -> no tan grave, 5 -> lo mas grave): ";
+    cin >> (paciente_apuntador + i) -> condicion;
+    cout << endl;
+    cout << "Ingrese el telefono del paciente " << i + 1 << ": ";
+    cin >> (paciente_apuntador + i) -> telefono;
+    cout << endl;
   }
 
+  // estos dos muestran la direccion de memoria
+  // cout << &pacientes[i].nombre << endl;
+  // cout << (paciente_apuntador + i) << endl;
+
+  // este muestra el valor al que apunta el puntero
   for (int i = 0; i < cantidad_pacientes; i++) {
-    // estos dos muestran la direccion de memoria
-    cout << &pacientes[i].nombre << endl;
-    cout << (paciente_apuntador + i) << endl;
-    // este muestra el valor al que apunta el puntero
     cout << (paciente_apuntador + i) -> nombre << endl;
+    cout << (paciente_apuntador + i) -> apellido << endl;
+    cout << (paciente_apuntador + i) -> edad << endl;
+    cout << (paciente_apuntador + i) -> sexo << endl;
+    cout << (paciente_apuntador + i) -> condicion << endl;
+    cout << (paciente_apuntador + i) -> telefono << endl;
   }
 
   
