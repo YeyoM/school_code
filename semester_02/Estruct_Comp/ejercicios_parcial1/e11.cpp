@@ -45,18 +45,19 @@ int main() {
   for (int i = 0; i < cantidad_pacientes; i++) {
     cout << "Ingrese el nombre del paciente " << i + 1 << ": ";
     // asi se puede guardar valores usando ->
-    cin >> (paciente_apuntador) -> nombre;
+    cin >> (paciente_apuntador + i) -> nombre;
     cout << endl;
   }
 
-  // estos dos muestran la direccion de memoria
   for (int i = 0; i < cantidad_pacientes; i++) {
+    // estos dos muestran la direccion de memoria
     cout << &pacientes[i].nombre << endl;
     cout << (paciente_apuntador + i) << endl;
+    // este muestra el valor al que apunta el puntero
+    cout << (paciente_apuntador + i) -> nombre << endl;
   }
 
-  // este muestra el valor al que apunta el puntero
-  cout << (paciente_apuntador) -> nombre << endl;
+  
 
 
   return 0;
