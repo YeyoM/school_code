@@ -1,62 +1,27 @@
+/*
+  Ejercicio UNION DE ESTRUCTURAS Escribir un programa donde supongamos que una
+  aplicación puede identificar a los usuarios mediante uno de los siguientes 
+  posibles cinco datos:
+  • NIF: ocho dígitos seguidos de una letra. (Normas de información financiera)
+  • CIF: letra seguida de 8 dígitos. (Cédula de identificación fiscal)
+  • Pasaporte: ocho letras y/o números.
+  • NIE: letra seguida de 7 dígitos y una segunda letra. (Número de Identidad de 
+    Extranjero)
+  • Nombre de usuario: cadena de texto de hasta 16 letras. 
+
+  De acuerdo con la estructura anterior generar un programa que guarde la información 
+  de 5 usuarios, donde aparezca un menú y muestre cual opción de identificación desea 
+  elegir para cada usuario (elegir solo una manera).
+  Por ejemplo, un usuario podrá elegir entre NIF, CIF, Pasaporte, NIE, ó username.
+  Obviamente solo se capturará una identificación para cada usuario y también puede 
+  ser diferente para cada uno de los 5 usuarios. Por último, imprimir todos los usuarios 
+  en forma organizada de acuerdo con el tipo de identificación que comparten y el 
+  subíndice que se les asigno en el arreglo
+*/
+
 #include <iostream>
 
 using namespace std;
-
-/*union user_id {
-  struct NIF {
-    unsigned int number;
-    char ch;
-  } nif;
-  struct CIF {
-    char ch;
-    unsigned int number;
-  } cif;
-  char passport[8];
-  struct NIE {
-    char prefix;
-    unsigned int number;
-    char suffix;
-  } nie;
-  char username[16];
-};*/
-
-
-/*union ids 
-{
-  struct nif {
-    int nif_number;
-    string nif_string;
-  } nif;
-  struct cif {
-    int cif_number;
-    string cif_string;
-  } cif;
-  struct nie {
-    char prefix;
-    int nie_number;
-    char suffix;
-  } nie;
-  //char pasaporte[8];
-  //char username[10];
-};*/
-
-/*union ids {
-  struct Nif {
-    int nif_number;
-    string nif_string;
-  };
-  struct Cif {
-    int cif_number;
-    string cif_string;
-  };
-  struct nie {
-    char prefix;
-    int nie_number;
-    char suffix;
-  };
-  char pasaporte[8];
-  char username[10];
-};*/
 
 union ids {
   char NIF[9];
