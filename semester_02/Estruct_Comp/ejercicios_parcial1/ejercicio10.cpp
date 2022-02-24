@@ -1,3 +1,6 @@
+// autores: Cesar Donnet Hernandez Gastelum, Diego Emilio Moreno Sanchez
+// 24/02/22 Estructuras Computacionales
+
 /*
   Ejercicio Apuntadores y Estructuras: En el Hospital “La Fraternidad” 
   almacenan la siguiente información de sus N pacientes:

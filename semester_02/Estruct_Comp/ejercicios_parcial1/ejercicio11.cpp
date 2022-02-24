@@ -1,3 +1,6 @@
+// autores: Cesar Donnet Hernandez Gastelum, Diego Emilio Moreno Sanchez
+// 24/02/22 Estructuras Computacionales
+
 /*
   Realizar 2 problemas que ustedes investiguen por su cuenta, donde utilicen para su solución
   el uso de memoria dinámica. (11-12)

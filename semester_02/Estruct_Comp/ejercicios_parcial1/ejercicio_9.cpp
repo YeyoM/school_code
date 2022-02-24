@@ -1,3 +1,6 @@
+// autores: Cesar Donnet Hernandez Gastelum, Diego Emilio Moreno Sanchez
+// 24/02/22 Estructuras Computacionales
+
 /*
   Ejercicio UNION DE ESTRUCTURAS Escribir un programa donde supongamos que una
   aplicación puede identificar a los usuarios mediante uno de los siguientes 
