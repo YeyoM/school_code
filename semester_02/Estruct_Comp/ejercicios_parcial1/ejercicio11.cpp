@@ -12,7 +12,7 @@
 */
 
 //////////////////////////////////////////////////////////////////////////////////////
-
+/*
 // ejercicio 1
 #include <iostream>
 using namespace std;
@@ -117,14 +117,14 @@ int main() {
   free(arreglo_4);
 
   return 0;
-}
+}*/
 
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 //ejercicio 2
 
-/*
+
 #include <iostream>
 using namespace std;
 
@@ -178,4 +178,3 @@ int main() {
 
   return 0;
 }
-*/
