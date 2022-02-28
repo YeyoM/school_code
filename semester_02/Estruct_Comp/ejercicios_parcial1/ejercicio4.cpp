@@ -8,14 +8,14 @@ int main(){
 	int vect[100][100];
 	cout<<"Digita de cuantas filas va a ser tu matriz: ";cin>>fil;
 	cout<<"\nDigita de cuentas columnas sera tu matriz: ";cin>>col;
-	system("cls");
+
 	for(int i=0;i<fil;i++){
 	for(int j=0;j<col;j++){
 	cout<<"Digita el valor para la posiciones ["<<i+1<<"]["<<j+1<<"]: ";cin>>vect[i][j];		
 	}}
-	system("cls");
+	
 	cambio(vect,fil,col);
-	system("cls");
+	
 return 0;	
 }
 void cambio(int vect[][100],int fil, int col){

@@ -13,16 +13,16 @@ void busqueda(int vector[],int n);
 int main(){
 	//declaracion de variables
 	int n;
-	int vector[n];
+	int vector[100];
 	system("title Primer ejercisio");
 	//asignacion del tamaño del vector
 	cout<<"Digite la cantidad de numeros que guardara: ";cin>>n;
-	system("cls");
+	
 	//rellenado del vector
 	for(int i=0;i<n;i++){
 		cout<<"Digite el numero para la posicion ["<<i+1<<"]: ";cin>>vector[i];
 	}
-	system("cls");
+	
 	//llamado a la funcion que hara la localizacion del numero
 	busqueda(vector,n);
 	system("pause");
@@ -40,8 +40,10 @@ void busqueda(int vector[],int n){
 			cout<<"Se ha encontrado el numero "<<reg<<" en la posicion del arreglo "<<cont<<endl;
 		}
 		cont++;
-		if(cont==(n-1)){
+			if(cont==(n)){
 			cout<<"No se ha encontrado el numero "<<reg<<" en este arreglo\n";
-		}}}
+		}
+		}
+	}
 
 
