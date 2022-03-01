@@ -1,11 +1,13 @@
+// Autor: Diego Emilio Moreno Snachez @YeyoM
+
 #include <iostream>
 #include <stdlib.h>
 
 using namespace std;
 
 struct Nodo {
-  int dato;
-  struct Nodo *siguiente;
+  int dato;               // guardamos el numero
+  struct Nodo *siguiente; // apuntador al sig nodo
 };
 
 void insertarLista(Nodo *&lista, int n);
@@ -27,6 +29,10 @@ int main (){
   cin >> dato;
   insertarLista(lista, dato);
 
+  cout << "Ingrese un dato: ";
+  cin >> dato;
+  insertarLista(lista, dato);
+  
   cout << "Ingrese un dato: ";
   cin >> dato;
   insertarLista(lista, dato);
@@ -64,9 +70,11 @@ void mostrarLista(Nodo *lista) {
   Nodo *actual = new Nodo();
   actual = lista;
 
+  // nos detendremos una vez que el apuntador
+  // del nodo n apunte a -> NULL
   while(actual != NULL) {
     cout << actual -> dato << endl;
-    actual = actual -> siguiente;
+    actual = actual -> siguiente;     // cambiamos al siguiente nodo
   }
 }
 
