@@ -11,8 +11,11 @@ struct Nodo {
 };
 
 void insertarLista(Nodo *&lista, int n);
-
 void mostrarLista(Nodo *lista);
+void mostrarMenores(Nodo *lista, int n);
+void buscarDato(Nodo *lista, int n);
+
+int n;
 
 int main (){
   
@@ -37,7 +40,22 @@ int main (){
   cin >> dato;
   insertarLista(lista, dato);
 
+  cout << endl;
+
+  cout << "Lista Ordenada: " << endl;
   mostrarLista(lista);
+
+  cout << endl;
+
+  cout << "Ingrese el elemento para buscar los elementos menores que el: ";
+  cin >> n;
+  mostrarMenores(lista, n);
+
+  cout << endl;
+
+  cout << "Ingrese el elemento a buscar: ";
+  cin >> n;
+  buscarDato(lista, n);
 
   return 0;
 }
@@ -76,5 +94,37 @@ void mostrarLista(Nodo *lista) {
     cout << actual -> dato << endl;
     actual = actual -> siguiente;     // cambiamos al siguiente nodo
   }
+}
+
+/////////////////////////////////////////////////////////////////////////
+
+void mostrarMenores(Nodo *lista, int n) {
+  Nodo *actual = new Nodo();
+  actual = lista;
+
+  while(actual -> dato < n && actual != NULL) {
+    cout << actual -> dato << endl;
+    actual = actual -> siguiente;     
+  }
+}
+
+void buscarDato(Nodo *lista, int n) {
+  bool encontrado = false;
+  Nodo *actual = new Nodo();
+  actual = lista;
+
+  while(actual != NULL) {
+    if (actual -> dato == n){ 
+      encontrado = true;
+      cout << "Encontrado!!!" << endl;
+      break;
+    };
+    actual = actual -> siguiente;
+  }
+
+  if(encontrado == false) {
+    cout << "El elemento no ha sido encontrado" << endl;
+  }
+
 }
 
