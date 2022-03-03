@@ -14,6 +14,7 @@ void insertarLista(Nodo *&lista, int n);
 void mostrarLista(Nodo *lista);
 void mostrarMenores(Nodo *lista, int n);
 void buscarDato(Nodo *lista, int n);
+void borrarNodo(Nodo *&lista, int n);
 
 int n;
 
@@ -56,6 +57,12 @@ int main (){
   cout << "Ingrese el elemento a buscar: ";
   cin >> n;
   buscarDato(lista, n);
+
+  borrarNodo(lista, 5);
+  cout << endl;
+
+  cout << "Lista Ordenada: " << endl;
+  mostrarLista(lista);
 
   return 0;
 }
@@ -126,5 +133,46 @@ void buscarDato(Nodo *lista, int n) {
     cout << "El elemento no ha sido encontrado" << endl;
   }
 
+}
+
+void borrarNodo(Nodo *&lista, int n) {
+  if(lista != NULL) {
+    Nodo *aux_borrar;
+    Nodo *anterior = NULL;
+    aux_borrar = lista;
+
+    while((aux_borrar != NULL) && (aux_borrar -> dato != n)) {
+      // recorremos todos a una posicion, anterior avanza una posicion
+      anterior = aux_borrar;
+      // y a su vez aux_borrar se va a la posicion siguiente
+      aux_borrar = aux_borrar -> siguiente;
+      // ojo que lista se queda igual
+    }
+
+    // CASO 1
+    // recorrio toda la lista pero el dato no se encontro
+    // y al final termino apuntando a NULL, por lo tanto
+    if(aux_borrar == NULL) {
+      cout << "El elemento no existe";
+    }
+
+    // CASO 2
+    // en caso de que sea el primer elemento (no entra al while)
+    else if((aux_borrar -> dato == n) && (anterior == NULL)) {
+      // lista ya no va a apuntar al primer elemento
+      // sino al siguiente (aux_borrar -> siguiente)
+      lista = aux_borrar -> siguiente;
+      // eliminamos aux_borrar
+      delete aux_borrar;
+    }
+
+    // CASO 3
+    // en caso de que el elemento a borrar no sea el primero
+    // pero si exista
+    else {
+      anterior -> siguiente = aux_borrar -> siguiente;
+      delete aux_borrar;
+    }
+  }
 }
 
