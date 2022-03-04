@@ -18,7 +18,7 @@ void borrarNodo(Nodo *&lista, int n);
 
 int n;
 
-int main (){
+int main() {
   
   Nodo *lista;
   lista = NULL;
