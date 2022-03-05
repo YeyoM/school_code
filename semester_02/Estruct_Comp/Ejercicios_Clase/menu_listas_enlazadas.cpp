@@ -155,28 +155,32 @@ void mostrarSiguiente(Nodo *lista, int n) {
     cout << "El elemento no ha sido encontrado" << endl;
   }
 }
+
 void mostrarAnterior(Nodo *lista, int n) {
   bool encontrado = false;
   Nodo *actual = new Nodo();
   actual = lista;
 
-  Nodo *nodo_siguiente = new Nodo();
-  nodo_siguiente = actual;
+  Nodo *nodo_anterior = new Nodo();
+  nodo_anterior = lista;
 
   while(actual != NULL) {
-    if (actual -> dato == n){ 
+    if(actual -> dato == n){ 
       encontrado = true;
-      if(actual -> siguiente != NULL) {
-        nodo_siguiente = actual -> siguiente;
-        cout << "El nodo siguiente es: " << nodo_siguiente -> dato << endl;
+      if(actual == lista) {
+        cout << "El nodo anterior es null" <<endl;
       } else {
-        cout << "El nodo siguiente es null" << endl;
+        while(nodo_anterior != NULL) {
+          if(nodo_anterior -> siguiente == actual) {
+            cout << "El nodo anterior es: " << nodo_anterior -> dato << endl;
+            break;
+          }
+          nodo_anterior = nodo_anterior -> siguiente;
+        }
       }
-      break;
-    };
+    }
     actual = actual -> siguiente;
   }
-
   if(encontrado == false) {
     cout << "El elemento no ha sido encontrado" << endl;
   }
