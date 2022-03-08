@@ -15,7 +15,7 @@ void mostrarPrimero(Nodo *lista);
 void mostrarUltimo(Nodo *lista);
 void mostrarSiguiente(Nodo *lista, int n);
 void mostrarAnterior(Nodo *lista, int n);
-void borrarLista(Nodo *&lista);
+void borrarLista(Nodo *lista);
 void checkIsVacia(Nodo *lista);
 
 int n,
@@ -160,7 +160,7 @@ void mostrarAnterior(Nodo *lista, int n) {
   bool encontrado = false;
   Nodo *actual = new Nodo();
   actual = lista;
-
+  
   Nodo *nodo_anterior = new Nodo();
   nodo_anterior = lista;
 
@@ -186,22 +186,22 @@ void mostrarAnterior(Nodo *lista, int n) {
   }
 }
 
-void borrarLista(Nodo *&lista){
-  Nodo *actual = new Nodo();
-  actual = lista;
+void borrarLista(Nodo *lista){
+  //Nodo *actual = new Nodo();
+  //actual = *lista;
+//
+  //Nodo *nodo_siguiente = new Nodo();
+  //nodo_siguiente = NULL;
+//
+  //// nos detendremos una vez que el apuntador
+  //// del nodo n apunte a -> NULL
+  //while(actual != NULL) {
+  //  nodo_siguiente = actual -> siguiente;
+  //  delete actual;
+  //  actual = nodo_siguiente;
+  //}
 
-  Nodo *nodo_siguiente = new Nodo();
-  nodo_siguiente = actual -> siguiente;
-
-  // nos detendremos una vez que el apuntador
-  // del nodo n apunte a -> NULL
-  while(actual != NULL) {
-    delete actual;
-    actual = nodo_siguiente;
-    if(actual != NULL) {
-      nodo_siguiente = nodo_siguiente -> siguiente;
-    }
-  }
+  lista == NULL;
 }
 
 void checkIsVacia(Nodo *lista){
