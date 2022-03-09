@@ -56,6 +56,10 @@ void insertarNodo(Nodo *&lista, int n) {
   if(lista == aux1){
     lista = nuevo_nodo;
     lista -> anterior = NULL;
+    // if(lista -> siguiente != NULL) {
+    //   aux2 = lista -> siguiente;
+    //   aux2 -> anterior = lista;
+    // }
   } else {
     aux2 -> siguiente = nuevo_nodo; 
     nuevo_nodo -> anterior = aux2;
@@ -71,10 +75,20 @@ void mostrarLista(Nodo *lista) {
   Nodo *actual = new Nodo();
   actual = lista;
 
+
   // nos detendremos una vez que el apuntador
-  // del nodo n apunte a -> NULL
-  while(actual != NULL) {
+  // del nodo n(siguiente) apunte a -> NULL
+  while(actual -> siguiente != NULL) {
     cout << actual -> dato << endl;
     actual = actual -> siguiente;     // cambiamos al siguiente nodo
   }
+  cout << actual -> dato << endl;
+
+  // nos detenemos ahi para que el nodo acutual no
+  // sea null y poder recorrer de atras para delante
+  while(actual != NULL) {
+    cout << actual -> dato << endl;
+    actual = actual -> anterior; 
+  }
+
 }
