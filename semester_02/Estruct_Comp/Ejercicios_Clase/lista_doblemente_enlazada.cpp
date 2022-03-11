@@ -85,7 +85,7 @@ void insertarNodo(Nodo *&lista, int n) {
   // Nodo *siguiente_nuevo = nuevo_nodo -> siguiente;
   // 
   // if(anterior_nuevo != 0) {
-  //   cout << "Anterior: " <<anterior_nuevo -> dato << endl;\
+  //   cout << "Anterior: " <<anterior_nuevo -> dato << endl;
   // }
   // if(siguiente_nuevo != 0) {
   //   cout << "Siguiente: " << siguiente_nuevo -> dato << endl;
