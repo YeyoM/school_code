@@ -304,7 +304,7 @@ void generarNombres(char nombres[][50], const char baseNombres[][15], const char
         posNombres = rand()%15;
         posApellidoP = rand()%15;
         posApellidoM = rand()%15;
-        //Se utiliza "sprintf" para unir las tres cadenas en una unica bueva
+        //Se utiliza "sprintf" para unir las tres cadenas en una unica buena
         sprintf(nombres[i], "%s %s %s", 
             baseNombres[posNombres], 
             baseApellidosP[posApellidoP], 
