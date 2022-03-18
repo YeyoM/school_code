@@ -8,34 +8,79 @@ struct Nodo {
   struct Nodo *siguiente; // apuntador al sig nodo
 };
 
-void insertarNodo(Nodo *&pila, int n);
-void read_and_pop_one_only(Nodo *&pila);
-void read_and_pop_all(Nodo *&pila);
+void menu();
+void insertarNodo(Nodo *&pila, int n, int &cima);
+void read_and_pop_one_only(Nodo *&pila, int &cima);
+void read_and_pop_all(Nodo *&pila, int &cima);
+
+int cima = -1;
+int opcion_seleccionada,
+    dato_a_ingresar;
+bool salir = false;
 
 int main() {
 
   Nodo *pila;
   pila = NULL;
 
-  insertarNodo(pila, 5);
-  insertarNodo(pila, 9);
-  insertarNodo(pila, 3);
-  insertarNodo(pila, 10);
-  insertarNodo(pila, 7);
+  do {
 
-  read_and_pop_one_only(pila);
-  read_and_pop_one_only(pila);
-
-  read_and_pop_all(pila);
-
-  if(pila == NULL) {
-    cout << "Pila eliminada correctamente, NULL" << endl;
-  }
+    menu();
+    cout << "Ingrese una opcion valida: ";
+    cin >> opcion_seleccionada;
+    if (opcion_seleccionada == 1) {
+      cout << "Ingrese el elemento que desee ingresar: ";
+      cin >> dato_a_ingresar;
+      insertarNodo(pila, dato_a_ingresar, cima);
+      cout << endl;
+    } else if (opcion_seleccionada == 2) {
+      if (cima == -1) {
+        cout << "Stack Underflow (Pila vacia)" << endl; 
+      } else {
+        read_and_pop_one_only(pila, cima);
+        cout << endl;
+      }
+    } else if (opcion_seleccionada == 3) {
+      if (cima == -1) {
+        cout << "Stack Underflow (Pila vacia)" << endl; 
+      } else {
+        read_and_pop_all(pila, cima);
+        cout << endl;
+      }
+    } else if (opcion_seleccionada == 4) {
+      if (cima == -1) {
+        cout << "La pila esta vacia!" << endl;
+      } else  {
+        cout << "La pila no esta vacia!" << endl;
+      }
+    } else if (opcion_seleccionada == 5) {
+      cout << "La pila tiene una longitud de " << cima + 1 << " nodos"<< endl;
+    }else if (opcion_seleccionada == 6) {
+      cout << "Byeeee!" << endl;
+      salir = true;
+    }else {
+      cout << "Ingrese una opcion valida!" << endl;
+      cout << endl;
+    }
+  } while (salir != true);
 
   return 0;
 }
 
-void insertarNodo(Nodo *&pila, int n){
+void menu() {
+  cout << endl;
+  cout << "Operaciones con Pilas" << endl;
+  cout << "1. Insertar un elemento a la pila (PUSH)" << endl;
+  cout << "2. Sacar un elemento de la pila (POP)" << endl;
+  cout << "3. Mostrar y sacar todos los elementos de la pila (POP ALL)" << endl;
+  cout << "4. Verificar si la pila esta vacia" << endl;
+  cout << "5. Obtener la longitud de la pila" << endl;
+  cout << "6. Salir del programa"<< endl;
+  cout << endl;
+}
+
+
+void insertarNodo(Nodo *&pila, int n, int &cima){
   // aqui creamos el nuevo nodo que vamos a agregar a la pila
   // y rellenamos el dato, con el numero que el usuario nos pase
   Nodo *nuevo_nodo = new Nodo();
@@ -50,6 +95,8 @@ void insertarNodo(Nodo *&pila, int n){
   // simpre seran la cima
   pila = nuevo_nodo;
 
+  cima++;
+
   // mostramos un mensaje para asegurarnos que se insertaron
   // de manera correcta
   cout << "Nodo " << nuevo_nodo -> dato << " ingresado correctamente" << endl;
@@ -58,7 +105,7 @@ void insertarNodo(Nodo *&pila, int n){
 
 
 
-void read_and_pop_all(Nodo *&pila) {
+void read_and_pop_all(Nodo *&pila, int &cima) {
   // creamos el nodo que sera el que recorrera toda la pila para eliminarla
   Nodo *nodo_iterador = new Nodo();
   nodo_iterador = pila;
@@ -71,11 +118,12 @@ void read_and_pop_all(Nodo *&pila) {
     delete nodo_iterador;
     // ese nodo ahora vale lo que ahora vale pila, para poder seguir iterando
     nodo_iterador = pila;
+    cima--;
   }
 
 }
 
-void read_and_pop_one_only(Nodo *&pila) {
+void read_and_pop_one_only(Nodo *&pila, int &cima) {
 
   Nodo *nodo_auxiliar = new Nodo();
   nodo_auxiliar = pila;
@@ -83,5 +131,5 @@ void read_and_pop_one_only(Nodo *&pila) {
   cout << "Borrando " << pila -> dato << "... (solo uno)." << endl;
   pila = pila -> siguiente;
   delete nodo_auxiliar;
-
+  cima--;
 }
