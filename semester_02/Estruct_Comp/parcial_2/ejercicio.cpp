@@ -1,4 +1,3 @@
-
 /*
 
 REALIZO
@@ -39,117 +38,187 @@ PRODUCTOS
     operacion de borrado del producto.
 
 CONSIDERACIONES
-1. Realizar el ejercicio con el uso de Listas simples o doblemente 
+1.  Realizar el ejercicio con el uso de Listas simples o doblemente 
     enlazadas (seg�n consideren, es indistinto ya que cada estructura 
     tiene sus ventajas o desventajas)
 2.  Integrar funciones y/o procedimientos para la distribuci�n del c�digo
 3.  Realizar las validaciones necesarias en todos los datos solicitados 
     por teclado
-4.  Documentar el c�digo en procedimientos, variables y/o l�neas importantes
+4.  Documentar el codigo en procedimientos, variables y/o lineas importantes
+
 */
 
-#include <iostream>
-#include <stdlib.h>
-#include <conio.h>
-#include <string.h>
-#include <stdio.h>
+#include  <iostream>
+#include  <stdlib.h>
+#include  <string.h>
+#include  <conio.h>
+#include  <stdio.h>
+#include  <time.h>
 
 using namespace std;
 
-struct name {
+// ESTRUCTURA DEL PRODUCTO ///////////////////////////////////////////
+struct Producto {
   string nombre;
-  name* sig;
+	int cantidad;
+	float precio;
+  Producto* siguiente_producto;
 };
 
-struct cant {
-  int cantidad;
-  cant* sigui;
-};
-struct presio {
-  float precio;
-  presio* siguiente;
-};
+// ELIMINAR UN PRODUCTO DE LA LISTA /////////////////////////////////
+void eliminarProducto(Producto *&lista_productos, string nombre) {
 
-void Insertargeneral(name*&, string);
-void insertarderivado112(cant*&, int);
-void insertarderivado2(presio*&, float);
+  // VERIFICAMOS QUE LA LISTA NO ESTE VACIA
+	if (lista_productos != NULL) {
+		Producto* aux_borrar;
+		Producto* anterior = NULL;
+		aux_borrar = lista_productos;
+    // RECORREMOS LA LISTA HASTA QUE ENCONTREMOS EL NOMBRE DEL PRODUCTO
+		while ((aux_borrar != NULL) && (aux_borrar -> nombre != nombre)) {
+			anterior = aux_borrar;
+			aux_borrar = aux_borrar -> siguiente_producto;
+		}
+    // CASO EN QUE NO LO ENCONTREMOS
+		if (aux_borrar == NULL) {
+			cout << "El nombre escrito no ha sido encontrado\n";
+		}
+    // EN CASO DE QUE ESTE AL INICIO DE LA LISTA
+		else if (anterior == NULL) {
+			lista_productos = lista_productos -> siguiente_producto;
+			delete aux_borrar;
+		}
+    // EN CASO CONTRARIOO, ESTE EN MEDIO O AL FINAL
+		else {
+			anterior -> siguiente_producto = aux_borrar -> siguiente_producto;
+			delete aux_borrar;
+		}
+	}
+}
 
-name* list = NULL;
-cant* lis = NULL;
-presio* li = NULL;
-string a;
-int n;
-float n2;
+// INSERTAR UN PRODUCTO A LA LISTA /////////////////////////////////////
+void insertarProducto(Producto *&lista, string _nombre, float _precio, int _cantidad) {
 
+  // GENERAMOS EL PRODUCTO
+  Producto* nuevo   = new Producto();
+	nuevo -> nombre   = _nombre;
+	nuevo -> cantidad = _precio;
+	nuevo -> precio   = _cantidad;
+
+	Producto* aux = lista;
+	Producto* aux2 = 0;
+
+  // RECORREMOS LA LISTA
+	while (aux != NULL) {
+		aux2 = aux;
+		aux = aux -> siguiente_producto;
+	}
+  // ASIGNAMOS EL PRODUCTO A LA LISTA
+	if (lista == aux) {
+		lista = nuevo;
+	}
+	else {
+		aux2 -> siguiente_producto = nuevo;
+	}
+	nuevo -> siguiente_producto = aux;
+}
+
+// MOSTRAR LA LISTA ACTUAL DE PRODUCTOS //////////////////////////////////
+void mostrarLista(Producto* lista) {
+
+  // GENERAMOS EL PRODUCTO QUE VA A RECORRER LA LISTA
+	Producto* producto_actual = new Producto();
+	producto_actual = lista;
+
+  // AQUI GUARDAREMOS CANTIDADES IMPORTANTES PARA EL TOTAL
+	int suma_total = 0, 
+      aux = 0;
+
+  // MIENTRAS RECORREMOS VAMOS IMPRIMIENDO LA LISTA
+	while (producto_actual != NULL) {
+		aux = (producto_actual -> cantidad * producto_actual -> precio);
+		suma_total += aux;
+		cout << producto_actual -> nombre << " \t " << producto_actual -> cantidad << "\t\t " << producto_actual -> precio << "\t" << aux << "\n";
+		producto_actual = producto_actual -> siguiente_producto;
+	}
+
+  // MOSTRAMOS EL TOTAL 
+	cout << "\n\t\t\t" << "Total general: " << suma_total << "\n\n";
+}
+
+// MAIN ///////////////////////////////////////////////////////////////////
 int main() {
-  int f;
-  cout << "Cuantos productos deseas registrar?\n";
-  cin >> f;
-  for (int i = 0; i < f; i++) {
-    cout << "Digite el nombre de su producto: ";
-    cin >> a;
-    cout << "\nDigite la cantidad de productos: ";
-    cin >> n;
-    cout << "\nDigite el precio: ";
-    cin >> n2;
-    Insertargeneral(list, a);
-    insertarderivado112(lis, n);
-    insertarderivado2(li, n2);	
-	}  
-}
-void Insertargeneral(name*& list, string nombre2) {
-    name* nuevo = new name();
-    nuevo->nombre = nombre2;
-    name* aux1 = list;
-    name* aux2;
-    while ((aux1 != NULL)) {
-        aux2 = aux1;
-        aux1 = aux1->sig;
-   }
-    if (list == aux1) {
-        list = nuevo;
-    }
-    else {
-        aux2->sig = nuevo;
-    }
-    nuevo->sig = aux1;
-    cout << "Se inserto el nombre de " << nombre2 << endl;
-    
 
-}
-void insertarderivado112(cant*& lis, int canti) {
-    cant* nuevecito = new cant();
-    nuevecito->cantidad = canti;
-    cant* au = lis;
-    cant* aux;
-    while ((au != NULL)) {
-        aux = au;
-        au = au->sigui;
-    }
-    if (lis == au) {
-        lis = nuevecito;
-    }
-    else {
-        aux->sigui = nuevecito;
-    }
-    nuevecito->sigui = au;
-    cout << "Se inserto el valor de " << canti << endl;
-}
-void insertarderivado2(presio*& li, float precio) {
-    presio* nuez = new presio();
-    nuez->precio = precio;
-    presio* aux3 = li;
-    presio* aux4;
-    while ((aux3 != NULL)) {
-        aux4 = aux3;
-        aux3 = aux3->siguiente;
-    }
-    if (li == aux3) {
-        li = nuez;
-    }
-    else {
-        aux4->siguiente = nuez;
-    }
-    nuez->siguiente = aux3;
-    cout << "Se inserto el valor de " << precio << endl;
+  // INICIALIZACION DE LA LISTA 
+	Producto* lista = NULL;
+
+  // VARIABLES PARA INGRESAR, ELIMINAR O MOSTRAR PRODUCTOS 
+	string nombre_producto;
+
+	int cantidad_producto,
+      total_cantidad_productos,
+      opcion = 1;
+
+	float precio_producto;
+
+  // PARA GENERAR NUMEROS ALEATORIOS 
+  srand(time(NULL));
+
+	while (opcion >= 1 && opcion <= 3) {
+
+    // MOSTRAMOS EL MENU
+		system("cls");
+		cout << ">>>>>>>>>>>>>>>MENU<<<<<<<<<<<<<<\n\n";
+		cout << "1.Ingresar Productos\n2.Mostrar ticket de compra\n3.Eliminar un producto de la compra\n4.Salir\nRespuesta: ";
+		cin >> opcion;
+		system("cls");
+
+		switch (opcion) {
+
+    // GENERAMOS TODOS LOS PRODUCTOS  
+		case 1:
+			cout << "Digite cuantos productos deseas registrar: ";
+			cin >> total_cantidad_productos;
+      // ITERAREMOS HASTA INGRESAR TODOS LOS PRODUCTOS
+			for (int i = 0; i < total_cantidad_productos; i++) {
+				system("cls");
+				cout << "Digite el nombre del producto: " << i + 1 << ": ";
+				cin >> nombre_producto;
+
+        // LA CANTIDAD DE CADA PRODUCTO Y SU PRECIO SON GENERADOS ALEATORIAMENTE
+				cantidad_producto = 1 + rand() % 10;
+				precio_producto   = 1 + rand() % 1000;
+
+        // LLAMAMOS A LA FUNCIO PARA INSERTAR CADA PRODUCTO
+				insertarProducto(lista, nombre_producto, precio_producto, cantidad_producto);
+			}
+			break;
+
+    // MOSTRAMOS TODA LA LISTA DE PRODUCTOS
+		case 2:
+			cout << "Nombre\t\tCantidad\t\Precio\tTotal\n\n";
+			mostrarLista(lista);
+			system("pause");
+			break;
+
+    // CASO PARA ELIMINAR UN PRODUCTO
+		case 3:
+		  cout << "Digita el nombre del producto a eliminar: ";
+			cin >> nombre_producto;
+		  eliminarProducto(lista, nombre_producto);
+			break;
+
+    // SALIR...
+		case 4:
+			cout << "Saliendo....\n";
+			break;
+
+    // OPCIONES INVALIDAS
+		default:
+			cout << "Esta opcion no existe...saliendo...\n";
+			break;
+
+		}
+	}
+  system("pause");
+  return 0;
 }
