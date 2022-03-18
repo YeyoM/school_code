@@ -1,3 +1,6 @@
+// autor: Diego Emilio Moreno Sanchez @YeyoM
+// 18/03/22
+
 #include <iostream>
 #include <stdlib.h>
 
