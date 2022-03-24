@@ -50,9 +50,9 @@ int main() {
         sacarNodo(pila_expresion, cima_expresion);
       } else {
         if ( // verificamos si el caracter es un operando
-          expresion[i] != '+' || 
-          expresion[i] != '-' || 
-          expresion[i] != '/' || 
+          expresion[i] != '+' && 
+          expresion[i] != '-' && 
+          expresion[i] != '/' && 
           expresion[i] != '*'
         ) {
           // ese solamente lo imprimimos
@@ -69,10 +69,14 @@ int main() {
             if(expresion[i] == '-') prioridad_del_operador_expresion = 1;
             if(expresion[i] == '/') prioridad_del_operador_expresion = 10;
             if(expresion[i] == '*') prioridad_del_operador_expresion = 10;
-            if(pila_expresion -> caracter == '+') prioridad_del_operador_expresion = 1;
-            if(pila_expresion -> caracter == '-') prioridad_del_operador_expresion = 1;
-            if(pila_expresion -> caracter == '/') prioridad_del_operador_expresion = 10;
-            if(pila_expresion -> caracter == '*') prioridad_del_operador_expresion = 10;
+            if (cima_expresion != -1) {
+              if(pila_expresion -> caracter == '+') prioridad_del_operador_pila = 1;
+              if(pila_expresion -> caracter == '-') prioridad_del_operador_pila = 1;
+              if(pila_expresion -> caracter == '/') prioridad_del_operador_pila = 10;
+              if(pila_expresion -> caracter == '*') prioridad_del_operador_pila = 10;
+            } else {
+              prioridad_del_operador_pila = 0;
+            }
             // verificamos is la pila esta vacia o si el caracter de la cima
             // es un parentesis que abre
             if (cima_expresion == -1 || pila_expresion -> caracter == '(') {
@@ -85,10 +89,14 @@ int main() {
               ) {
                 sacarNodo(pila_expresion, cima_expresion);
                 // volvemos a checar la prioridad del elemento de la cima
-                if(pila_expresion -> caracter == '+') prioridad_del_operador_expresion = 1;
-                if(pila_expresion -> caracter == '-') prioridad_del_operador_expresion = 1;
-                if(pila_expresion -> caracter == '/') prioridad_del_operador_expresion = 10;
-                if(pila_expresion -> caracter == '*') prioridad_del_operador_expresion = 10;
+                if (cima_expresion != -1) {
+                  if(pila_expresion -> caracter == '+') prioridad_del_operador_pila = 1;
+                  if(pila_expresion -> caracter == '-') prioridad_del_operador_pila = 1;
+                  if(pila_expresion -> caracter == '/') prioridad_del_operador_pila = 10;
+                  if(pila_expresion -> caracter == '*') prioridad_del_operador_pila = 10;
+                } else {
+                  prioridad_del_operador_pila = 0;
+                }
               }
               insertarNodo(pila_expresion, expresion[i], cima_expresion);
             }
@@ -132,7 +140,9 @@ void sacarNodo(Nodo *&pila, int &cima) {
   nodo_auxiliar = pila;
   
   //cout << "Borrando " << pila -> caracter << "..." << endl;
-  cout << pila -> caracter;
+  if(pila -> caracter != '(' || pila -> caracter != ')') {
+    cout << pila -> caracter;
+  }
   pila = pila -> siguiente;
   delete nodo_auxiliar;
   cima--;
@@ -143,7 +153,9 @@ void vaciarPilaParentesisAbierto(Nodo *&pila, int &cima) {
   nodo_iterador = pila;
 
   while(nodo_iterador -> caracter != '(') {
-    cout << nodo_iterador -> caracter;
+    if(nodo_iterador -> caracter != '(' || nodo_iterador -> caracter != ')') {
+      cout << nodo_iterador -> caracter;
+    }
     //cout << "Borrando " << nodo_iterador -> caracter << "..." << endl;
     // recorremos pila un lugar
     pila = pila -> siguiente;
@@ -162,7 +174,9 @@ void vaciarPila(Nodo *&pila, int &cima) {
   // recorremos toda la pila
   while(nodo_iterador != NULL) {
     //cout << "Borrando " << nodo_iterador -> caracter << "..." << endl;
-    cout << nodo_iterador -> caracter;;
+    if(nodo_iterador -> caracter != '(' || nodo_iterador -> caracter != ')') {
+      cout << nodo_iterador -> caracter;
+    }
     // recorremos pila un lugar
     pila = pila -> siguiente;
     // y borramos el nodo al que apuntaba pila en un primer momento
