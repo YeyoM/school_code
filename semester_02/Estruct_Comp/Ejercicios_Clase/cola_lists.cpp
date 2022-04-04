@@ -24,11 +24,11 @@ int main() {
 
   cout << "Ingrese un dato: ";
   cin >> dato;
-  insertarDato(stack, dato);
+  insertarDato(start, end, dato);
 
   cout << "Ingrese un dato: ";
   cin >> dato;
-  insertarDato(stack, dato);
+  insertarDato(start, end, dato);
 
 
 }
