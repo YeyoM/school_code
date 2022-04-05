@@ -36,6 +36,7 @@ int main(){
         cout << "Ingrese el dato: ";
         cin >> data;
         cout << endl;
+        
         if(end == size - 1) {
           end = 0;
         } else {
