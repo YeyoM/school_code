@@ -1,49 +1,105 @@
 #include <iostream>
+#include <stack>
+#include <algorithm>
 
-int main() {
-    char infijo[100];
-    char prefijo[100];
-    char postfijo[100];
-    char pila[100];
-    int i = 0, j = 0, k = 0;
-    printf("Ingrese una expresion infija: ");
-    scanf("%s", infijo);
-    while (infijo[i] != '\0') {
-        if (infijo[i] == '(') {
-            pila[j] = infijo[i];
-            j++;
-        } else if (infijo[i] == ')') {
-            while (pila[j - 1] != '(') {
-                postfijo[k] = pila[j - 1];
-                k++;
-                j--;
-            }
-            j--;
-        } else if (infijo[i] == '+' || infijo[i] == '-' || infijo[i] == '*' || infijo[i] == '/') {
-            while (pila[j - 1] != '(' && pila[j - 1] != '+' && pila[j - 1] != '-' && pila[j - 1] != '*' && pila[j - 1] != '/') {
-                postfijo[k] = pila[j - 1];
-                k++;
-                j--;
-            }
-            pila[j] = infijo[i];
-            j++;
-        } else {
-            postfijo[k] = infijo[i];
-            k++;
+using namespace std;
+
+int precedencia(char c) {
+  if (c == '^')
+    return 3;
+  else if (c == '*' || c == '/')
+    return 2;
+  else if (c == '+' || c == '-')
+    return 1;
+  else
+    return -1;
+}
+
+bool esOperador(char c) {
+  if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+string InfijoAPrefijo(stack<char> s, string infix) {
+  string prefix;
+  reverse(infix.begin(), infix.end());
+  for (int i = 0; i < infix.length(); i++) {
+    if (infix[i] == '(') {
+      infix[i] = ')';
+    }
+    else if (infix[i] == ')') {
+      infix[i] = '(';
+    }
+  }
+  for (int i = 0; i < infix.length(); i++) {
+    if ((infix[i] >= 'a' && infix[i] <= 'z') || (infix[i] >= 'A' && infix[i] <= 'Z')) {
+      prefix += infix[i];
+    }
+    else if (infix[i] == '(') {
+      s.push(infix[i]);
+    }
+    else if (infix[i] == ')') {
+      while ((s.top() != '(') && (!s.empty())) {
+          prefix += s.top();
+          s.pop();
+      }
+      if (s.top() == '(') {
+          s.pop();
+      }
+    }
+    else if (esOperador(infix[i])) {
+      if (s.empty()) {
+        s.push(infix[i]);
+      }
+      else {
+        if (precedencia(infix[i]) > precedencia(s.top())) {
+          s.push(infix[i]);
         }
-        i++;
+        else if ((precedencia(infix[i]) == precedencia(s.top()))
+          && (infix[i] == '^')) {
+          while ((precedencia(infix[i]) == precedencia(s.top()))
+            && (infix[i] == '^')) {
+            prefix += s.top();
+            s.pop();
+          }
+          s.push(infix[i]);
+        }
+        else if (precedencia(infix[i]) == precedencia(s.top())) {
+          s.push(infix[i]);
+        }
+        else {
+          while ((!s.empty()) && (precedencia(infix[i]) < precedencia(s.top()))) {
+            prefix += s.top();
+            s.pop();
+          }
+          s.push(infix[i]);
+        }
+      }
     }
-    while (j > 0) {
-        postfijo[k] = pila[j - 1];
-        k++;
-        j--;
-    }
-    printf("\nExpresion infija: %s\n", infijo);
-    printf("Expresion prefija: ");
-    for (i = 0; i < k; i++) {
-        printf("%c", postfijo[i]);
-    }
-    printf("\n");
+  }
+  while (!s.empty()) {
+      prefix += s.top();
+      s.pop();
+  }
+  reverse(prefix.begin(), prefix.end());
+  return prefix;
+}
 
-  return 0;
+int main()
+{
+
+    string infix, prefix;
+    cout << "Enter a Infix Expression :" << endl;
+    cin >> infix;
+    stack<char> stack;
+    cout << "INFIX EXPRESSION: " << infix << endl;
+    prefix = InfijoAPrefijo(stack, infix);
+    cout << endl
+         << "PREFIX EXPRESSION: " << prefix;
+
+    return 0;
 }
