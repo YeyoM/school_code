@@ -10,7 +10,7 @@ int main(){
 }
 int octal(int n, int i){
   int coc, residuo, res;
-  coc = n/8;
+  coc = n / 8;
   residuo = n % 8;
   if (coc != 0){
     res = residuo * pow(10, i) + octal(coc, i + 1);
