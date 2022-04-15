@@ -48,6 +48,7 @@ int main(){
     cin  >> opcion;
     switch(opcion){
       // CASO 1 PARA INSERTAR UN ELEMENTO A LA COLA ///
+      case 1:
         if(fin == tam_cola){
           cout << "Cola llena" << endl;
         } else{
