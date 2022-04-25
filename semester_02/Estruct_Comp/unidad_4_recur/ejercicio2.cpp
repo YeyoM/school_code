@@ -1,11 +1,12 @@
+// Autores: Cesar Donnet Hernandez Gastelum
+//          Diego Emilio Moreno Sanchez
+//          Dante Alejandro Alegria Romero
 // Función recursiva que recibe un número entero y retorna la sumatoria 
 // de los dígitos que lo forman. Ejemplo: n=34219, la función regresa 19
 
 #include <iostream>
 using namespace std;
 
-// Write a recursive function that returns the sum of the digits in a number
-// Ejemplo: n=34219, la función regresa 19
 int sum_digits(int n) {
   if (n < 10) {
     return n;

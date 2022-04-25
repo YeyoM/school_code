@@ -1,3 +1,6 @@
+// Autores: Cesar Donnet Hernandez Gastelum
+//          Diego Emilio Moreno Sanchez
+//          Dante Alejandro Alegria Romero
 // Función recursiva que retorna el resultado de la siguiente serie. 
 // 1^1 + 2^2 + 3^3 + 4^4 + 5^5 + ... + n^n Ejemplo: n=3, la función retorna 32
 
@@ -5,8 +8,6 @@
 #include <math.h>
 using namespace std;
 
-// Write a recursive function that returns the result of the following series:
-// 1^1 + 2^2 + 3^3 + 4^4 + 5^5 + ... + n^n, Ejemplo: n=3, la función retorna 32
 int sum_series(int n) {
   if (n == 1) {
     return 1;

@@ -1,3 +1,6 @@
+// Autores: Cesar Donnet Hernandez Gastelum
+//          Diego Emilio Moreno Sanchez
+//          Dante Alejandro Alegria Romero
 // Se presenta la solución recursiva a encontrar el numero más 
 // grande de un vector, implementar la lógica planteada en este 
 // código en lenguaje C

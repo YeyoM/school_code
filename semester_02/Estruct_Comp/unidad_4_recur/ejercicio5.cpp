@@ -1,10 +1,11 @@
+// Autores: Cesar Donnet Hernandez Gastelum
+//          Diego Emilio Moreno Sanchez
+//          Dante Alejandro Alegria Romero
 // Función recursiva que retorna el máximo común divisor de dos números.
 
 #include <iostream>
 using namespace std;
 
-// Write a recursive function that returns the greatest common divisor of two numbers
-// Ejemplo: n=12, m=18, la función retorna 6
 int mcd(int a, int b) {
   if (a == b) {
     return a;

@@ -1,3 +1,6 @@
+// Autores: Cesar Donnet Hernandez Gastelum
+//          Diego Emilio Moreno Sanchez
+//          Dante Alejandro Alegria Romero
 // Función recursiva que recibe el monto inicial de una inversión, 
 // un total de años y una tasa de interés anual, la función retorna 
 // el capital que se tendrá al paso de los años. 

@@ -1,3 +1,6 @@
+// Autores: Cesar Donnet Hernandez Gastelum
+//          Diego Emilio Moreno Sanchez
+//          Dante Alejandro Alegria Romero
 // Función recursiva que recibe un numerador y un denominador y 
 // retorna un entero con el resultado de la división, la cual se debe 
 // hacer por restas sucesivas. a. 
@@ -12,10 +15,6 @@
 #include <iostream>
 using namespace std;
 
-// Write a recursive function that as parameters receives two integers
-// and returns the result of the division. 
-// For example, if the parameters are 8 and 2, the function returns 4.
-// This function should only return the integer part of the division.
 int division(int num, int den) {
   if (num < den) {
     return 0;
