@@ -24,7 +24,7 @@ int main(){
   // incremento = incremento / 2, tan pequeño hasta que incremento sea 0.
   for (incremento = tam_arr/2; incremento > 0; incremento = incremento / 2) {
     // Ahora lo que haremos es recorrer el arreglo desde el incremento hasta el final
-    // en la primera vuelta siempre será de la mitad en adelante, y así sucesivamente.
+    // en la primera vuelta será de la mitad en adelante, y así sucesivamente.
     for (i = incremento; i < tam_arr; i++) {
       // Guardamos el valor de la posicion i en una variable auxiliar
       int temp = Arreglo[i];
