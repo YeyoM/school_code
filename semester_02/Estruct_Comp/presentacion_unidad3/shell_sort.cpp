@@ -7,13 +7,13 @@ int main(){
   int Arreglo[] = {5, 2, 9, 4, 1, 6};
 
   int tam_arr = sizeof(Arreglo) / sizeof(Arreglo[0]);
-  cout << "Tamano del arreglo: " << tam_arr << endl;
 
-  int i, j, incremento;
+  int i, j, incremento, aux;
   
+  cout << "Arreglo original: " << endl;
   for(i = 0; i < tam_arr; i++) {
-      cout << "\t" << Arreglo[i];
-    }
+    cout << "\t" << Arreglo[i];
+  }
   cout << endl;
 
   // vamos a iterar en el arreglo de la siguiente manera:
@@ -37,14 +37,16 @@ int main(){
         Arreglo[j] = Arreglo[j - incremento];
       }
       // Finalmente guardamos el valor de temp en la posicion j
-      Arreglo[j] = temp;  
+      Arreglo[j] = temp; 
     }
   }
 
+  cout << endl;
   cout << "elementos ordenados por metodo Shell sort" << endl;
   for(i = 0; i < tam_arr; i++) {
     cout << "\t" << Arreglo[i];
   }
+
 
   return 0;
 }
