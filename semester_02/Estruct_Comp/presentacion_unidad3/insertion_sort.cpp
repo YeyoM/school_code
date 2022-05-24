@@ -1,5 +1,5 @@
-#include<iostream>
-#include<conio.h>
+#include <iostream>
+#include <conio.h>
 
 using namespace std;
 
@@ -19,13 +19,13 @@ int main(){
 	}
 	
 	cout<<"Orden Ascendente: ";  //se imprime de manera ascendente
-	for(i=0;i<5;i++){
-		cout<<numeros[i]<<" ";
+	for(i = 0; i < 5; i++){
+		cout << numeros[i] << " ";
 	}
 	
 	cout<<"\nOrden Descendente: "; //se imprime de manera descendente 
-	for(i=4;i>=0;i--){
-		cout<<numeros[i]<<" ";
+	for(i = 4; i >= 0; i--){
+		cout << numeros[i] << " ";
 	}
 	
 	getch();
