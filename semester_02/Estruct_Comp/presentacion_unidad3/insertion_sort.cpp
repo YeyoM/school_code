@@ -4,10 +4,10 @@
 using namespace std;
 
 int main(){
-	int numeros[] = {3,4,2,1,5}; //creacion de un arreglo con su asignacion de valores 
+	int numeros[] = {3, 4, 2, 1, 5}; //creacion de un arreglo con su asignacion de valores 
 	int i,pos,aux;
 	
-	for(i=0;i<5;i++){ //inicio del for que revisara numero por numero
+	for(i = 0; i < 5; i++){ //inicio del for que revisara numero por numero
 		pos = i;  // asignamos a pos el valor itirenante de i
 		aux = numeros[i];// asignamos a aux el valor del primer numero del arreglo
 		
