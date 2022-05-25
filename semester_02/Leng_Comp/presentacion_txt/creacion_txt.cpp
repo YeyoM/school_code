@@ -30,7 +30,8 @@ void escribir() {
 void lectura() {
   string texto, nombreArchivo;
   ifstream archivo; // ifstream es para la lectura
-  cout << "Que archivo desea abrir: "; getline(cin, nombreArchivo);
+  cout << "Que archivo desea abrir: "; 
+  getline(cin, nombreArchivo);
   archivo.open(nombreArchivo.c_str(), ios::in);
   if (archivo.fail()) {
     cout << "No se pudo abrir el archivo";

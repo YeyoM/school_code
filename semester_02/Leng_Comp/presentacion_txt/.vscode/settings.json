@@ -3,6 +3,7 @@
   "files.associations": {
     "*.ejs": "html",
     "iostream": "cpp",
-    "xstring": "cpp"
+    "xstring": "cpp",
+    "iosfwd": "cpp"
   }
 }

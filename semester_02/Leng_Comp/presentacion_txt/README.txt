@@ -9,18 +9,18 @@ para un archivo “README”, copiar y pegar en el editor de texto.
 
 Plantilla:
 
-<El nombre de su proyecto aquí>
-<Una breve descripción muy general del proyecto aquí>
+#<El nombre de su proyecto aquí>
+  <Una breve descripción muy general del proyecto aquí>
 
-<Primeros pasos>
-<Breves instrucciones de como descargar el proyecto y como ejecutarlo localmente, estas instrucciones contienen los prerrequisitos (por ejemplo, tener instalado Python localmente)>
+#<Primeros pasos>
+  <Breves instrucciones de como descargar el proyecto y como ejecutarlo localmente, estas instrucciones contienen los prerrequisitos (por ejemplo, tener instalado Python localmente)>
 
-<Construido con>
-<Menciona las herramientas que utilizaste para crear tu proyecto>
+#<Construido con>
+  <Menciona las herramientas que utilizaste para crear tu proyecto>
 
-<Autores>
-<Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios>
+#<Autores>
+  <Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios>
 
-<Licencia>
-<Este proyecto está bajo la Licencia (Tu Licencia) - https://choosealicense.com>
+#<Licencia>
+  <Este proyecto está bajo la Licencia (Tu Licencia) - https://choosealicense.com>
 
