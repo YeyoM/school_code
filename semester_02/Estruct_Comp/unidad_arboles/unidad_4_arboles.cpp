@@ -8,6 +8,11 @@ struct Nodo {
   Nodo* padre;
 };
 
+// Creamos el nodo y asignamos los valores
+// de los punteros padre, izquierdo y derecho
+// para despues insertar el nodo en el arbol
+// se crea una funcion aparte ya que se usa 
+// en varias partes del codigo
 Nodo* crearNodo(int n, Nodo* padre) {
   Nodo* nuevo_nodo = new Nodo();
   nuevo_nodo -> dato = n;
@@ -17,7 +22,10 @@ Nodo* crearNodo(int n, Nodo* padre) {
   return nuevo_nodo;
 }
 
+// Inicializamos el arbol
 Nodo* arbol = NULL;
+
+// Prototipado de las funciones
 void insertarNodo(Nodo*&, int, Nodo*);
 void mostrarArbol(Nodo*, int);
 void preOrden(Nodo*);
@@ -27,10 +35,14 @@ bool busqueda(Nodo*, int);
 void eliminarArbol(Nodo*, int);
 void eliminarNodo(Nodo*);
 void destruirNodo(Nodo*);
-
-Nodo* minimo(Nodo*);
+Nodo* minimo(Nodo*);            // funciones auxiliares
 void reemplazar(Nodo*, Nodo*);
 
+// Insertar un nodo en el arbol, si el arbol esta vacio
+// se asigna el nodo como raiz, si no, si el valor
+// es menor que el valor de la raiz, se inserta en
+// el subarbol izquierdo, si no, se inserta en el
+// subarbol derecho
 void insertarNodo(Nodo*& arbol, int n, Nodo*padre) {
   if (arbol == NULL) {
     Nodo* nuevo_nodo = crearNodo(n, padre);
@@ -47,6 +59,8 @@ void insertarNodo(Nodo*& arbol, int n, Nodo*padre) {
   }
 }
 
+// Mostrar el arbol en una forma que la raiz esta 
+// en el lado izquierdo y las hojas estan en el lado derecho
 void mostrarArbol(Nodo* arbol, int cont) {
   if (arbol == NULL) {
     return;
@@ -61,6 +75,8 @@ void mostrarArbol(Nodo* arbol, int cont) {
   }
 }
 
+// Mostrar el recorrido del arbol en preorden
+// (raiz, izquierdo, derecho)
 void preOrden(Nodo* arbol) {
   if (arbol == NULL) {
     return;
@@ -72,6 +88,8 @@ void preOrden(Nodo* arbol) {
   }
 }
 
+// Mostrar el recorrido del arbol en inorden
+// (izquierdo, raiz, derecho)
 void inOrden(Nodo* arbol) {
   if (arbol == NULL) {
     return;
@@ -83,6 +101,8 @@ void inOrden(Nodo* arbol) {
   }
 }
 
+// Mostrar el recorrido del arbol en postorden
+// (izquierdo, derecho, raiz)
 void postOrden(Nodo* arbol) {
   if (arbol == NULL) {
     return;
@@ -94,6 +114,13 @@ void postOrden(Nodo* arbol) {
   }
 }
 
+// Este metodo retorna un booleano, en caso que el arbol 
+// este vacio retorna false, si el arbol no esta vacio
+// y el valor esta en el arbol retorna true, si el valor
+// no esta en el arbol y es menor que el valor de la raiz
+// se busca en el subarbol izquierdo, si no, se busca
+// en el subarbol derecho, asi hasta que se encuentre o 
+// no se encuentre el valor (cuando apunte a NULL)
 bool busqueda(Nodo* arbol, int n) {
   if (arbol == NULL) {
     return false;
@@ -109,21 +136,30 @@ bool busqueda(Nodo* arbol, int n) {
   }
 }
 
-void eliminarArbol(Nodo*arbol, int n) {
+// Eliminar un nodo del arbol, si el arbol esta vacio
+// se retorna un valor nulo, si no, si el valor
+// es menor que el valor de la raiz, se elimina en
+// el subarbol izquierdo, si no, se elimina en el
+// subarbol derecho, asi hasta que el valor sea 
+// el que estamos buscando y ahi llamamos a eliminarNodo
+void eliminar(Nodo*arbol, int n) {
   if (arbol == NULL) {
     return;
   }
   else if (n < arbol -> dato) {
-    eliminarArbol(arbol -> izq, n);
+    eliminar(arbol -> izq, n);
   }
   else if (n > arbol -> dato) {
-    eliminarArbol(arbol -> der, n);
+    eliminar(arbol -> der, n);
   }
   else {
     eliminarNodo(arbol);
   }
 }
 
+// Eliminar un nodo del arbol, si el nodo a eliminar
+// tiene 2 hijos, se reemplaza con el nodo sucesor
+// en caso contrario, se reemplaza con unico hijo
 void eliminarNodo(Nodo* nodoEliminar) {
   if (nodoEliminar -> izq && nodoEliminar -> der) {
     Nodo* menor = minimo(nodoEliminar -> der);
@@ -144,6 +180,7 @@ void eliminarNodo(Nodo* nodoEliminar) {
   }
 }
 
+// Aqui eliminamos el nodo 
 void destruirNodo(Nodo* nodo) {
   nodo -> izq = NULL;
   nodo -> der = NULL;
@@ -162,6 +199,10 @@ Nodo* minimo(Nodo* arbol) {
   }
 }
 
+// Si el nodo que tiene que ser eliminado es el hijo izquierdo de su padre,
+// el padre del hijo izquierdo se reemplaza con el hijo derecho
+// Si el nodo que tiene que ser eliminado es el hijo derecho de su padre,
+// el padre del hijo derecho se reemplaza con el hijo derecho
 void reemplazar(Nodo* arbol, Nodo* nuevoNodo) {
   if (arbol -> padre) {
     if (arbol -> dato == arbol -> padre -> izq -> dato) {
@@ -175,7 +216,6 @@ void reemplazar(Nodo* arbol, Nodo* nuevoNodo) {
     nuevoNodo -> padre = arbol -> padre;
   }
 }
-
 
 int main() {
   int opc, dato, contador = 0;
@@ -242,7 +282,7 @@ int main() {
     }
     else if (opc == 7) {
       cout << endl << "Escriba el nodo que quieres eliminar: "; cin >> dato;
-      eliminarArbol(arbol, dato);
+      eliminar(arbol, dato);
       cout << endl;
       system("pause");
       system("cls");
