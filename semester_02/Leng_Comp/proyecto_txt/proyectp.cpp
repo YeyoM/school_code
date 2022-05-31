@@ -17,7 +17,8 @@ void escribir() {
   string nombreArchivo, frase;
   char frase2[10000];
   cin.ignore();
-  cout << "Digite el nombre del archivo (termine con .txt)\n";
+  cout << ".../proyecto_txt |" VERDE " CREAR " NC "| Ingrese un nombre\n";
+  cout << "----------------------------------------------------------------------------\n";
   cout << VERDE "> " NC;
   cin >> nombreArchivo;
 
@@ -27,7 +28,7 @@ void escribir() {
     cout << "No se pudo abrir el archivo";
     exit(1); // sirve para salir del programa en caso de falla
   }
-  system("clear");
+  system("cls");
   cout << endl;
   cout << VERDE << nombreArchivo << NC; 
   cout << " | Para terminar de escirbir digite ` y de un enter\n";
@@ -36,14 +37,18 @@ void escribir() {
   cin.getline(frase2, 10000, '`');
   archivo << frase2;   // tiene la misma funcion que cout y el cin
   archivo.close(); //cerrar el archivo
-  system("clear");
+  system("cls");
 }
 
 void eliminar() { //Funcion para eliminar cualquier archivo
   char eliminar[100];
   ifstream archivo;
   fflush(stdin);
-  cout << "Nombre de archivo a eliminar (con su respectiva terminacion .txt)\n";
+  cout << ".../proyecto_txt |" VERDE " ELIMINAR " NC "| Ingrese un archivo\n";
+  cout << "----------------------------------------------------------------------------\n";
+  char archivos = system("dir /b ?????????.txt");
+  cout << archivos << endl;
+  cout << "----------------------------------------------------------------------------\n";
   cout << VERDE "> " NC;
   cin >> eliminar;
   string eliminar2;
@@ -53,11 +58,12 @@ void eliminar() { //Funcion para eliminar cualquier archivo
     cout << "No se encontro el archivo";
     exit(1);
   } else {
+    archivo.close();
     remove(eliminar);
     cout << endl << "Archivo eliminado con exito!!\n";
 	}
   system("pause");
-  system("clear");
+  system("cls");
 }
 
 void editar_archivo_txt() {   //Funcion para editar un archivo de texto
@@ -65,16 +71,19 @@ void editar_archivo_txt() {   //Funcion para editar un archivo de texto
 	char frase[10000];
 	ifstream archivo;
 	ofstream archivo2;
-	cout << "Digite el nombre del archivo (termine con .txt)\n";
+	cout << ".../proyecto_txt |" VERDE " EDITAR " NC "| Ingrese un archivo\n";
+  cout << "----------------------------------------------------------------------------\n";
+  char archivos = system("dir /b ?????????.txt");
+  cout << archivos << endl;
+  cout << "----------------------------------------------------------------------------\n";
   cout << VERDE "> " NC;
 	cin >> nombreArchivo;
-
 	archivo.open(nombreArchivo.c_str(), ios::in);
 	if (archivo.fail()) {
 		cout << "No se pudo abrir el archivo";
 		exit(1);
 	}
-	system("clear");
+	system("cls");
   cout << endl;
   cout << VERDE << nombreArchivo << NC; 
   cout << " | Para terminar de escirbir digite ` y de un enter\n";
@@ -89,14 +98,18 @@ void editar_archivo_txt() {   //Funcion para editar un archivo de texto
 	archivo2 << frase;
 	archivo.close();
 	archivo2.close();
-  system("clear");
+  system("cls");
 }
 
 //lectura de archivos
 void lectura() {
     string  nombreArchivo, texto;
     ifstream archivo; // ifstream es para la lectura
-    cout << "Que archivo desea abrir: (escriba el nombre del archivo seguido con .txt)\n";
+    cout << ".../proyecto_txt |" VERDE " LEER " NC "| Ingrese un archivo\n";
+    cout << "----------------------------------------------------------------------------\n";
+    char archivos = system("dir /b ?????????.txt");
+    cout << archivos << endl;
+    cout << "----------------------------------------------------------------------------\n";
     cout << VERDE "> " NC; 
     cin >> nombreArchivo;
     archivo.open(nombreArchivo.c_str(), ios::in);
@@ -104,17 +117,18 @@ void lectura() {
         cout << "No se pudo abrir el archivo\n";
         exit(1);
     }
-    system("clear");
+    system("cls");
     cout << endl << VERDE << nombreArchivo << NC << " | \n";
     cout << "----------------------------------------------------------------------------\n";
     while (!archivo.eof()) { //eof recorre todo el archivo
       getline(archivo, texto);
-      cout << texto << "\n\n\n";
+      cout << texto << endl;
     }
+    cout << endl;
     cout << "----------------------------------------------------------------------------\n";
     archivo.close();
     system("pause");
-    system("clear");
+    system("cls");
 }
 
 
@@ -141,6 +155,6 @@ int main() {
     }
   }
   system("pause");
-  system("clear");
+  system("cls");
 	return 0;
 } 
