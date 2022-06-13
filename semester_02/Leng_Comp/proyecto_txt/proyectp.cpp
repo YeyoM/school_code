@@ -31,7 +31,7 @@ void escribir() {
   system("cls");
   cout << endl;
   cout << VERDE << nombreArchivo << NC; 
-  cout << " | Para terminar de escirbir digite ` y de un enter\n";
+  cout << " | Para terminar de escribir digite ` y de un enter\n";
   cout << "----------------------------------------------------------------------------\n";
   cout << VERDE "> " NC;
   cin.getline(frase2, 10000, '`');
