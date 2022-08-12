@@ -6,6 +6,18 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch triangulo",
+      "request": "launch",
+      "mainClass": "triangulo"
+    },
+    {
+      "type": "java",
+      "name": "Launch hello",
+      "request": "launch",
+      "mainClass": "hello"
+    },
+    {
+      "type": "java",
       "name": "Launch Current File",
       "request": "launch",
       "mainClass": "${file}"
