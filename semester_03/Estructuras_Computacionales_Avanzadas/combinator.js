@@ -1,6 +1,6 @@
 // Diego Emilio Moreno Sanchez
 // Lenguaje: javascript
-// Path: permutator.js
+// Path: combinator.js
 
 // Definicion de los valores de entrada
 const arr = ['a', 'b', 'c', 'd']  // -> conjunto de elementos a permutar
