@@ -9,53 +9,57 @@ const r = 2                       // -> cantidad de elementos tomados (0 < r <= 
 
 // Elimina los elementos duplicados de un array de arrays
 const eliminarDuplicados = (arr) => {
-  let stringArr = arr.map(JSON.stringify)       // -> convertir el array a string  
+
+  let ordenado = arr.map(arr => arr.sort())     // -> ordenamos los arrays, de tal modo que los que 
+                                                //    tienen los mismos elementos sean iguales
+  let stringArr = ordenado.map(JSON.stringify)  // -> convertir el array a string  
   let setUnicoArray = new Set(stringArr)        // -> convertir el string a un set
                                                 // ya que un set no permite elementos duplicados
                                                 // y los elimina automaticamente
   let sinDuplicadosArray = Array.from(
     setUnicoArray, 
     JSON.parse
-  )                                             // -> convertir el set a un array sin duplicados           
+  )                                             // -> convertir el set a un array sin duplicados  
+
   return sinDuplicadosArray                     // -> retornar el array sin duplicados          
 }
 
-const permutador = (inputArr, r) => {
-  let permutacionesPosibles = []         // -> array que almacena todas las permutaciones
-  let permutacionesParciales = []        // -> array que almacena las permutaciones parciales
-  let permutacionesResultantes = []      // -> array que almacena las permutaciones resultantes
+const combinador = (inputArr, r) => {
+  let combinacionesPosibles = []         // -> array que almacena todas las permutaciones
+  let combinacionesParciales = []        // -> array que almacena las permutaciones parciales
+  let combinacionesResultantes = []      // -> array que almacena las permutaciones resultantes
 
   // Para cada arreglo en el array, crear un nuevo arreglo que es una copia del original,
   // pero con el elemento actual removido, y luego llamar a la funcion recursiva sobre ese 
   // nuevo arreglo, mientras tambien agregar el elemento actual a la lista de permutaciones.
-  const permutar = (arr, m = []) => {
+  const combinar = (arr, m = []) => {
     // En algun punto de la recursion, si el arreglo es vacio, 
     // agregarlo a la lista de permutaciones
     if (arr.length === 0) {
-      permutacionesPosibles.push(m)
+      combinacionesPosibles.push(m)
     } else {
       for (let i = 0; i < arr.length; i++) {
         let actual = arr.slice()                      // -> copia del arreglo original
         let siguiente = actual.splice(i, 1)           // -> remover el elemento actual del arreglo
-        permutar(actual.slice(), m.concat(siguiente)) // -> llamar a la funcion recursiva sobre el nuevo arreglo
+        combinar(actual.slice(), m.concat(siguiente)) // -> llamar a la funcion recursiva sobre el nuevo arreglo
       }
     }
   }
 
-  permutar(inputArr)
+  combinar(inputArr)
 
   // Eliminamos el excedente de elementos tomados por permutacion
   // ejemplo, si r = 3, y el tamaño del arreglo es 4, eliminamos
   // de cada permutacion el ultimo elemento (n - r)
-  permutacionesPosibles.map((arr) => {
+  combinacionesPosibles.map((arr) => {
     let sliced = arr.slice(0, r)        // -> cortamos el arreglo desde el primer elemento hasta el r-esimo
-    permutacionesParciales.push(sliced)  // -> agregamos el arreglo a la lista de permutaciones parciales
+    combinacionesParciales.push(sliced)  // -> agregamos el arreglo a la lista de permutaciones parciales
   })
   
   // Eliminamos los elementos duplicados de la lista de permutaciones parciales
-  permutacionesResultantes = eliminarDuplicados(permutacionesParciales)
+  combinacionesResultantes = eliminarDuplicados(combinacionesParciales)
 
-  return permutacionesResultantes
+  return combinacionesResultantes
 }
 
 // Funcion que calcula el factorial de un numero
@@ -69,13 +73,13 @@ const factorial = (n) => {
   }
 }
 
-// Funcion que calcula el numero de permutaciones de un conjunto de elementos tomados r
-const permutacion = (n, r) => {
-  return (factorial(n) / factorial(n - r))
+// Funcion que calcula el numero de combinaciones de un conjunto de elementos tomados r
+const combinacion = (n, r) => {
+  return (factorial(n) / (factorial(n - r) * factorial(r)))
 }
 
-const permutaciones = permutacion(n, r)
-const result = permutador(arr, r)
+const combinaciones = combinacion(n, r)
+const result = combinador(arr, r)
 
 console.log(result)
-console.log(permutaciones)
+console.log(combinaciones)
