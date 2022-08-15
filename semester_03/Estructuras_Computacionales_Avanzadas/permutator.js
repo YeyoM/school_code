@@ -5,55 +5,57 @@
 // Definicion de los valores de entrada
 const arr = ['a', 'b', 'c', 'd']  // -> conjunto de elementos a permutar
 const n = arr.length              // -> cantidad de elementos a permutar
-const r = 3                       // -> cantidad de elementos tomados (0 < r <= n)       
+const r = 2                       // -> cantidad de elementos tomados (0 < r <= n)       
 
 // Elimina los elementos duplicados de un array de arrays
-const deleteDuplicates = (arr) => {
-  let stringArray = arr.map(JSON.stringify)     // -> convertir el array a string         
-  let uniqueStringArray = new Set(stringArray)  // -> convertir el string a un set
-  let uniqueArray = Array.from(
-    uniqueStringArray, 
+const eliminarDuplicados = (arr) => {
+  let stringArr = arr.map(JSON.stringify)       // -> convertir el array a string  
+  let setUnicoArray = new Set(stringArr)        // -> convertir el string a un set
+                                                // ya que un set no permite elementos duplicados
+                                                // y los elimina automaticamente
+  let sinDuplicadosArray = Array.from(
+    setUnicoArray, 
     JSON.parse
   )                                             // -> convertir el set a un array sin duplicados           
-  return uniqueArray                            // -> retornar el array sin duplicados          
+  return sinDuplicadosArray                     // -> retornar el array sin duplicados          
 }
 
-const permutator = (inputArr, r) => {
-  let allPermutations = []        // -> array que almacena todas las permutaciones
-  let partialPermutations = []    // -> array que almacena las permutaciones parciales
-  let resultedPermutations = []   // -> array que almacena las permutaciones resultantes
+const permutador = (inputArr, r) => {
+  let permutationsPosibles = []         // -> array que almacena todas las permutaciones
+  let permutationsParciales = []        // -> array que almacena las permutaciones parciales
+  let permutationsResultantes = []      // -> array que almacena las permutaciones resultantes
 
   // Para cada arreglo en el array, crear un nuevo arreglo que es una copia del original,
   // pero con el elemento actual removido, y luego llamar a la funcion recursiva sobre ese 
   // nuevo arreglo, mientras tambien agregar el elemento actual a la lista de permutaciones.
-  const permute = (arr, m = []) => {
+  const permutar = (arr, m = []) => {
     // En algun punto de la recursion, si el arreglo es vacio, 
     // agregarlo a la lista de permutaciones
     if (arr.length === 0) {
-      allPermutations.push(m)
+      permutationsPosibles.push(m)
     } else {
       for (let i = 0; i < arr.length; i++) {
-        let curr = arr.slice()                  // -> copia del arreglo original
-        let next = curr.splice(i, 1)            // -> remover el elemento actual del arreglo
-        permute(curr.slice(), m.concat(next))  // -> llamar a la funcion recursiva sobre el nuevo arreglo
+        let actual = arr.slice()                      // -> copia del arreglo original
+        let siguiente = actual.splice(i, 1)           // -> remover el elemento actual del arreglo
+        permutar(actual.slice(), m.concat(siguiente)) // -> llamar a la funcion recursiva sobre el nuevo arreglo
       }
     }
   }
 
-  permute(inputArr)
+  permutar(inputArr)
 
   // Eliminamos el excedente de elementos tomados por permutacion
   // ejemplo, si r = 3, y el tamaño del arreglo es 4, eliminamos
   // de cada permutacion el ultimo elemento (n - r)
-  allPermutations.map((arr) => {
+  permutationsPosibles.map((arr) => {
     let sliced = arr.slice(0, r)        // -> cortamos el arreglo desde el primer elemento hasta el r-esimo
-    partialPermutations.push(sliced)    // -> agregamos el arreglo a la lista de permutaciones parciales
+    permutationsParciales.push(sliced)  // -> agregamos el arreglo a la lista de permutaciones parciales
   })
   
   // Eliminamos los elementos duplicados de la lista de permutaciones parciales
-  resultedPermutations = deleteDuplicates(partialPermutations)
+  permutationsResultantes = eliminarDuplicados(permutationsParciales)
 
-  return resultedPermutations;
+  return permutationsResultantes;
 }
 
 // Funcion que calcula el factorial de un numero
@@ -73,7 +75,7 @@ const permutacion = (n, r) => {
 }
 
 const permutaciones = permutacion(n, r)
-const result = permutator(arr, r)
+const result = permutador(arr, r)
 
 console.log(result)
 console.log(permutaciones)
