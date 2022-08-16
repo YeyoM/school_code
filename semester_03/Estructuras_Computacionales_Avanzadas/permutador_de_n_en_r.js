@@ -29,6 +29,8 @@ const permutador = (inputArr, r) => {
   // pero con el elemento actual removido, y luego llamar a la funcion recursiva sobre ese 
   // nuevo arreglo, mientras tambien agregar el elemento actual a la lista de permutaciones.
   const permutar = (arr, m = []) => {
+    console.log('arr', arr)
+    console.log('m', m)
     // En algun punto de la recursion, si el arreglo es vacio, 
     // agregarlo a la lista de permutaciones
     if (arr.length === 0) {
