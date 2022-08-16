@@ -16,8 +16,6 @@ const permutador = (inputArr, r) => {
   const permutar = (arr, r, m = []) => {
     // En algun punto de la recursion, si el arreglo es vacio, 
     // agregarlo a la lista de permutaciones
-    console.log('arr', arr)
-    console.log('m', m)
     if (m.length === r) {
       permutacionesResultantes.push(m)
     } else {
