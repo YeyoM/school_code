@@ -18,6 +18,4 @@ const tablaBinaria = (num) => {
   }
 }
 
-const result = decimalBinario(num)
-console.log(`El binario de ${num} es ${result}`)
 tablaBinaria(num)
