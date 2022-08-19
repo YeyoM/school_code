@@ -1,4 +1,4 @@
-const array = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+const array = ['a', 'b', 'c', 'd', 'e']
 const length = array.length
 
 const decimalBinario = (num, length) => {
@@ -21,12 +21,24 @@ const decimalBinario = (num, length) => {
   return arr.reverse().join('')
 }
 
+const numPosibleCombinaciones = (length) => {
+  return Math.pow(2, length)
+}
+
 const tablaBinaria = (arr, length) => {
-  // calcular el numero binario del lenght del array
-  // ese es el segundo argumento de la funcion decimalBinario
-  for (let i = 0; i <= length; i++) {
-    console.log(`${i} = ${decimalBinario(i, 3)}`) // -> 3 es el numero de digitos del numero binario mas grande
+  let numPosiblesCombinaciones = numPosibleCombinaciones(length) - 1
+  let maxLengthBinary = decimalBinario(numPosiblesCombinaciones).split('').length
+  for (let i = 0; i <= numPosiblesCombinaciones; i++) {
+    let binary = decimalBinario(i, maxLengthBinary).split('').reverse()
+    let result = []
+    for (let j = 0; j < binary.length; j++) {
+      if (binary[j] === '1') {
+        result.push(arr[j])
+      }
+    }
+    console.log(`${binary.reverse().join('')} = ${result}`)
   }
 }
 
+console.log(array)
 tablaBinaria(array, length)
