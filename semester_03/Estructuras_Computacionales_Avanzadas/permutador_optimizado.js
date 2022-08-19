@@ -3,9 +3,9 @@
 // Path: permutador_de_n_en_r.js
 
 // Definicion de los valores de entrada
-const arr = ['a', 'b', 'c', 'd']  // -> conjunto de elementos a permutar
+const arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']  // -> conjunto de elementos a permutar
 const n = arr.length              // -> cantidad de elementos a permutar
-const r = 4                       // -> cantidad de elementos tomados (0 < r <= n)       
+const r = 10                       // -> cantidad de elementos tomados (0 < r <= n)       
 
 const permutador = (inputArr, r) => {
   let permutacionesResultantes = []      // -> array que almacena las permutaciones resultantes
@@ -16,8 +16,6 @@ const permutador = (inputArr, r) => {
   const permutar = (arr, r, m = []) => {
     // En algun punto de la recursion, si el arreglo es vacio, 
     // agregarlo a la lista de permutaciones
-    console.log('arr: ', arr)
-    console.log('m: ', m)
     if (m.length === r) {
       permutacionesResultantes.push(m)
     } else {

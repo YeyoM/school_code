@@ -3,7 +3,7 @@
 // Path: conjunto_potencia.js
 
 // Definicion de los valores de entrada
-const arr = ['a', 'b', 'c', 'd']  // -> conjunto de elementos
+const arr = ['a', 'b', 'c']  // -> conjunto de elementos
 const n = arr.length              // -> numero de elementos del conjunto
 
 // Elimina los elementos duplicados de un array de arrays
