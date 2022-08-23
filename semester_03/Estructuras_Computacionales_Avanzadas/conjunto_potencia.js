@@ -13,14 +13,14 @@ const eliminarDuplicados = (arr) => {
                                                 //    tienen los mismos elementos sean iguales
   let stringArr = ordenado.map(JSON.stringify)  // -> convertir el array a string  
   let setUnicoArray = new Set(stringArr)        // -> convertir el string a un set
-                                                // ya que un set no permite elementos duplicados
-                                                // y los elimina automaticamente
+                                                //    ya que un set no permite elementos duplicados
+                                                //    y los elimina automaticamente
   let sinDuplicadosArray = Array.from(
     setUnicoArray, 
     JSON.parse
-  )                                             // -> convertir el set a un array sin duplicados  
+  )                                             // -> convertir el set a un array 
 
-  return sinDuplicadosArray                     // -> retornar el array sin duplicados          
+  return sinDuplicadosArray.sort()              // -> retornar el array sin duplicados y "ordenado"        
 }
 
 const conjuntoPotencia = (inputArr) => {
