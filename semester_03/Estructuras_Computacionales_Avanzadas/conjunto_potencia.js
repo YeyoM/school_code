@@ -27,21 +27,23 @@ const conjuntoPotencia = (inputArr) => {
   let conjuntoPotenciaParcial = []  
   let conjuntoPotencia = []
 
-  // Para cada arreglo en el array, crear un nuevo arreglo que es una copia del original,
+  // Para cada elemento en el array, crear un nuevo arreglo que es una copia del original,
   // pero con el elemento actual removido, y luego llamar a la funcion recursiva sobre ese 
   // nuevo arreglo, mientras tambien agregar el elemento actual a la lista de permutaciones.
   const combinar = (arr, m = []) => {
     conjuntoPotenciaParcial.push(m)
     conjuntoPotenciaParcial.push(arr)
+    // el punto de salida es cuando el arreglo esta vacio
     for (let i = 0; i < arr.length; i++) {
       let actual = arr.slice()                      // -> copia del arreglo original
       let siguiente = actual.splice(i, 1)           // -> remover el elemento actual del arreglo
+      // console.log(actual.slice(), m.concat(siguiente)) // -> imprimir los argumentos para la funcion
       combinar(actual.slice(), m.concat(siguiente)) // -> llamar a la funcion recursiva sobre el nuevo arreglo
     }
   }
 
   combinar(inputArr)
-  
+  // console.log(conjuntoPotenciaParcial)
   // Eliminamos los elementos duplicados de la lista de permutaciones parciales
   conjuntoPotencia = eliminarDuplicados(conjuntoPotenciaParcial)
 
