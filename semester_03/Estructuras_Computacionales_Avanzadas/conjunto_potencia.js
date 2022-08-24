@@ -3,7 +3,7 @@
 // Path: conjunto_potencia.js
 
 // Definicion de los valores de entrada
-const arr = ['a', 'b', 'c']  // -> conjunto de elementos
+const arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']  // -> conjunto de elementos
 const n = arr.length              // -> numero de elementos del conjunto
 
 // Elimina los elementos duplicados de un array de arrays
@@ -58,5 +58,5 @@ const subconjuntos = (n) => {
 const result = conjuntoPotencia(arr)
 const resultSubConjuntos = subconjuntos(n)
 
-console.log(result)
-console.log(resultSubConjuntos)
+result.map(result => console.log(result))
+// console.log(resultSubConjuntos)
