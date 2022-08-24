@@ -9,6 +9,7 @@ public class main {
 
     for (int i = 0; i < calificaciones.length; i++) {
       calificaciones[i] = rand.nextInt(10);
+      System.out.println(calificaciones[i]);
       switch (calificaciones[i]) {
         case 10:
           calificaiones10++;
