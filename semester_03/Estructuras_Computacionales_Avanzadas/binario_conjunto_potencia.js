@@ -1,4 +1,4 @@
-const array = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't']
+const array = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u']
 const length = array.length
 
 const decimalBinario = (num, length) => {
@@ -47,10 +47,10 @@ const tablaBinaria = (arr, length) => {
     }
     // Una vez recorridos todos los digitos del numero binario de i
     // Podeos imprimir el binario y el conjunto potencia que le corresponda
-    console.log(`${binary.reverse().join(' ')} -> {${result}}`)
+    console.log(`${binary.join(' ')} -> {${result}}`)
   }
 }
 
-console.log(array.reverse().join(' '))
-console.log('------------------------')
-tablaBinaria(array.reverse(), length)
+// console.log(array.join(' '))
+// console.log('------------------------')
+tablaBinaria(array, length)
