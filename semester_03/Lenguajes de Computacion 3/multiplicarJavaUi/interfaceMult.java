@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class interfaceMult extends JPanel implements ActionListener {
-  JButton multiplicar;
+  JButton multiplicar, sumar;
   JTextField text1, text2;
 
   /**
@@ -18,10 +18,13 @@ public class interfaceMult extends JPanel implements ActionListener {
     text2 = new JTextField(10);
     multiplicar = new JButton("multiplicar");
     multiplicar.addActionListener(this);
+    sumar = new JButton("sumar");
+    sumar.addActionListener(this);
     setLayout(new FlowLayout());
     add(text1);
     add(text2);
     add(multiplicar);
+    add(sumar);
   }
 
   public void actionPerformed(ActionEvent ae) {
@@ -30,6 +33,12 @@ public class interfaceMult extends JPanel implements ActionListener {
       int num2 = Integer.parseInt(text2.getText());
       int multiplicacion = num1 * num2;
       text2.setText(Integer.toString(multiplicacion));
+    } 
+    if (ae.getSource() == sumar) {
+      int num1 = Integer.parseInt(text1.getText());
+      int num2 = Integer.parseInt(text2.getText());
+      int suma = num1 * num2;
+      text2.setText(Integer.toString(suma));
     }
   }
 
