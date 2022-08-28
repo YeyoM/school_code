@@ -15,34 +15,3 @@ for (let i = 0; i < tam_conjuntoPotencia; i++) {
   conjuntoPotencia.length = 0
 }
 console.log(tam_conjuntoPotencia)
-
-///////////////////////////////////////////////////////////////////////////
-
-const [subconjuntoPotencia, setSubconjuntoPotencia] = useState([])
-const [conjunto, setConjunto] = useState(['aaa', 'aas', 'asa', 'ass', 'saa', 'sas', 'ssa', 'sss'])
-const [tamConjuntoPotencia, setTamCOnjuntoPotencia] = useState(Math.pow(2, conjunto.length))
-
-return(
-  <div>
-    <table>
-      <thead>
-        <tr>
-          <td>
-            Evento A
-          </td>
-          <td>
-            Cardinalidad A
-          </td>
-          <td>
-            Probabilidad P(A)
-          </td>
-        </tr>
-      </thead>
-      {
-        for (let i = 0; i < tamConjuntoPotencia; i++) {
-          
-        }
-      }
-    </table>
-  </div>
-)
