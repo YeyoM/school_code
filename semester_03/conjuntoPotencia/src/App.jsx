@@ -19,6 +19,11 @@ function App() {
 
   return (
     <div className="App">
+      <h1>Eventos posibles</h1>
+      <h4>By: Diego Emilio Moreno Sachez</h4>
+      <h4>ID: 264776</h4>
+      <h3>Conjunto de eventos simples</h3>
+      <h4>{"{ "}{initialArray.join(', ')}{" }"}</h4>
       <table> 
         <thead>
           <tr>
