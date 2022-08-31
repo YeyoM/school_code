@@ -27,14 +27,33 @@ public class interfacePassword extends JPanel implements ActionListener {
     add(notification);
   }
 
+  /* (non-Javadoc)
+   * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+   */
   public void actionPerformed(ActionEvent e) {
-    String name = nameInput.getText();
+    String[] users = {"Juan", "Maria", "Luisa", "Gerardo"};
+    String[] passwords = {"password", "password", "password", "password"};
+    String user = nameInput.getText();
     String password = String.valueOf(passwordInput.getPassword());
-    if (name.equals("admin") && password.equals("admin")) {
-      notification.setText("Welcome admin");
-    } else {
-      notification.setText("Wrong password");
+    String passwordValue = new String();
+    // if (name.equals("admin") && password.equals("admin")) {
+    //   notification.setText("Welcome admin");
+    // } else {
+    //   notification.setText("Wrong password");
+    // }
+    for (int i = 0; i < users.length; i++) {
+      if (user.equals(users[i])){  
+        passwordValue = passwords[i];
+      }
     }
+
+    if (password.equals(passwordValue) && !passwordValue.equals("")) {
+      notification.setText("ingreso");
+    } else {
+      notification.setText("no ingreso");
+    }
+
+
   }
 
 }
