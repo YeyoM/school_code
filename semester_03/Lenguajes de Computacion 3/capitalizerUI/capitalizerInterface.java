@@ -1,6 +1,7 @@
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.StringTokenizer;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -24,9 +25,15 @@ public class capitalizerInterface extends JPanel implements ActionListener {
   }
 
   public void actionPerformed(ActionEvent e) {
-    String word = wordInput.getText().toString();
-    String capitilizedWord = word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
-    this.capitilizedWord.setText(capitilizedWord);
+    StringBuffer stringbuff = new StringBuffer();
+    String a;
+        
+    StringTokenizer st = new StringTokenizer(wordInput.getText().toString()," ");
+    while (st.hasMoreTokens()){
+        a = st.nextToken();
+        stringbuff.append(a.toUpperCase().charAt(0)+a.substring(1)+" ");
+    }
+    capitilizedWord.setText(stringbuff.toString());
   }
 
 }
