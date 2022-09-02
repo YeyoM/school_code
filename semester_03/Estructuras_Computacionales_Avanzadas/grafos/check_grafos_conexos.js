@@ -4,18 +4,16 @@
 // En este ejemplo el grafo tiene 6 vertices, por lo que la matriz es de 6x6
 // Al ser un grafo no dirigido, la matriz es simetrica
 let grafo = [
-  [0, 1, 0, 1, 1, 0],
-  [1, 0, 1, 0, 0, 0],
-  [0, 1, 0, 0, 1, 1],
-  [1, 0, 0, 0, 1, 0],
-  [1, 0, 1, 1, 0, 1],
-  [0, 0, 1, 0, 1, 0]
+  [0, 0, 1, 1],
+  [0, 0, 0, 0],
+  [1, 0, 0, 1],
+  [1, 0, 1, 0],
 ]
 
 // Creamos un array de visitados, para saber si ya hemos visitado un nodo
 // Inicialmente todos los nodos estan sin visitar, representado con un 0
-let visitados = Array(6).fill(0)
-let nodos = 6
+let visitados = Array(4).fill(0)
+let nodos = 4
 let cuenta = 0
 
 // Creamos una funcion para recorrer el grafo (Busqueda en profundidad)
