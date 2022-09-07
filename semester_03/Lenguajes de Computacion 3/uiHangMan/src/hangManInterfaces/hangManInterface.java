@@ -13,10 +13,10 @@ import javax.swing.ImageIcon;
  */
 public class hangManInterface extends javax.swing.JFrame {
     
-    private int oportunidades = 8;
+    private int oportunidades;
     
-    private final String[] palabras = {"casa"};
-    private final String[] palabrasGuiones = {"_ _ _ _"};
+    private final String[] palabras = {"casa", "orangutan", "programar"};
+    private final String[] palabrasGuiones = {"_ _ _ _", "_ _ _ _ _ _ _ _ _", "_ _ _ _ _ _ _ _ _"};
     private String letrasUsadas = "";
     
     // random para la palabra
@@ -103,10 +103,9 @@ public class hangManInterface extends javax.swing.JFrame {
                     .addComponent(wordLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(displayImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(letrasUsadasLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                        .addComponent(resultadoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(letrasUsadasLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                    .addComponent(resultadoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -151,72 +150,65 @@ public class hangManInterface extends javax.swing.JFrame {
         isLetterInWord = palabra.indexOf(userLetterInput);
         advertenciasLabel.setText(""); 
         
-        if (oportunidades == 0) {
-            letterInput.setEnabled(false);
-            resultadoLabel.setText("Haz perdido :(");
-            ImageIcon ico = new ImageIcon(getClass().getResource("/uihangman/oportunidades_1.jpg"));
-            displayImage.setIcon(ico);
-        } else {
-            
-            if (oportunidades == 7) {
-                ImageIcon ico = new ImageIcon(getClass().getResource("/uihangman/oportunidades_8.jpg"));
-                displayImage.setIcon(ico);
-            } else if (oportunidades == 6) {
-                ImageIcon ico = new ImageIcon(getClass().getResource("/uihangman/oportunidades_7.jpg"));
-                displayImage.setIcon(ico);
+        if (isLetterInWord == -1) {
+            oportunidades--;
+
+            if (oportunidades == 6) {
+                ImageIcon ico7 = new ImageIcon(getClass().getResource("/uihangman/oportunidades_7.jpg"));
+                displayImage.setIcon(ico7);
             } else if (oportunidades == 5) {
-                ImageIcon ico = new ImageIcon(getClass().getResource("/uihangman/oportunidades_6.jpg"));
-                displayImage.setIcon(ico);
+                ImageIcon ico6 = new ImageIcon(getClass().getResource("/uihangman/oportunidades_6.jpg"));
+                displayImage.setIcon(ico6);
             } else if (oportunidades == 4) {
-                ImageIcon ico = new ImageIcon(getClass().getResource("/uihangman/oportunidades_5.jpg"));
-                displayImage.setIcon(ico);
+                ImageIcon ico5 = new ImageIcon(getClass().getResource("/uihangman/oportunidades_5.jpg"));
+                displayImage.setIcon(ico5);
             } else if (oportunidades == 3) {
-                ImageIcon ico = new ImageIcon(getClass().getResource("/uihangman/oportunidades_4.jpg"));
-                displayImage.setIcon(ico);
+                ImageIcon ico4 = new ImageIcon(getClass().getResource("/uihangman/oportunidades_4.jpg"));
+                displayImage.setIcon(ico4);
             } else if (oportunidades == 2) {
-                ImageIcon ico = new ImageIcon(getClass().getResource("/uihangman/oportunidades_3.jpg"));
-                displayImage.setIcon(ico);
+                ImageIcon ico3 = new ImageIcon(getClass().getResource("/uihangman/oportunidades_3.jpg"));
+                displayImage.setIcon(ico3);
             } else if (oportunidades == 1) {
-                ImageIcon ico = new ImageIcon(getClass().getResource("/uihangman/oportunidades_2.jpg"));
-                displayImage.setIcon(ico);
+                ImageIcon ico2 = new ImageIcon(getClass().getResource("/uihangman/oportunidades_2.jpg"));
+                displayImage.setIcon(ico2);
+            } else if (oportunidades == 0) {
+                letterInput.setEnabled(false);
+                resultadoLabel.setText("Haz perdido, la palabra era: " + palabra);
+                ImageIcon ico1 = new ImageIcon(getClass().getResource("/uihangman/oportunidades_1.jpg"));
+                displayImage.setIcon(ico1);
             }
-            
-            // significa que la letra no esta en la palabra
-            if (isLetterInWord == -1) {
-                oportunidades--;
+            letrasUsadas = letrasUsadas + " " + userInput;
+            letrasUsadasLabel.setText("Letras Usadas: " + letrasUsadas);
+            letterInput.setText("");
+        } else {
+            // revisar que la letra no este en las palabras usadas
+            // ...
+            isLetterInLetters = letrasUsadas.indexOf(userLetterInput);
+                
+            if (isLetterInLetters == -1) {
+                letterIndex = isLetterInWord;
+                letrasPalabra = palabra.split("");
+                guionesPalabra = palabraGuiones.split(" ");
+                for (int i = 0; i < letrasPalabra.length; i++) {
+                    if (letrasPalabra[i].equals(userInput)) {
+                    guionesPalabra[i] = userInput;
+                    contadorLetras++;
+                    }
+                }
+                String str1 = String.join(" ", guionesPalabra);
+                palabraGuiones = str1;
+                wordLabel.setText("Palabra: " + palabraGuiones);
                 letrasUsadas = letrasUsadas + " " + userInput;
                 letrasUsadasLabel.setText("Letras Usadas: " + letrasUsadas);
                 letterInput.setText("");
+                if (contadorLetras == palabra.length()) {
+                    letterInput.setEnabled(false);
+                    resultadoLabel.setText("Haz ganado!");
+                    iniciarBtn.setEnabled(false);
+                } 
             } else {
-                // revisar que la letra no este en las palabras usadas
-                // ...
-                isLetterInLetters = letrasUsadas.indexOf(userLetterInput);
-                
-                if (isLetterInLetters == -1) {
-                    letterIndex = isLetterInWord;
-                    letrasPalabra = palabra.split("");
-                    guionesPalabra = palabraGuiones.split(" ");
-                    for (int i = 0; i < letrasPalabra.length; i++) {
-                        if (letrasPalabra[i].equals(userInput)) {
-                        guionesPalabra[i] = userInput;
-                        contadorLetras++;
-                        }
-                    }
-                    String str1 = String.join(" ", guionesPalabra);
-                    palabraGuiones = str1;
-                    wordLabel.setText("Palabra: " + palabraGuiones);
-                    letrasUsadas = letrasUsadas + " " + userInput;
-                    letrasUsadasLabel.setText("Letras Usadas: " + letrasUsadas);
-                    letterInput.setText("");
-                    if (contadorLetras == palabra.length()) {
-                        letterInput.setEnabled(false);
-                        resultadoLabel.setText("Haz ganado!");
-                        iniciarBtn.setEnabled(false);
-                    } 
-                } else {
-                    advertenciasLabel.setText("Letra ya usada");
-                    letterInput.setText("");
-                }
+                advertenciasLabel.setText("Letra ya usada");
+                letterInput.setText("");
             }
         }
     }//GEN-LAST:event_letterInputActionPerformed
@@ -224,6 +216,8 @@ public class hangManInterface extends javax.swing.JFrame {
     private void iniciarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarBtnActionPerformed
         // TODO add your handling code here:
         wordLabel.setText("Palabra: " + palabraGuiones);
+        oportunidades = 7;
+        iniciarBtn.setEnabled(false);
     }//GEN-LAST:event_iniciarBtnActionPerformed
 
     /**
