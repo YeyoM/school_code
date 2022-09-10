@@ -3,6 +3,7 @@ const length = array.length
 
 const tam_conjuntoPotencia = Math.pow(2, length)
 
+// complejidad Algoritmica de O(n2)
 for (let i = 0; i < tam_conjuntoPotencia; i++) {
   let conjuntoBin = []
   let conjuntoPotencia = []
