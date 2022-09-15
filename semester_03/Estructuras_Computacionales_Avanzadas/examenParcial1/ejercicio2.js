@@ -1,4 +1,6 @@
 /**
+ * Autor: Diego Emilio Moreno Sánchez 
+ * Ejercicio 2, examen parcial 1
  * Crea la tabla binaria de N elementos y relaciónalo al conjunto 
  * de elementos dados por el usuario para crear el conjunto potencia. 
  * También indica la frecuencia de aparición de cada elemento 

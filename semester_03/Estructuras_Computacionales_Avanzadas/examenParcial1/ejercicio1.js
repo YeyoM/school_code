@@ -1,4 +1,6 @@
 /**
+ * Autor: Diego Emilio Moreno Sánchez 
+ * Ejercicio 1, examen parcial 1
  * Supongamos que tenemos cuatro monedas con los siguientes valores: 
  * 1 peso, 2 pesos, 5 pesos y 10 pesos. 
  * ¿De qué maneras distintas podemos combinarlas y 
