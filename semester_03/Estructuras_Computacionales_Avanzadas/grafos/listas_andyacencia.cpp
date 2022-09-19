@@ -59,7 +59,7 @@ void insertarLista(Nodo *&lista, int n) {
   Nodo *aux1 = lista;
   Nodo *aux2;
 
-  while((aux1 != NULL) && (aux1 -> dato < n)){
+  while((aux1 != NULL)){
     aux2 = aux1;
     aux1 = aux1 -> siguiente;
   }
