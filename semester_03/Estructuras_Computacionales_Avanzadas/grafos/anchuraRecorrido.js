@@ -1,12 +1,19 @@
+/**
+ * Este algoritmo recorre un grafo en anchura
+ * usando una cola
+ * @param {Array} grafo matriz de adyacencia
+ * @param {Number} inicio nodo de inicio
+ * @returns {Array} recorrido
+ */
 // creamos la matriz de adyacencia
 let grafo = [
-  [0, 0, 0, 0, 0, 0, 0],
-  [1, 0, 1, 0, 0, 0, 1],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 1, 0, 0, 0, 0, 0],
-  [0, 1, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 1, 0, 0],
-  [0, 0, 0, 1, 0, 1, 0],
+  [0, 0, 0, 0, 0, 0, 0], // A (0)
+  [1, 0, 1, 0, 0, 0, 1], // H (1)
+  [0, 0, 0, 0, 0, 0, 0], // T (2)
+  [0, 1, 0, 0, 0, 0, 0], // B (3)
+  [0, 1, 0, 0, 0, 0, 0], // R (4)
+  [0, 0, 0, 0, 1, 0, 0], // C (5)
+  [0, 0, 0, 1, 0, 1, 0], // D (6)
 ]
 
 // array de visitados inicializado en ceros
@@ -21,7 +28,7 @@ let cola = []
 let resultado = []
 
 // generar un numero aleatorio entre 0 y n-1
-let inicio
+let inicio // = 6 -> para que sea como en el ejercicio (D)
 do {
   inicio = Math.floor(Math.random() * grafo.length)
 } while (!grafo[inicio].includes(1))
