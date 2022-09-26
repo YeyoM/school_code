@@ -13,19 +13,30 @@ const addLeadDiagonal = (matrix) => {
 }
 
 const generatePathMatrix = (matrix) => {
+  let nodesVisitedInRow = Array(matrix.length).fill(0)
   for (let i = 0; i < matrix.length; i++) {
     let row = matrix[i]
     for (let j = 0; j < row.length; j++) {
+      let row = matrix[i]
       if (row[j] === 1 && i !== j) {
         let newRow = combineRows(matrix[i], matrix[j])
         matrix[i] = newRow
+        nodesVisitedInRow[i] = 1
+      }
+    }
+    for (let k = row.length; k >= 0; k--) {
+      if (matrix[i][k] === 1 && i !== k) {
+        let newRow = combineRows(matrix[i], matrix[k])
+        matrix[i] = newRow
+        nodesVisitedInRow[i] = 1
       }
     }
   }
+  return matrix
 }
 
 const combineRows = (originalRow, rowToCombine) => {
-  const newRow = originalRow.map((value, i) => {
+  let newRow = originalRow.map((value, i) => {
     if (value === 1 || rowToCombine[i] === 1) {
       return 1
     } else {
@@ -35,19 +46,58 @@ const combineRows = (originalRow, rowToCombine) => {
   return newRow
 }
 
+const countOnes = (row) => {
+  let count = 0
+  for (let i = 0; i < row.length; i++) {
+    if (row[i] === 1) {
+      count++
+    }
+  }
+  return count
+}
+
+const getNodesCount = (matrix) => {
+  let nodesCount = []
+  for (let i = 0; i < matrix.length; i++) {
+    let row = matrix[i]
+    let count = countOnes(row)
+    nodesCount.push(count)
+  }
+  return nodesCount
+}
+
+const sortMatrixOnes = (matrix) => {
+  let nodesCount = getNodesCount(matrix)
+  let sortedMatrix = []
+  for (let i = 0; i < nodesCount.length; i++) {
+    let max = Math.max(...nodesCount)
+    let index = nodesCount.indexOf(max)
+    sortedMatrix.push(matrix[index])
+    nodesCount[index] = -1
+  }
+  return sortedMatrix
+}
 
 const main = () => { 
 
-  const matrix = [
-    [0, 1, 0, 0, 0],
-    [0, 1, 1, 0, 0],
-    [0, 0, 0, 1, 0],
-    [0, 1, 0, 0, 1],
-    [0, 0, 0, 0, 0]
+  let matrix = [
+    [0, 0, 0, 1, 1, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 0, 0, 0],
+    [0, 1, 1, 0, 0, 1],
+    [0, 0, 0, 0, 1, 0]
   ]
 
   const newMatrix = addLeadDiagonal(matrix)
   console.log(newMatrix)
+
+  const pathMatrix = generatePathMatrix(newMatrix)
+  console.log(pathMatrix)
+
+  const sortedMatrix = sortMatrixOnes(pathMatrix)
+  console.log(sortedMatrix)
+
 
 }
 
