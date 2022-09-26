@@ -66,6 +66,17 @@ const getNodesCount = (matrix) => {
   return nodesCount
 }
 
+const getNodesOrder = (nodesCount) => {
+  let nodesOrder = []
+  for (let i = 0; i < nodesCount.length; i++) {
+    let max = Math.max(...nodesCount)
+    let index = nodesCount.indexOf(max)
+    nodesOrder.push(index)
+    nodesCount[index] = -1
+  }
+  return nodesOrder
+}
+
 const sortMatrixOnes = (matrix) => {
   let nodesCount = getNodesCount(matrix)
   let sortedMatrix = []
@@ -76,6 +87,20 @@ const sortMatrixOnes = (matrix) => {
     nodesCount[index] = -1
   }
   return sortedMatrix
+}
+
+const sortMatrixColumns = (matrix, nodesOrder) => {
+  let sortedMatrix = []
+
+  let copyMatrix = matrix.map((row) => {
+    return row.slice()
+  })
+
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < matrix.length; j++) {
+
+    }
+  }
 }
 
 const main = () => { 
@@ -98,6 +123,8 @@ const main = () => {
   const sortedMatrix = sortMatrixOnes(pathMatrix)
   console.log(sortedMatrix)
 
+  let nodesOrder = getNodesOrder(getNodesCount(sortedMatrix))
+  console.log(nodesOrder)
 
 }
 
