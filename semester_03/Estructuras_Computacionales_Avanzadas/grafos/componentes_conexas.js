@@ -91,6 +91,7 @@ const sortMatrixOnes = (matrix) => {
 
 const sortMatrixColumns = (matrix, nodesOrder) => {
   let sortedMatrix = []
+  let newRow = []
 
   let copyMatrix = matrix.map((row) => {
     return row.slice()
@@ -98,9 +99,10 @@ const sortMatrixColumns = (matrix, nodesOrder) => {
 
   for (let i = 0; i < matrix.length; i++) {
     for (let j = 0; j < matrix.length; j++) {
-
+      matrix[i][j] = copyMatrix[i][nodesOrder[j]]
     }
   }
+  return matrix
 }
 
 const main = () => { 
@@ -123,9 +125,14 @@ const main = () => {
   const sortedMatrix = sortMatrixOnes(pathMatrix)
   console.log(sortedMatrix)
 
-  let nodesOrder = getNodesOrder(getNodesCount(sortedMatrix))
+  let nodesCount = getNodesCount(pathMatrix)
+  console.log(nodesCount)
+
+  let nodesOrder = getNodesOrder(nodesCount)
   console.log(nodesOrder)
 
+  let sortedMatrixColumns = sortMatrixColumns(sortedMatrix, nodesOrder)
+  console.log(sortedMatrixColumns)
 }
 
 main()
