@@ -3,7 +3,8 @@
     "*.ejs": "html",
     "iostream": "cpp",
     "xstring": "cpp",
-    "vector": "cpp"
+    "vector": "cpp",
+    "ostream": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }
