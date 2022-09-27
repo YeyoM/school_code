@@ -31,7 +31,7 @@
  * @param matrix - la matriz a la que se le agregará la diagonal
  * @returns Una nueva matriz con la diagonal principal establecida en 1.
  */
-const addLeadDiagonal = (matrix) => {
+function addLeadDiagonal(matrix) {
   const newMatrix = matrix.map((row, i) => {
     const newRow = row.map((value, j) => {
       if (i === j) {
@@ -51,23 +51,23 @@ const addLeadDiagonal = (matrix) => {
  * @param matrix - la matriz de adyacencia
  * @returns Una matriz con el camino más corto entre cada nodo. 
  */
-const generatePathMatrix = (matrix) => {
+function generatePathMatrix(matrix) {
   let nodesVisitedInRow = Array(matrix.length).fill(0)
   for (let i = 0; i < matrix.length; i++) {
-    let row = matrix[i]
+    let row = matrix[ i ]
     for (let j = 0; j < row.length; j++) {
-      let row = matrix[i]
-      if (row[j] === 1 && i !== j) {
-        let newRow = combineRows(matrix[i], matrix[j])
-        matrix[i] = newRow
-        nodesVisitedInRow[i] = 1
+      let row = matrix[ i ]
+      if (row[ j ] === 1 && i !== j) {
+        let newRow = combineRows(matrix[ i ], matrix[ j ])
+        matrix[ i ] = newRow
+        nodesVisitedInRow[ i ] = 1
       }
     }
     for (let k = row.length; k >= 0; k--) {
-      if (matrix[i][k] === 1 && i !== k) {
-        let newRow = combineRows(matrix[i], matrix[k])
-        matrix[i] = newRow
-        nodesVisitedInRow[i] = 1
+      if (matrix[ i ][ k ] === 1 && i !== k) {
+        let newRow = combineRows(matrix[ i ], matrix[ k ])
+        matrix[ i ] = newRow
+        nodesVisitedInRow[ i ] = 1
       }
     }
   }
@@ -81,9 +81,9 @@ const generatePathMatrix = (matrix) => {
  * @param rowToCombine - la fila a combinar
  * @returns Un nuevo arreglo con los valores combinados de los dos arreglos.
  */
-const combineRows = (originalRow, rowToCombine) => {
+function combineRows(originalRow, rowToCombine) {
   let newRow = originalRow.map((value, i) => {
-    if (value === 1 || rowToCombine[i] === 1) {
+    if (value === 1 || rowToCombine[ i ] === 1) {
       return 1
     } else {
       return 0
@@ -97,10 +97,10 @@ const combineRows = (originalRow, rowToCombine) => {
  * @param row - la fila del tablero que estás revisando
  * @returns La cantidad de 1's en la fila.
  */
-const countOnes = (row) => {
+function countOnes(row) {
   let count = 0
   for (let i = 0; i < row.length; i++) {
-    if (row[i] === 1) {
+    if (row[ i ] === 1) {
       count++
     }
   }
@@ -112,10 +112,10 @@ const countOnes = (row) => {
  * @param matrix - la matriz de adyacencia
  * @returns Un arreglo con la cantidad de 1's en cada fila de la matriz.
  */
-const getNodesCount = (matrix) => {
+function getNodesCount(matrix) {
   let nodesCount = []
   for (let i = 0; i < matrix.length; i++) {
-    let row = matrix[i]
+    let row = matrix[ i ]
     let count = countOnes(row)
     nodesCount.push(count)
   }
@@ -127,13 +127,13 @@ const getNodesCount = (matrix) => {
  * @param nodesCount - el array de 1's en cada fila de la matriz
  * @returns Un arreglo con los índices de los elementos en orden descendente. 
  */
-const getNodesOrder = (nodesCount) => {
+function getNodesOrder(nodesCount) {
   let nodesOrder = []
   for (let i = 0; i < nodesCount.length; i++) {
     let max = Math.max(...nodesCount)
     let index = nodesCount.indexOf(max)
     nodesOrder.push(index)
-    nodesCount[index] = -1
+    nodesCount[ index ] = -1
   }
   return nodesOrder
 }
@@ -144,14 +144,14 @@ const getNodesOrder = (nodesCount) => {
  * @param matrix - la matriz a ordenar
  * @returns una matriz ordenada.
  */
-const sortMatrixOnes = (matrix) => {
+function sortMatrixOnes(matrix) {
   let nodesCount = getNodesCount(matrix)
   let sortedMatrix = []
   for (let i = 0; i < nodesCount.length; i++) {
     let max = Math.max(...nodesCount)
     let index = nodesCount.indexOf(max)
-    sortedMatrix.push(matrix[index])
-    nodesCount[index] = -1
+    sortedMatrix.push(matrix[ index ])
+    nodesCount[ index ] = -1
   }
   return sortedMatrix
 }
@@ -163,13 +163,13 @@ const sortMatrixOnes = (matrix) => {
  * @param nodesOrder - array del orden de los nodos de manera descendente
  * @returns Una matriz con las columnas ordenadas por el orden de los nodos.
  */
-const sortMatrixColumns = (matrix, nodesOrder) => {
+function sortMatrixColumns(matrix, nodesOrder) {
   let copyMatrix = matrix.map((row) => {
     return row.slice()
   })
   for (let i = 0; i < matrix.length; i++) {
     for (let j = 0; j < matrix.length; j++) {
-      matrix[i][j] = copyMatrix[i][nodesOrder[j]]
+      matrix[ i ][ j ] = copyMatrix[ i ][ nodesOrder[ j ] ]
     }
   }
   return matrix
@@ -181,12 +181,12 @@ const sortMatrixColumns = (matrix, nodesOrder) => {
  * @param matrix - una matriz de adyacencia
  * @returns Un arreglo de las coordenadas de los nodos que se encuentren debajo de la diagonal principal.
  */
-const getUnderDiagonalNodes = (matrix) => {
+function getUnderDiagonalNodes(matrix) {
   let coordinates = []
   for (let i = 0; i < matrix.length; i++) {
     for (let j = 0; j < i; j++) {
-      if (matrix[i][j] === 1) {
-        coordinates.push([i, j])
+      if (matrix[ i ][ j ] === 1) {
+        coordinates.push([ i, j ])
       }
     }
   }
@@ -199,13 +199,13 @@ const getUnderDiagonalNodes = (matrix) => {
  * @param coordinates - coordenadas de los nodos que se encuentran debajo de la diagonal principal
  * @returns Un array de arrays de coordenadas.
  */
-const divideComponents = (coordinates) => {
+function divideComponents(coordinates) {
   let components = []
   for (let i = 0; i < coordinates.length; i++) {
     let component = []
     for (let j = 0; j < coordinates.length; j++) {
-      if (coordinates[i][0] === coordinates[j][0] || coordinates[i][1] === coordinates[j][1]) {
-        component.push(coordinates[j])
+      if (coordinates[ i ][ 0 ] === coordinates[ j ][ 0 ] || coordinates[ i ][ 1 ] === coordinates[ j ][ 1 ]) {
+        component.push(coordinates[ j ])
       }
     }
     components.push(component)
@@ -214,8 +214,8 @@ const divideComponents = (coordinates) => {
   for (let i = 0; i < components.length; i++) {
     for (let j = 0; j < components.length; j++) {
       if (i !== j) {
-        let component1 = components[i]
-        let component2 = components[j]
+        let component1 = components[ i ]
+        let component2 = components[ j ]
         let component1String = component1.toString()
         let component2String = component2.toString()
         if (component1String.includes(component2String)) {
@@ -237,22 +237,22 @@ const divideComponents = (coordinates) => {
  * @param partialComponents - array de arrays de coordenadas de nodos que están conectados entre sí
  * @returns Un array de arrays. Cada array contiene los nodos que forman un componente de la matriz de caminos
  */
-const getComponentesConexas = (matrix, partialComponents) => {
+function getComponentesConexas(matrix, partialComponents) {
 
   let diagonalNodesVisited = Array(matrix.length).fill(0)
   let componentesConexas = []
   let nodesInPartialComponent = []
-  
+
   // get the nodes in the partial components
   for (let i = 0; i < partialComponents.length; i++) {
-    let component = partialComponents[i]
+    let component = partialComponents[ i ]
     for (let j = 0; j < component.length; j++) {
-      let node = component[j]
-      nodesInPartialComponent.push(node[0])
-      nodesInPartialComponent.push(node[1])
-      diagonalNodesVisited[node[0]] = 1
-      diagonalNodesVisited[node[1]] = 1
-      nodesInPartialComponent = [...new Set(nodesInPartialComponent)]
+      let node = component[ j ]
+      nodesInPartialComponent.push(node[ 0 ])
+      nodesInPartialComponent.push(node[ 1 ])
+      diagonalNodesVisited[ node[ 0 ] ] = 1
+      diagonalNodesVisited[ node[ 1 ] ] = 1
+      nodesInPartialComponent = [ ...new Set(nodesInPartialComponent) ]
     }
     componentesConexas.push(nodesInPartialComponent)
     // clear the nodesInPartialComponent array
@@ -261,28 +261,28 @@ const getComponentesConexas = (matrix, partialComponents) => {
 
   do {
     for (let i = 0; i < diagonalNodesVisited.length; i++) {
-      if (diagonalNodesVisited[i] === 0) {
+      if (diagonalNodesVisited[ i ] === 0) {
         let component = []
         component.push(i)
-        diagonalNodesVisited[i] = 1
+        diagonalNodesVisited[ i ] = 1
         componentesConexas.push(component)
       }
     }
   } while (diagonalNodesVisited.includes(0))
 
   return componentesConexas
-  
+
 }
 
-const main = () => { 
+function main() {
 
   let matrix = [
-    [0, 0, 0, 1, 1, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 1],
-    [1, 1, 1, 0, 0, 0],
-    [0, 1, 1, 0, 0, 1],
-    [0, 0, 0, 0, 1, 0]
+    [ 0, 0, 0, 1, 1, 0 ],
+    [ 0, 0, 0, 0, 0, 0 ],
+    [ 0, 0, 0, 0, 0, 1 ],
+    [ 1, 1, 1, 0, 0, 0 ],
+    [ 0, 1, 1, 0, 0, 1 ],
+    [ 0, 0, 0, 0, 1, 0 ]
   ]
 
   const newMatrix = addLeadDiagonal(matrix)
