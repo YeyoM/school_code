@@ -1,19 +1,28 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ */
+package lineinterface;
+
 import java.applet.Applet; 
 import java.awt.*; 
 import java.awt.event.*;
-@SuppressWarnings("deprecation")
-public class drawLinesInterface extends Applet implements ActionListener
-{ 
+
+/**
+ *
+ * @author Usuario
+ */
+public class LineInterface extends Applet implements ActionListener { 
     // Creating a text field.
     TextField name;
     int oportunidades=0;
     //variable tipo Image
     Image img;
    // Creating a text field.
-    public drawLinesInterface()
+    public LineInterface()
     {
         //creo una direccion de imagen
-        String imageFile="D:\\Usuario\\Descargas\\kirby-dance.gif";
+        String imageFile="D:\\Usuario\\Descargas\\cheems.png";
         // Creating an image object.
         img=Toolkit.getDefaultToolkit().getImage(imageFile);
         //aqui creo el textfield
@@ -101,7 +110,7 @@ public static void main(String[] args)
     drawLineApplet.setSize(500, 450); 
     //llamos a nuestra funcion
    // Creating an instance of the applet.
-    Applet DrawLine = new drawLinesInterface(); 
+    Applet DrawLine = new LineInterface(); 
     // Adding the applet to the frame.
     //la funcion que se llama DrawLine se agrega al frame
     drawLineApplet.add(DrawLine); 
