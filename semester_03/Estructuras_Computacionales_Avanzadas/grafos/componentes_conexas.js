@@ -52,25 +52,45 @@ function addLeadDiagonal(matrix) {
  * @returns Una matriz con el camino más corto entre cada nodo. 
  */
 function generatePathMatrix(matrix) {
+  // Este array nos servirá para que cuando recorramos el array de regreso
+  // Evitemos combinar filas que ya fueron combinadas.
   let nodesVisitedInRow = Array(matrix.length).fill(0)
+
+  // Recorremos la matriz por filas 
   for (let i = 0; i < matrix.length; i++) {
+    // Guardamos la fila actual
     let row = matrix[ i ]
+
+    // Recorremos cada elemento de la fila
     for (let j = 0; j < row.length; j++) {
+      // Volvemos a guardar la fila actual de nuevo (actualizar la referencia)
       let row = matrix[ i ]
+      // Si el elemento j de la fila es 1 y no está en la diagonal principal
       if (row[ j ] === 1 && i !== j) {
+        // Combinamos la fila actual con la fila j
         let newRow = combineRows(matrix[ i ], matrix[ j ])
+        // Guardamos la nueva fila en la matriz
         matrix[ i ] = newRow
+        // Marcamos el nodo i como visitado
         nodesVisitedInRow[ i ] = 1
       }
     }
+
+    // Recorremos la misma fila de regreso
     for (let k = row.length; k >= 0; k--) {
-      if (matrix[ i ][ k ] === 1 && i !== k) {
+      // Si el elemento k de la fila es 1 y no está en la diagonal principal y no ha sido visitado
+      if (matrix[ i ][ k ] === 1 && i !== k && nodesVisitedInRow[ k ] === 0) {
+        // Combinamos la fila actual con la fila k
         let newRow = combineRows(matrix[ i ], matrix[ k ])
+        // Guardamos la nueva fila en la matriz
         matrix[ i ] = newRow
+        // Marcamos el nodo i como visitado
         nodesVisitedInRow[ i ] = 1
       }
     }
   }
+
+  // retornamos la matriz de caminos
   return matrix
 }
 
@@ -82,13 +102,18 @@ function generatePathMatrix(matrix) {
  * @returns Un nuevo arreglo con los valores combinados de los dos arreglos.
  */
 function combineRows(originalRow, rowToCombine) {
+  // Recorremos el arreglo original (fila actual)
   let newRow = originalRow.map((value, i) => {
+    // Si el elemento i de la fila actual es 1 o el elemento i de la fila a combinar es 1
     if (value === 1 || rowToCombine[ i ] === 1) {
+      // Retornamos 1 en la nueva fila (posición i)
       return 1
     } else {
+      // Retornamos 0 en la nueva fila (posición i)
       return 0
     }
   })
+  // Retornamos la nueva fila
   return newRow
 }
 
@@ -128,11 +153,17 @@ function getNodesCount(matrix) {
  * @returns Un arreglo con los índices de los elementos en orden descendente. 
  */
 function getNodesOrder(nodesCount) {
+  // Creamos un arreglo con los índices de los elementos en orden descendente
   let nodesOrder = []
+  // Recorremos el arreglo de 1's en cada fila de la matriz
   for (let i = 0; i < nodesCount.length; i++) {
+    // Guardamos el elemento más grande en el arreglo
     let max = Math.max(...nodesCount)
+    // Guardamos el índice del elemento más grande en el arreglo
     let index = nodesCount.indexOf(max)
+    // Guardamos el índice del elemento más grande en el arreglo de índices
     nodesOrder.push(index)
+    // Marcamos el elemento mayor como -1 para que no se vuelva a tomar en cuenta
     nodesCount[ index ] = -1
   }
   return nodesOrder
@@ -145,12 +176,20 @@ function getNodesOrder(nodesCount) {
  * @returns una matriz ordenada.
  */
 function sortMatrixOnes(matrix) {
+  // Obtenemos la cantidad de 1's en cada fila
   let nodesCount = getNodesCount(matrix)
+  // Variable que guardará la matriz ordenada
   let sortedMatrix = []
+
+  // Recorremos el arreglo de 1's
   for (let i = 0; i < nodesCount.length; i++) {
+    // Obtenemos el elemento mayor en el arreglo de 1's
     let max = Math.max(...nodesCount)
+    // Obtenemos el índice del elemento mayor en el arreglo de 1's
     let index = nodesCount.indexOf(max)
+    // Guardamos la fila en la matriz ordenada del índice obtenido
     sortedMatrix.push(matrix[ index ])
+    // Marcamos el elemento mayor como -1 para que no se vuelva a tomar en cuenta
     nodesCount[ index ] = -1
   }
   return sortedMatrix
@@ -164,11 +203,13 @@ function sortMatrixOnes(matrix) {
  * @returns Una matriz con las columnas ordenadas por el orden de los nodos.
  */
 function sortMatrixColumns(matrix, nodesOrder) {
+  // Creamos una copia de la matriz
   let copyMatrix = matrix.map((row) => {
     return row.slice()
   })
   for (let i = 0; i < matrix.length; i++) {
     for (let j = 0; j < matrix.length; j++) {
+      // En la matriz original guardamos el valor de la fila i, columna nodesOrder[j] (indice j de nodesOrder)
       matrix[ i ][ j ] = copyMatrix[ i ][ nodesOrder[ j ] ]
     }
   }
@@ -182,10 +223,14 @@ function sortMatrixColumns(matrix, nodesOrder) {
  * @returns Un arreglo de las coordenadas de los nodos que se encuentren debajo de la diagonal principal.
  */
 function getUnderDiagonalNodes(matrix) {
+  // Creamos un arreglo para guardar las coordenadas de los nodos que se encuentren debajo de la diagonal principal
   let coordinates = []
+  // Recorremos la matriz
   for (let i = 0; i < matrix.length; i++) {
+    // Pero solo por debajo de la diagonal principal (j < i)
     for (let j = 0; j < i; j++) {
       if (matrix[ i ][ j ] === 1) {
+        // Guardamos las coordenadas de los nodos que se encuentren debajo de la diagonal principal
         coordinates.push([ i, j ])
       }
     }
@@ -201,16 +246,28 @@ function getUnderDiagonalNodes(matrix) {
  */
 function divideComponents(coordinates) {
   let components = []
+
+  // Recorremos el arreglo de coordenadas
   for (let i = 0; i < coordinates.length; i++) {
+    // Creamos una variable component para guardar las coordenadas de los nodos que están conectados entre sí
     let component = []
+    // Vamos a comparar cada coordenada con las demás
     for (let j = 0; j < coordinates.length; j++) {
+      // Si la coordenada i está conectada con la coordenada j
       if (coordinates[ i ][ 0 ] === coordinates[ j ][ 0 ] || coordinates[ i ][ 1 ] === coordinates[ j ][ 1 ]) {
+        // Guardamos la coordenada j en el arreglo component
         component.push(coordinates[ j ])
       }
     }
+    // Guardamos el componente en el arreglo components 
     components.push(component)
   }
 
+  // Aqui siguen habiendo mas componentes de los que en realidad existen
+  // Por lo que debemos juntarlos en grupos de componentes que estén conectados entre sí
+  console.log(components)
+
+  // Vamos a comparar cada grupo de componentes con los demás
   for (let i = 0; i < components.length; i++) {
     for (let j = 0; j < components.length; j++) {
       if (i !== j) {
@@ -218,15 +275,21 @@ function divideComponents(coordinates) {
         let component2 = components[ j ]
         let component1String = component1.toString()
         let component2String = component2.toString()
+        // Si el componente 1 está contenido en el componente 2
         if (component1String.includes(component2String)) {
+          // Eliminamos el componente 1
           components.splice(j, 1)
-        } else if (component2String.includes(component1String)) {
+        } 
+        // Si el componente 2 está contenido en el componente 1
+        else if (component2String.includes(component1String)) {
+          // Eliminamos el componente 2
           components.splice(i, 1)
         }
       }
     }
   }
 
+  // Retornamos el arreglo de componentes
   return components
 
 }
@@ -239,19 +302,23 @@ function divideComponents(coordinates) {
  */
 function getComponentesConexas(matrix, partialComponents) {
 
+  // Creamos un arreglo para guardar los nodos de la diagonal principal
   let diagonalNodesVisited = Array(matrix.length).fill(0)
   let componentesConexas = []
   let nodesInPartialComponent = []
 
-  // get the nodes in the partial components
   for (let i = 0; i < partialComponents.length; i++) {
+    // Coordenadas de los nodos que están conectados entre sí
     let component = partialComponents[ i ]
     for (let j = 0; j < component.length; j++) {
+      // Tomamos las 2 coordenadas de cada nodo y las guardamos en un arreglo
       let node = component[ j ]
       nodesInPartialComponent.push(node[ 0 ])
       nodesInPartialComponent.push(node[ 1 ])
       diagonalNodesVisited[ node[ 0 ] ] = 1
       diagonalNodesVisited[ node[ 1 ] ] = 1
+      // Cada arreglo mostrará los nodos que forman un componente de la matriz de caminos
+      // Por lo que debemos eliminar los nodos repetidos
       nodesInPartialComponent = [ ...new Set(nodesInPartialComponent) ]
     }
     componentesConexas.push(nodesInPartialComponent)
@@ -259,6 +326,9 @@ function getComponentesConexas(matrix, partialComponents) {
     nodesInPartialComponent = []
   }
 
+  // Por ultimo recorremos el arreglo diagonalNodesVisited
+  // Para ver si hay nodos que no estén en los componentes parciales
+  // Esos nodos forman un componente de la matriz de caminos (ellos solos)
   do {
     for (let i = 0; i < diagonalNodesVisited.length; i++) {
       if (diagonalNodesVisited[ i ] === 0) {
@@ -286,24 +356,26 @@ function main() {
   ]
 
   const newMatrix = addLeadDiagonal(matrix)
-  console.log(newMatrix)
+  console.log("Matriz con diagonal principal: ", newMatrix)
 
   const pathMatrix = generatePathMatrix(newMatrix)
-  console.log(pathMatrix)
+  console.log("Matriz de caminos: ", pathMatrix)
 
   const sortedMatrix = sortMatrixOnes(pathMatrix)
-  console.log(sortedMatrix)
+  console.log("Matriz ordenada en filas: ", sortedMatrix)
 
   let nodesCount = getNodesCount(pathMatrix)
 
   let nodesOrder = getNodesOrder(nodesCount)
 
   let sortedMatrixColumns = sortMatrixColumns(sortedMatrix, nodesOrder)
-  console.log(sortedMatrixColumns)
+  console.log("Matriz ordenada en filas y columnas: ", sortedMatrixColumns)
 
   let underDiagonalNodes = getUnderDiagonalNodes(sortedMatrixColumns)
+  console.log("Coordenadas de nodos debajo de la diagonal: ", underDiagonalNodes)
 
   let components = divideComponents(underDiagonalNodes)
+  console.log("Conjunto de nodos que forman una componente: ", components)
 
   let componentesConexas = getComponentesConexas(sortedMatrixColumns, components)
   console.log("Las componentes conexas del grafo son: ", componentesConexas)
