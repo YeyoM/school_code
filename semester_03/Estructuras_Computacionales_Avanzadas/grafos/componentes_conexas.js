@@ -346,22 +346,22 @@ function getComponentesConexas(matrix, partialComponents) {
 
 function main() {
 
-  // let matrix = [
-  //   [ 0, 0, 0, 1, 1, 0 ],
-  //   [ 0, 0, 0, 0, 0, 0 ],
-  //   [ 0, 0, 0, 0, 0, 1 ],
-  //   [ 1, 1, 1, 0, 0, 0 ],
-  //   [ 0, 1, 1, 0, 0, 1 ],
-  //   [ 0, 0, 0, 0, 1, 0 ]
-  // ]
-
   let matrix = [
-    [0, 1, 0, 0, 0],
-    [0, 1, 1, 0, 0],
-    [0, 0, 0, 1, 0],
-    [0, 1, 0, 0, 1],
-    [0, 0, 0, 0, 0]
+    [ 0, 0, 0, 1, 1, 0 ],
+    [ 0, 0, 0, 0, 0, 0 ],
+    [ 0, 0, 0, 0, 0, 1 ],
+    [ 1, 1, 1, 0, 0, 0 ],
+    [ 0, 1, 1, 0, 0, 1 ],
+    [ 0, 0, 0, 0, 1, 0 ]
   ]
+
+  // let matrix = [
+  //   [0, 1, 0, 0, 0],
+  //   [0, 1, 1, 0, 0],
+  //   [0, 0, 0, 1, 0],
+  //   [0, 1, 0, 0, 1],
+  //   [0, 0, 0, 0, 0]
+  // ]
 
   const newMatrix = addLeadDiagonal(matrix)
   console.log("Matriz con diagonal principal: ", newMatrix)
