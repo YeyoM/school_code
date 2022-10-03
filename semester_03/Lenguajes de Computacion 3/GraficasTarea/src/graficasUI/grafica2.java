@@ -4,8 +4,8 @@
  */
 package graficasUI;
 
-import java.util.HashSet;
 import javax.swing.SwingUtilities;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -17,11 +17,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
  */
 public class grafica2 extends javax.swing.JFrame {
 
-    /**
-     * Creates new form grafica2
-     * @param title
-     */
-    public grafica2(String title) {
+        public grafica2(String title) {
         super(title);
         initComponents();
         // Create dataset  
@@ -40,23 +36,47 @@ public class grafica2 extends javax.swing.JFrame {
     
     private DefaultCategoryDataset createDataset() {  
       
-        String series1 = "Visitor";  
+        String series1 = "Troncos";  
       
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();  
       
-        dataset.addValue(200, series1, "2016-12-19");  
-        dataset.addValue(150, series1, "2016-12-20");  
-        dataset.addValue(100, series1, "2016-12-21");  
-        dataset.addValue(210, series1, "2016-12-22");  
-        dataset.addValue(240, series1, "2016-12-23");  
-        dataset.addValue(195, series1, "2016-12-24");  
-        dataset.addValue(245, series1, "2016-12-25");
+        dataset.addValue(8.3, series1, "70");  
+        dataset.addValue(8.6, series1, "65");
+        dataset.addValue(8.8, series1, "63");  
+        dataset.addValue(10.5, series1, "72"); 
+        dataset.addValue(10.7, series1, "81");  
+        dataset.addValue(10.8, series1, "83"); 
+        dataset.addValue(11.0, series1, "66");  
+        dataset.addValue(11.0, series1, "75"); 
+        dataset.addValue(11.1, series1, "80");  
+        dataset.addValue(11.2, series1, "75"); 
+        dataset.addValue(11.3, series1, "79");  
+        dataset.addValue(11.4, series1, "76"); 
+        dataset.addValue(11.4, series1, "76");  
+        dataset.addValue(11.7, series1, "69"); 
+        dataset.addValue(12.0, series1, "75");  
+        dataset.addValue(12.9, series1, "74"); 
+        dataset.addValue(12.9, series1, "85");  
+        dataset.addValue(13.3, series1, "86"); 
+        dataset.addValue(13.7, series1, "71");  
+        dataset.addValue(13.8, series1, "64"); 
+        dataset.addValue(14.0, series1, "78");  
+        dataset.addValue(14.2, series1, "80"); 
+        dataset.addValue(14.5, series1, "74");  
+        dataset.addValue(16.0, series1, "72"); 
+        dataset.addValue(16.3, series1, "77");  
+        dataset.addValue(17.3, series1, "81"); 
+        dataset.addValue(17.5, series1, "82");  
+        dataset.addValue(17.9, series1, "80"); 
+        dataset.addValue(18.0, series1, "80");  
+        dataset.addValue(18.0, series1, "80"); 
+        dataset.addValue(20.6, series1, "87");  
+        
+        
+
       
         return dataset;  
     } 
-    
-    
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -87,9 +107,8 @@ public class grafica2 extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-    SwingUtilities.invokeLater(() -> {
-       grafica2 ejemplo = new grafica2("Ejemplo");
+        SwingUtilities.invokeLater(() -> {
+       grafica2 ejemplo = new grafica2("Población de Cerezos");
        ejemplo.setAlwaysOnTop(true);
        ejemplo.pack();
        ejemplo.setSize(600, 400);

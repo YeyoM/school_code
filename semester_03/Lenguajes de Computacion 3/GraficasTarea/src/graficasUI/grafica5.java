@@ -4,58 +4,59 @@
  */
 package graficasUI;
 
-import java.util.HashSet;
+import java.text.DecimalFormat;
 import javax.swing.SwingUtilities;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.chart.labels.PieSectionLabelGenerator;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
 
 /**
  *
  * @author Usuario
  */
-public class grafica2 extends javax.swing.JFrame {
+public class grafica5 extends javax.swing.JFrame {
 
-    /**
-     * Creates new form grafica2
-     * @param title
-     */
-    public grafica2(String title) {
+     public grafica5(String title) {
         super(title);
         initComponents();
         // Create dataset  
-        DefaultCategoryDataset dataset = createDataset();  
-        // Create chart  
-        JFreeChart chart = ChartFactory.createLineChart(  
-            "Poblacion de cerezos", // Chart title  
-            "Diametro del tronco en pulgadas", // X-Axis Label  
-            "Altura del arbol en pies", // Y-Axis Label  
-            dataset  
-            );  
+        PieDataset dataset = createDataset();  
       
+        // Create chart  
+        JFreeChart chart = ChartFactory.createPieChart(  
+            "Pie Chart Example",  
+            dataset,  
+            true,   
+            true,  
+            false);  
+      
+        //Format Label  
+        PieSectionLabelGenerator labelGenerator = new StandardPieSectionLabelGenerator(  
+            "Marks {0} : ({2})", new DecimalFormat("0"), new DecimalFormat("0%"));  
+        ((PiePlot) chart.getPlot()).setLabelGenerator(labelGenerator);  
+          
+        // Create Panel  
         ChartPanel panel = new ChartPanel(chart);  
-        setContentPane(panel);
+        setContentPane(panel);  
+
     }
     
-    private DefaultCategoryDataset createDataset() {  
+    private PieDataset createDataset() {  
       
-        String series1 = "Visitor";  
-      
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();  
-      
-        dataset.addValue(200, series1, "2016-12-19");  
-        dataset.addValue(150, series1, "2016-12-20");  
-        dataset.addValue(100, series1, "2016-12-21");  
-        dataset.addValue(210, series1, "2016-12-22");  
-        dataset.addValue(240, series1, "2016-12-23");  
-        dataset.addValue(195, series1, "2016-12-24");  
-        dataset.addValue(245, series1, "2016-12-25");
-      
+        DefaultPieDataset dataset=new DefaultPieDataset();  
+        dataset.setValue("Africa", 52);  
+        dataset.setValue("Americas", 25);  
+        dataset.setValue("Asia", 33);  
+        dataset.setValue("Europe", 30);  
+        dataset.setValue("Oceania", 2);  
         return dataset;  
-    } 
-    
-    
+      }  
 
 
     /**
@@ -88,14 +89,14 @@ public class grafica2 extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-    SwingUtilities.invokeLater(() -> {
-       grafica2 ejemplo = new grafica2("Ejemplo");
-       ejemplo.setAlwaysOnTop(true);
-       ejemplo.pack();
-       ejemplo.setSize(600, 400);
-       ejemplo.setDefaultCloseOperation(EXIT_ON_CLOSE);
-       ejemplo.setVisible(true);
-    });
+        SwingUtilities.invokeLater(() -> {  
+            grafica5 example;  
+            example = new grafica5("Pie Chart Example");
+            example.setSize(800, 400);  
+            example.setLocationRelativeTo(null);  
+            example.setDefaultCloseOperation(EXIT_ON_CLOSE);  
+            example.setVisible(true);  
+        }); 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
