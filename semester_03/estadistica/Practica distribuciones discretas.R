@@ -16,7 +16,7 @@
 #    ruleta, n = 10 y p = 18/38 ~= 0.4737.
 
 # Valores de los parámetros
-n <- 20
+n <- 10
 p <- 18/38
 x <- 0:n    # <- conjunto de valores posibles
 
@@ -49,17 +49,32 @@ moda
 media <- n * p
 media
 
-x11()
-main <- "Función de densidad binomial"
-xlab <- "x: número de juegos ganados"
-ylab <- "f(x): probabilidad"
+# Media universal
+media.formula.universal <- sum(x*fx)
+media.formula.universal
 
 # Mediana
 mediana <- which(Fx >= 0.5)[1] # El minimo valor posible que sea mayor/igual a 0.5
 mediana <- x[mediana]
 mediana
 
+# Varianza
+varianza <- n * p * (1 - p)
+varianza.formula.universal <- sum((x-media)^2*fx)
+varianza
+varianza.formula.universal
+
+# Desviacion Estándar
+d.e <- sqrt(varianza)
+d.e
+
 # Graficas
+
+x11()
+main <- "Función de densidad binomial"
+xlab <- "x: número de juegos ganados"
+ylab <- "f(x): probabilidad"
+
 plot(x, fx, xlab = xlab, ylab = ylab, main = main,
      type = "p", pch = 19, col = "red")
 
