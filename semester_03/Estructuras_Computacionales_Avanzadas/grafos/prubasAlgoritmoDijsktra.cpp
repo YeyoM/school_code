@@ -48,19 +48,17 @@ string rutasTemporales[6] = {"", "", "", "", "", ""};
 int temp[6] = {999, 999, 999, 999, 999, 999};
 
 int minVal = 999;
-int indiceMin = -1;
-
-int indiceCabeza = 0;
+int indiceMin = 0;
 
 int main() {
 
   int matriz[6][6] = {
     {0,  10, 0,  0,  0,  9},
-    {10, 0,  5,  8,  13, 0},
-    {0,  5,  0,  4,  0,  3},
-    {0,  8,  4,  0,  2,  5},
-    {0,  13, 0,  1,  0,  15},
-    {9,  0,  3,  5,  15, 0}
+    {0,  0,  5,  8,  13, 0},
+    {0,  0,  0,  4,  0,  3},
+    {0,  0,  0,  0,  2,  5},
+    {0,  0,  0,  0,  0,  15},
+    {0,  0,  0,  0,  0,  0}
   };
 
   // Guardamos la primer fila de la matriz en la matriz de caminos acumulados
@@ -74,62 +72,55 @@ int main() {
 
   // 6 - 1 por que ya tenemos el nodo inicial (a o 0)
   for (int i = 0; i < 6 - 1; i++) {
+    // recorrer la matriz de caminos acumulados
     for (int j = 0; j < 6; j++) {
-      if (temp[j] < minVal && permanentes[j] == 0) {
-        minVal = temp[j];
-        indiceMin = j;
+      if (MatrizCaminosAcumulados[i][j] != 0 && permanentes[j] == 0) {
+        temp[j] = MatrizCaminosAcumulados[i][j];
       }
-    }
-    // cout << "El nodo " << indiceMin << " es el nodo mas cercano con una distancia de " << minVal << " desde " << rutasTemporales[indiceMin] << endl;
-    
-    permanentes[indiceMin] = 1;
-    rutasAdyacentes[contadorRutas] = rutasTemporales[indiceMin] + (char)(indiceMin + 97);
-    rutasAdyacentesInt[contadorRutas] = indiceMin;
-    contadorRutas++;
-    indiceCabeza = indiceMin;
-
-    // cout << "Rutas adyacentes: ";
-    // for (int i = 0; i < 6; i++) {
-    //   cout << rutasAdyacentes[i] << " ";
-    // }
-    // cout << endl;
-
-    for (int j = 0; j < 6; j++) {
-      if (matriz[indiceCabeza][j] != 0 && permanentes[j] == 0) {
-        if (matriz[indiceCabeza][j] + minVal < temp[j]) {
-          temp[j] = matriz[indiceCabeza][j] + minVal;
-          rutasTemporales[j] = rutasAdyacentes[contadorRutas - 1];
+      // onbtenemos el minimo de la matriz temporal
+      for (int k = 0; k < 6; k++) {
+        if (temp[k] < minVal && permanentes[k] == 0) {
+          minVal = temp[k];
+          indiceMin = k;
         }
       }
     }
-
+    
+    // marcamos el nodo como permanente
+    permanentes[indiceMin] = 1;
+    // agregamos la ruta al nodo adyacente
+    rutasAdyacentes[contadorRutas] = rutasTemporales[indiceMin] + (char)(indiceMin + 97);
+    rutasAdyacentesInt[contadorRutas] = temp[indiceMin] + rutasAdyacentesInt[contadorRutas - 1];
+    contadorRutas++;
+    // recorremos la matriz de caminos acumulados y la actualizamos
+    for (int k = 0; k < 6; k++) {
+      if (MatrizCaminosAcumulados[i][k] != 0 && permanentes[k] == 0) {
+        MatrizCaminosAcumulados[i + 1][k] = MatrizCaminosAcumulados[i][k] + matriz[i + 1][k];
+      }
+      if (matriz[i + 1][k] != 0 && permanentes[k] == 0) {
+        MatrizCaminosAcumulados[i + 1][k] = matriz[i + 1][k] + rutasAdyacentesInt[i];
+      }
+    }
+    // actualizamos el array de rutas temporales
+    rutasTemporales[indiceMin] = "";
+    for (int k = 0; k < 6; k++) {
+      if (MatrizCaminosAcumulados[i + 1][k] != 0 && rutasTemporales[k] == "") {
+        rutasTemporales[k] = rutasAdyacentes[contadorRutas - 1];
+      }
+    }
+    // reiniciamos las variables
     minVal = 999;
-    indiceMin = -1;
-
-    for (int j = 0; j < 6; j++) {
-      MatrizCaminosAcumulados[contadorRutas - 1][j] = temp[j];
-    } 
-
-    // cout << "Matriz de caminos acumulados: " << endl;
-    // for (int i = 0; i < 6; i++) {
-    //   for (int j = 0; j < 6; j++) {
-    //     cout << MatrizCaminosAcumulados[i][j] << " ";
-    //   }
-    //   cout << endl;
-    // }
-
-    //cout << "Rutas temporales: ";
-    //for (int i = 0; i < 6; i++) {
-    //  cout << rutasTemporales[i] << " ";
-    //}
-    //cout << endl;
-
+    indiceMin = 0;
+    // imprimimos las rMatrizCaminosAcumulados
+    for (int k = 0; k < 6; k++) {
+      cout << MatrizCaminosAcumulados[i + 1][k] << " ";
+    }
+    cout << endl;
   }
 
-  // Imprimimos las rutas con el peso del camino a cada nodo
-  cout << "Rutas mas cortas: " << endl;
+  // Imprimimos las rutas
   for (int i = 0; i < 6; i++) {
-    cout << rutasAdyacentes[i] << " -> " << MatrizCaminosAcumulados[contadorRutas - 1][i] << endl;
+    cout << rutasAdyacentes[i] << endl;
   }
 
   return 0;
