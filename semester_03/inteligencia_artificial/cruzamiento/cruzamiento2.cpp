@@ -24,6 +24,8 @@
 #include <time.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <algorithm>
+#include <iterator>
 #include <cstring>
 using namespace std;
 
@@ -57,7 +59,7 @@ int aleatorioEnRango(int minimo, int maximo) {
  * @param longitud La longitud de la cadena a generar
  * @param destino La cadena donde se almacenará la cadena aleatoria
 */
-void cadenaAleatoria(int longitud, char *destino) {
+int cadenaAleatoria(int longitud, char *destino) {
   char muestra[] = "01";
   for (int x = 0; x < longitud; x++) {
     int indiceAleatorio = aleatorioEnRango(0, (int) strlen(muestra) - 1);
@@ -74,14 +76,13 @@ void cadenaAleatoria(int longitud, char *destino) {
 int largestAmountCeros(int arr[], int n) {
   int i;
   int max = arr[0];
-  for (i = 1; i < n; i++) {
+  for (i = 0; i < n; i++) {
     if (arr[i] > max) {
       max = arr[i];
     }
   }
   return max;
 }
-
 
 int main() {
 
@@ -102,6 +103,8 @@ int main() {
 
   /* Definiendo el arreglo de cadenas. (copia) */
   string binariosCopy1[(NUMERO_DE_CADENAS / 2) + 1][(NUMERO_DE_CADENAS / 2) + 1];
+  string binariosCopy2[(NUMERO_DE_CADENAS / 2) + 1][(NUMERO_DE_CADENAS / 2) + 1];
+
   /* Definiendo el arreglo de chars para cuando generamos las cadenas */
   char destino[LONGITUD_DESEADA + 1] = "";
 
@@ -118,7 +121,7 @@ int main() {
     /* Generando las cadenas aleatorias. (solo en generacion 1)*/
     if (k == 0) {
       // Generamos los 10 primeros individuos (generacion 1)
-      for (int i = 0; i < NUMERO_DE_CADENAS; i++) {
+      for (int i = 0; i < 10; i++) {
         // Creamos la cadena aleatoria
         cadenaAleatoria(LONGITUD_DESEADA, destino);
         // Guardamos la cadena en el arreglo
@@ -129,15 +132,47 @@ int main() {
         ceros[i] = countOccurrences(auxiliar, binarios1[k][i]);
       }
     } else {
-      for (int i = 0; i < 10; i++) {
-    	  int num2 = 1 + rand() % (10 - 1);
-        //junto ambas cadenas dependiendo del punto de fusion
-        binarios1[k][i] = binarios1[k-1][i].substr(0, num2) + binarios1[k-1][9-i].substr(num2, 9);
-        // Guardamos la cadena en el arreglo de copias
+      // Seleccionamos 6 elementos al azar de la generacion anterior y los 4
+      int indicesAleatorios[6];
+      int seleccionados = 0;
+      int iterador = 0;
+
+      while (seleccionados < 6) {
+        int indiceAleatorio = aleatorioEnRango(0, 9);
+        bool exists = std::find(std::begin(indicesAleatorios), std::end(indicesAleatorios), indiceAleatorio) != std::end(indicesAleatorios);
+        if (!exists) {
+          indicesAleatorios[iterador] = indiceAleatorio;
+          iterador++;
+          seleccionados++;
+        }
+      }
+      
+      for (int i = 0; i < 6; i++) {
+        int num2 = 1 + rand() % (10 - 1);
+        binarios1[k][i] = binarios1[k-1][indicesAleatorios[i]].substr(0, num2) + binarios1[k-1][indicesAleatorios[6-i]].substr(num2, 9);
         binariosCopy1[k][i] = binarios1[k][i];
-        // ir guardando el numero de 0's en el array
         ceros[i] = countOccurrences(auxiliar, binarios1[k][i]);
       }
+
+      int indicesNoAleatorios[4];
+      int noSeleccionados = 0;
+      int iterador2 = 0;
+      // Ingresar los 4 elementos que no se seleccionaron
+      for (int j = 0; j < 10; j++) {
+        bool exists = std::find(std::begin(indicesAleatorios), std::end(indicesAleatorios), j) != std::end(indicesAleatorios);
+        if (!exists) {
+          indicesNoAleatorios[iterador2] = j;
+          iterador2++;
+          noSeleccionados++;
+        }
+      }
+
+      for (int i = 6; i < 10; i++) {
+        binarios1[k][i] = binarios1[k-1][indicesNoAleatorios[i-6]];
+        binariosCopy1[k][i] = binarios1[k][i];
+        ceros[i] = countOccurrences(auxiliar, binarios1[k][i]);
+      }
+
     }
 
     // Ordenando
@@ -160,9 +195,17 @@ int main() {
 
     // Imprimimos la generacion
     for (int i = 0; i < 10; i++) {
-      cout << i << ":" << binarios1[k][i] << ":";
+      cout << i + 1 << ":" << binarios1[k][i] << ":";
       //aqui cuento la cantidad de 0 que hay
       cout << countOccurrences(auxiliar, binarios1[k][i]) << endl;
+    }
+
+    // Si algun integrante de la generacion llega 10 ceros se detiene el programa
+    for (int i = 0; i < 10; i++) {
+      if (countOccurrences(auxiliar, binarios1[k][i]) == LONGITUD_DESEADA) {
+        cout << "Se encontro la cadena con 10 ceros en la generacion " << k + 1 << endl;
+        return 0;
+      }
     }
 
     // Imprimimos la suma de los 0's de la generacion
@@ -173,6 +216,7 @@ int main() {
     cout << "Suma de 0's: " << suma << endl;
   }
 
+  // main loop 2
   for (int k = 0; k < NUMERO_DE_CADENAS / 2; k++) {
 
     cout << "--------------------------" << endl;
@@ -180,25 +224,89 @@ int main() {
 	  cout << "--------------------------" << endl;
 
     if (k == 0) {
-      for (int i = 0; i < 10; i++) {
-    	  int num2 = 1 + rand() % (10 - 1);
-        string aux = binarios1[NUMERO_DE_CADENAS / 2 - 1][i].substr(0, num2) + binarios1[NUMERO_DE_CADENAS / 2 - 1][9-i].substr(num2, 9);
-        //junto ambas cadenas dependiendo del punto de fusion
-        binarios2[k][i] = aux;
-        binariosCopy1[k][i] = aux;
-        // Guardamos la cadena en el arreglo de copias
+      // Seleccionamos 6 elementos al azar de la generacion anterior y los 4
+      int indicesAleatorios[6];
+      int seleccionados = 0;
+      int iterador = 0;
+
+      while (seleccionados < 6) {
+        int indiceAleatorio = aleatorioEnRango(0, 9);
+        bool exists = std::find(std::begin(indicesAleatorios), std::end(indicesAleatorios), indiceAleatorio) != std::end(indicesAleatorios);
+        if (!exists) {
+          indicesAleatorios[iterador] = indiceAleatorio;
+          iterador++;
+          seleccionados++;
+        }
+      }
+      
+      for (int i = 0; i < 6; i++) {
+        int num2 = 1 + rand() % (10 - 1);
+        binarios2[k][i] = binarios1[NUMERO_DE_CADENAS / 2 - 1][indicesAleatorios[i]].substr(0, num2) + binarios1[NUMERO_DE_CADENAS / 2 - 1][indicesAleatorios[5-i]].substr(num2, 9);
+        binariosCopy2[k][i] = binarios2[k][i];
         ceros[i] = countOccurrences(auxiliar, binarios2[k][i]);
       }
+
+      int indicesNoAleatorios[4];
+      int noSeleccionados = 0;
+      int iterador2 = 0;
+      // Ingresar los 4 elementos que no se seleccionaron
+      for (int j = 0; j < 10; j++) {
+        bool exists = std::find(std::begin(indicesAleatorios), std::end(indicesAleatorios), j) != std::end(indicesAleatorios);
+        if (!exists) {
+          indicesNoAleatorios[iterador2] = j;
+          iterador2++;
+          noSeleccionados++;
+        }
+      }
+
+      for (int i = 6; i < 10; i++) {
+        binarios2[k][i] = binarios1[NUMERO_DE_CADENAS / 2 - 1][indicesNoAleatorios[i-6]];
+        binariosCopy2[k][i] = binarios2[k][i];
+        ceros[i] = countOccurrences(auxiliar, binarios2[k][i]);
+      }
+
     } else {
-      for (int i = 0; i < 10; i++) {
-    	  int num2 = 1 + rand() % (10 - 1);
-        //junto ambas cadenas dependiendo del punto de fusion
-        binarios2[k][i] = binarios2[k-1][i].substr(0, num2) + binarios2[k-1][9-i].substr(num2, 9);
-        // Guardamos la cadena en el arreglo de copias
-        binariosCopy1[k][i] = binarios2[k][i];
-        // ir guardando el numero de 0's en el array
+      // Seleccionamos 6 elementos al azar de la generacion anterior y los 4
+      int indicesAleatorios[6];
+      int seleccionados = 0;
+      int iterador = 0;
+
+      while (seleccionados < 6) {
+        int indiceAleatorio = aleatorioEnRango(0, 9);
+        bool exists = std::find(std::begin(indicesAleatorios), std::end(indicesAleatorios), indiceAleatorio) != std::end(indicesAleatorios);
+        if (!exists) {
+          indicesAleatorios[iterador] = indiceAleatorio;
+          iterador++;
+          seleccionados++;
+        }
+      }
+      
+      for (int i = 0; i < 6; i++) {
+        int num2 = 1 + rand() % (10 - 1);
+        binarios2[k][i] = binarios2[k-1][indicesAleatorios[i]].substr(0, num2) + binarios2[k-1][indicesAleatorios[5-i]].substr(num2, 9);
+        binariosCopy2[k][i] = binarios2[k][i];
         ceros[i] = countOccurrences(auxiliar, binarios2[k][i]);
       }
+
+      int indicesNoAleatorios[4];
+      int noSeleccionados = 0;
+      int iterador2 = 0;
+      // Ingresar los 4 elementos que no se seleccionaron
+      for (int j = 0; j < 10; j++) {
+        bool exists = std::find(std::begin(indicesAleatorios), std::end(indicesAleatorios), j) != std::end(indicesAleatorios);
+        if (!exists) {
+          indicesNoAleatorios[iterador2] = j;
+          iterador2++;
+          noSeleccionados++;
+        }
+      }
+
+      for (int i = 6; i < 10; i++) {
+        binarios2[k][i] = binarios2[k-1][indicesNoAleatorios[i-6]];
+        binariosCopy2[k][i] = binarios2[k][i];
+        ceros[i] = countOccurrences(auxiliar, binarios2[k][i]);
+      }
+
     }
 
     // Ordenando
@@ -215,15 +323,23 @@ int main() {
       }
       // Guardamos la cadena con mas 0's en el arreglo original
       // usando el indice de la cadena con mas 0's y el arreglo de copias
-      binarios2[k][i] = binariosCopy1[k][index];
+      binarios2[k][i] = binariosCopy2[k][index];
       ceros[index] = -1;
     }
 
     // Imprimimos la generacion
     for (int i = 0; i < 10; i++) {
-      cout << i << ":" << binarios2[k][i] << ":";
+      cout << i + 1 << ":" << binarios2[k][i] << ":";
       //aqui cuento la cantidad de 0 que hay
       cout << countOccurrences(auxiliar, binarios2[k][i]) << endl;
+    }
+
+    // Si algun integrante de la generacion llega 10 ceros se detiene el programa
+    for (int i = 0; i < 10; i++) {
+      if (countOccurrences(auxiliar, binarios2[k][i]) == LONGITUD_DESEADA) {
+        cout << "Se encontro la cadena con 10 ceros en la generacion " << k + 1 << endl;
+        return 0;
+      }
     }
 
     // Imprimimos la suma de los 0's de la generacion
@@ -232,7 +348,6 @@ int main() {
       suma += countOccurrences(auxiliar, binarios2[k][i]);
     }
     cout << "Suma de 0's: " << suma << endl;
-
   }
 		
   return 0;
