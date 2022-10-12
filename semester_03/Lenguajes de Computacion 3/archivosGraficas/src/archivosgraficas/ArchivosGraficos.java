@@ -68,6 +68,11 @@ public class ArchivosGraficos extends javax.swing.JFrame {
 
         displayDatos.setColumns(20);
         displayDatos.setRows(5);
+        displayDatos.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                displayDatosCaretUpdate(evt);
+            }
+        });
         jScrollPane1.setViewportView(displayDatos);
 
         organizarBtn.setText("Organizar Datos");
@@ -216,6 +221,10 @@ public class ArchivosGraficos extends javax.swing.JFrame {
         panel.setSize(800, 400);  
         panel.setVisible(true);  
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void displayDatosCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_displayDatosCaretUpdate
+        // TODO add your handling code here:
+    }//GEN-LAST:event_displayDatosCaretUpdate
 
     /**
      * @param args the command line arguments
