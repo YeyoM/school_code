@@ -30,7 +30,7 @@ int iteradorPesos = 0;
 string aristasArbolExpansionMinimo[6];
 int iteradorArbolExpansionMinimo = 0; 
 
-string visitados[6] = {"", "", "", "", "", ""};
+string visitados[10] = {"", "", "", "", "", "", "", "", "", ""};
 int iteradorVisitados = 0;
 
 int main() {
@@ -68,12 +68,12 @@ int main() {
   }
 
   // Mostrar los pesos de las aristas con sus indices
-  cout << "Pesos de las aristas: " << endl;
-  for (int i = 0; i < 36; i++) {
-    if (pesos[i] != 0) {
-      cout << aristas[i] << " = " << pesos[i] << endl;
-    }
-  }
+  // cout << "Pesos de las aristas: " << endl;
+  // for (int i = 0; i < 36; i++) {
+  //   if (pesos[i] != 0) {
+  //     cout << aristas[i] << " = " << pesos[i] << endl;
+  //   }
+  // }
 
   // Ordenar los pesos de menor a mayor
   for (int i = 0; i < 36; i++) {
@@ -90,16 +90,21 @@ int main() {
   }
 
   // Mostrar los pesos de las aristas con sus indices
-  cout << "Pesos de las aristas: " << endl;
+  // cout << "Pesos de las aristas: " << endl;
+  // for (int i = 0; i < 36; i++) {
+  //   if (pesos[i] != 0) {
+  //     cout << aristas[i] << " = " << pesos[i] << " " << i << endl;
+  //   }
+  // }
+
   for (int i = 0; i < 36; i++) {
     if (pesos[i] != 0) {
-      cout << aristas[i] << " = " << pesos[i] << endl;
+      iteradorPesos = i;
+      break;
     }
   }
 
-  iteradorPesos = 0;
-
-  while(iteradorArbolExpansionMinimo < 6 - 1) {
+  while(iteradorArbolExpansionMinimo < 6 - 2) {
     // Tomar la arista de menor peso
     string arista = aristas[iteradorPesos];
     // Si la arista no forma un ciclo, se agrega al arbol de expansion minimo
@@ -127,8 +132,20 @@ int main() {
     }
 
     // Si ninguno o solo uno de los nodos esta visitado, se agrega al arbol de expansion minimo
-    
+    if (!(estaVisitadoA && estaVisitadoB)) {
+      aristasArbolExpansionMinimo[iteradorArbolExpansionMinimo] = arista;
+      iteradorArbolExpansionMinimo++;
+      visitados[iteradorVisitados] = arista.substr(0, 1);
+      iteradorVisitados++;
+      visitados[iteradorVisitados] = arista.substr(1, 1);
+      iteradorVisitados++;
+    }
+  }
 
+  // Mostrar el arbol de expansion minimo
+  cout << "Arbol de expansion minimo: " << endl;
+  for (int i = 0; i < 6 - 1; i++) {
+    cout << aristasArbolExpansionMinimo[i] << endl;
   }
 
   return 0;
