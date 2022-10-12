@@ -14,6 +14,19 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.ItemLabelAnchor;
+import org.jfree.chart.labels.ItemLabelPosition;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.TextAnchor;
 
 /**
  *
@@ -73,6 +86,11 @@ public class examenGraficas extends javax.swing.JFrame {
         });
 
         generarBtn.setText("Generar Gráfica");
+        generarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generarBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -82,13 +100,15 @@ public class examenGraficas extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(leerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(leerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(organizarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(generarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
+                        .addComponent(organizarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(generarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,9 +117,9 @@ public class examenGraficas extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(leerBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
-                    .addComponent(generarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(organizarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(leerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(organizarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(generarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -133,27 +153,110 @@ public class examenGraficas extends javax.swing.JFrame {
         String datos = displayDatos.getText();
         // System.out.println(datos);
         StringTokenizer st = new StringTokenizer(datos, "\n");
-        int iterador = 1;
         String hombre = (char)34 + "H" + (char)34;
         String mujer = (char)34 + "M" + (char)34;
+        String estado1 = "1";
+        String estado24 = "24";
+        String estado32 = "32";
+        String estado = null;
+        String sexo = null;
         
         while(st.hasMoreTokens()) {
             StringTokenizer st2 = new StringTokenizer(st.nextToken(), ",");
             while(st2.hasMoreTokens()) {
                 String actual = st2.nextToken();
                 if (actual.equals(hombre)) {
-                    System.out.println("Hombre -> " + actual);
-                    System.out.println("Estado -> " + st2.nextToken());
+                    sexo = actual;
+                    estado = st2.nextToken();
                 } else if (actual.equals(mujer)) {
-                    System.out.println("Mujer -> " + actual);
-                    System.out.println("Estado -> " + st2.nextToken());
+                    sexo = actual;
+                    estado = st2.nextToken();
                 } else {
-                    System.out.println("Dato -> " + actual);
+                    if (sexo.equals(mujer) && estado.equals(estado1)) {
+                        salarioMujeresEstado1[0] += Integer.parseInt(actual);
+                        salarioMujeresEstado1[1] += 1;
+                    } else if (sexo.equals(mujer) && estado.equals(estado24)) {
+                        salarioMujeresEstado24[0] += Integer.parseInt(actual);
+                        salarioMujeresEstado24[1] += 1;
+                    } else if (sexo.equals(mujer) && estado.equals(estado32)) {
+                        salarioMujeresEstado32[0] += Integer.parseInt(actual);
+                        salarioMujeresEstado32[1] += 1;
+                    } else if (sexo.equals(hombre) && estado.equals(estado1)) {
+                        salarioHombresEstado1[0] += Integer.parseInt(actual);
+                        salarioHombresEstado1[1] += 1;
+                    } else if (sexo.equals(hombre) && estado.equals(estado24)) {
+                        salarioHombresEstado24[0] += Integer.parseInt(actual);
+                        salarioHombresEstado24[1] += 1;
+                    } else if (sexo.equals(hombre) && estado.equals(estado32)) {
+                        salarioHombresEstado32[0] += Integer.parseInt(actual);
+                        salarioHombresEstado32[1] += 1;
+                    }
                 }
             }
-        }        
+        }    
     }//GEN-LAST:event_organizarBtnActionPerformed
 
+    private void generarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generarBtnActionPerformed
+        // TODO add your handling code here:
+
+        CategoryDataset dataset = createDataset();  
+        JFreeChart chart = ChartFactory.createBarChart(  
+            "Salarios entre hombres y mujeres por estados", //Chart Title  
+            "", // Category axis  
+            "Salario promedio en MXN", // Value axis  
+            dataset,  
+            PlotOrientation.VERTICAL,  
+            true,true,false  
+        );
+        
+        CategoryItemRenderer renderer = ((CategoryPlot)chart.getPlot()).getRenderer();
+        renderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+        renderer.setBaseItemLabelsVisible(true);
+        ItemLabelPosition position = new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, 
+                TextAnchor.TOP_CENTER);
+        renderer.setBasePositiveItemLabelPosition(position);
+        
+      
+        JFrame frame = new JFrame("Salarios entre hombres y mujeres por estados");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(new ChartPanel(chart));
+        frame.setLocationByPlatform(true);
+        frame.pack();
+        frame.setVisible(true); 
+    }//GEN-LAST:event_generarBtnActionPerformed
+
+    private CategoryDataset createDataset() {  
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();  
+      
+        double promedioMujeres1;
+        promedioMujeres1 = Double.valueOf(salarioMujeresEstado1[0])  / Double.valueOf(salarioMujeresEstado1[1]);
+        double promedioMujeres24;
+        promedioMujeres24 = Double.valueOf(salarioMujeresEstado24[0]) / Double.valueOf(salarioMujeresEstado24[1]);
+        double promedioMujeres32;
+        promedioMujeres32 = Double.valueOf(salarioMujeresEstado32[0]) / Double.valueOf(salarioMujeresEstado32[1]);
+        double promedioHombres1;
+        promedioHombres1 = Double.valueOf(salarioHombresEstado1[0])  / Double.valueOf(salarioHombresEstado1[1]);
+        double promedioHombres24;
+        promedioHombres24 = Double.valueOf(salarioHombresEstado24[0]) / Double.valueOf(salarioHombresEstado24[1]);
+        double promedioHombres32;
+        promedioHombres32 = Double.valueOf(salarioHombresEstado32[0]) / Double.valueOf(salarioHombresEstado32[1]);
+
+        
+        // Estado 1
+        dataset.addValue(promedioMujeres1, "Mujeres", "Estado 1");  
+        dataset.addValue(promedioHombres1, "Hombres", "Estado 1");  
+      
+        // Estado 24
+        dataset.addValue(promedioMujeres24, "Mujeres", "Estado 24");  
+        dataset.addValue(promedioHombres24, "Hombres", "Estado 24");  
+      
+        // Estado 32 
+        dataset.addValue(promedioMujeres32, "Mujeres", "Estado 32");  
+        dataset.addValue(promedioHombres32, "Hombres", "Estado 32");  
+      
+        return dataset;  
+    }  
+    
     /**
      * @param args the command line arguments
      */
