@@ -143,6 +143,7 @@ int main() {
 
       while (seleccionados < 6) {
         int indiceAleatorio = aleatorioEnRango(0, 9);
+        // esta variable comprueba si el valor de indice aleatorio ya fue elegido o no
         bool exists = std::find(std::begin(indicesAleatorios), std::end(indicesAleatorios), indiceAleatorio) != std::end(indicesAleatorios);
         if (!exists) {
           indicesAleatorios[iterador] = indiceAleatorio;
@@ -154,10 +155,12 @@ int main() {
       // Cruzamos los 6 elementos seleccionados
       for (int i = 0; i < 6; i++) {
         int num2 = 1 + rand() % (10 - 1);
+        // creamos la nueva cadena
         string nuevaCadena = binarios1[k-1][indicesAleatorios[i]].substr(0, num2) + binarios1[k-1][indicesAleatorios[6-i]].substr(num2, 9);
         // aqui checamos si la nueva cadena tiene mas ceros que su padre
         int cerosHijo = countOccurrences(auxiliar, nuevaCadena);
         int cerosPadre = countOccurrences(auxiliar, binarios1[k-1][indicesAleatorios[i]]);
+        // aqui decidimos con que nueva cadena nos quedamos
         if (cerosHijo > cerosPadre) {
           binarios1[k][i] = nuevaCadena;
         } else {
@@ -211,7 +214,7 @@ int main() {
         binariosCopy1[k][i] = binarios1[k][i];
       }
 
-      // Si algun integrante de la generacion llega 10 ceros se detiene el programa
+      // contamos cuantos individuos de la generacion tienen 10 ceros
       int individuos = 0;
       for (int i = 0; i < 10; i++) {
         if (countOccurrences(auxiliar, binarios1[k][i]) == LONGITUD_DESEADA) {
@@ -219,21 +222,6 @@ int main() {
         }  
         individuosCeros = individuos;
       }
-
-      /**
-       * Aqui tenemos que mutar, justo depues de ordenar solo en generacion que no sea 1
-       * a) Tomando como restricción los últimos 5 individuos, 
-       *    elegir 2 individuos al azar, que sería equivalente al 20% de la población.
-       * b) Generar para cada individuo seleccionado (de los dos), 
-       *    un porcentaje del 10 al 40%, para elegir con su porcentaje el 
-       *    cambio(mutación) del bit( 0 cambia a 1, ó 1 cambia a 0); si se generó
-       *    10%   mutar 1 bit al azar
-       *    20%   mutar 2 bit al azar
-       *    30%   mutar 1 bit al azar
-       *    40%   mutar 2 bit al azar
-       * c) Elegir al azar los puntos o bits a mutar, de acuerdo al porcentaje del punto b
-       * d) Volver a ordenar y repetir la acción para cada generación
-      */
 
       if (individuosCeros < 8) {
         // Seleccionamos 2 elementos al azar de la generacion anterior (los ultimos 5)
@@ -243,6 +231,8 @@ int main() {
         int indiceParaMutacion;
 
         while(seleccionados < 2) {
+          // en caso de que haya mas de cinco elementos con diez ceros
+          // solo tomamos lo elelemntos que aun no tienen 10 ceros
           if (individuosCeros >= 5) {
             indiceParaMutacion = aleatorioEnRango(individuosCeros, 9);
           } else {
@@ -272,8 +262,6 @@ int main() {
             }
           }
         }
-
-        
 
         // Contando los 0's de cada cadena
         for (int i = 0; i < 10; i++) {
@@ -463,21 +451,6 @@ int main() {
         }  
         individuosCeros = individuos;
       }
-
-      /**
-       * Aqui tenemos que mutar, justo depues de ordenar solo en generacion que no sea 1
-       * a) Tomando como restricción los últimos 5 individuos, 
-       *    elegir 2 individuos al azar, que sería equivalente al 20% de la población.
-       * b) Generar para cada individuo seleccionado (de los dos), 
-       *    un porcentaje del 10 al 40%, para elegir con su porcentaje el 
-       *    cambio(mutación) del bit( 0 cambia a 1, ó 1 cambia a 0); si se generó
-       *    10%   mutar 1 bit al azar
-       *    20%   mutar 2 bit al azar
-       *    30%   mutar 1 bit al azar
-       *    40%   mutar 2 bit al azar
-       * c) Elegir al azar los puntos o bits a mutar, de acuerdo al porcentaje del punto b
-       * d) Volver a ordenar y repetir la acción para cada generación
-      */
 
       if (individuosCeros < 8) {
         // Seleccionamos 2 elementos al azar de la generacion anterior (los ultimos 5)

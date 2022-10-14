@@ -209,12 +209,12 @@ public class examenGraficas extends javax.swing.JFrame {
             true,true,false  
         );
         
-        CategoryItemRenderer renderer = ((CategoryPlot)chart.getPlot()).getRenderer();
-        renderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
-        renderer.setBaseItemLabelsVisible(true);
-        ItemLabelPosition position = new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, 
-                TextAnchor.TOP_CENTER);
-        renderer.setBasePositiveItemLabelPosition(position);
+        //CategoryItemRenderer renderer = ((CategoryPlot)chart.getPlot()).getRenderer();
+        // renderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+        // renderer.setBaseItemLabelsVisible(true);
+        // ItemLabelPosition position = new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, 
+        //        TextAnchor.TOP_CENTER);
+        //renderer.setBasePositiveItemLabelPosition(position);
         
       
         JFrame frame = new JFrame("Salarios entre hombres y mujeres por estados");
@@ -243,16 +243,16 @@ public class examenGraficas extends javax.swing.JFrame {
 
         
         // Estado 1
-        dataset.addValue(promedioMujeres1, "Mujeres", "Estado 1");  
-        dataset.addValue(promedioHombres1, "Hombres", "Estado 1");  
+        dataset.addValue(promedioMujeres1 * 2, "Mujeres", "Estado 1");  
+        dataset.addValue(promedioHombres1 * 2, "Hombres", "Estado 1");  
       
         // Estado 24
-        dataset.addValue(promedioMujeres24, "Mujeres", "Estado 24");  
-        dataset.addValue(promedioHombres24, "Hombres", "Estado 24");  
+        dataset.addValue(promedioMujeres24 * 2, "Mujeres", "Estado 24");  
+        dataset.addValue(promedioHombres24 * 2, "Hombres", "Estado 24");  
       
         // Estado 32 
-        dataset.addValue(promedioMujeres32, "Mujeres", "Estado 32");  
-        dataset.addValue(promedioHombres32, "Hombres", "Estado 32");  
+        dataset.addValue(promedioMujeres32 * 2, "Mujeres", "Estado 32");  
+        dataset.addValue(promedioHombres32 * 2, "Hombres", "Estado 32");  
       
         return dataset;  
     }  
