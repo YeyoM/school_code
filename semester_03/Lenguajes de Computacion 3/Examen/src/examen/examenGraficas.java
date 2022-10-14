@@ -285,10 +285,8 @@ public class examenGraficas extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new examenGraficas().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new examenGraficas().setVisible(true);
         });
     }
 
