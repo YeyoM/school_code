@@ -139,6 +139,24 @@ int sumaCerosGeneracion(string individuos[], int n, int k) {
   return suma;
 }
 
+void ordenarGeneracion(string generacion[10], string generacionCopia[10], int ceros[11]) {
+  for (int i = 0; i < 10; i++) {
+    int max_ceros = largestAmountCeros(ceros, 10);
+    int index = 0;
+    for (int j = 0; j < 10; j++) {
+      if (ceros[j] == max_ceros) {
+        index = j;
+        break;
+      }
+    }
+    generacion[i] = generacionCopia[index];
+    ceros[index] = -1;
+  }
+  for (int i = 0; i < 10; i++) {
+    generacionCopia[i] = generacion[i];
+  }
+}
+
 
 int main() {
 
@@ -150,7 +168,6 @@ int main() {
   /* Definiendo el número de individuos a generar. */
   #define NUMERO_DE_CADENAS 125
 
-  /* Inicializando el generador de números aleatorios con el ID del proceso del programa. */
   srand(getpid());
 
   char auxiliar = '0';
@@ -231,23 +248,7 @@ int main() {
       }
 
       // Ordenando
-      for (int i = 0; i < 10; i++) {
-        int max_ceros = largestAmountCeros(ceros, 10);
-        int index = 0;
-        for (int j = 0; j < 10; j++) {
-          if (ceros[j] == max_ceros) {
-            index = j;
-            break;
-          }
-        }
-        binarios1[k][i] = binariosCopy1[k][index];
-        ceros[index] = -1;
-      }
-
-      // Ordenando las copias 
-      for (int i = 0; i < 10; i++) {
-        binariosCopy1[k][i] = binarios1[k][i];
-      }
+      ordenarGeneracion(binarios1[k], binariosCopy1[k], ceros);
 
       // contamos cuantos individuos de la generacion tienen 10 ceros
       individuosCeros = getIndividuosConDiezCeros(binarios1[k], 10);
@@ -300,22 +301,7 @@ int main() {
     }
 
     // Ordenando
-    for (int i = 0; i < 10; i++) {
-      // Obtenemos la cadena con mas 0's
-      int max_ceros = largestAmountCeros(ceros, 10);
-      // Obtenemos el indice de la cadena con mas 0's
-      int index = 0;
-      for (int j = 0; j < 10; j++) {
-        if (ceros[j] == max_ceros) {
-          index = j;
-          break;
-        }
-      }
-      // Guardamos la cadena con mas 0's en el arreglo original
-      // usando el indice de la cadena con mas 0's y el arreglo de copias
-      binarios1[k][i] = binariosCopy1[k][index];
-      ceros[index] = -1;
-    }  
+    ordenarGeneracion(binarios1[k], binariosCopy1[k], ceros); 
 
     mostrarGeneracion(binarios1[k], 10);
     suma = sumaCerosGeneracion(binarios1[k], 10, k);
