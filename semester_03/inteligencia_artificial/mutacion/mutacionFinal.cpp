@@ -45,8 +45,8 @@ int countOccurrences(char c, string &str) {
 
 /**
  * Función para generar un número aleatorio entre un rango
- * @param minimo El número mínimo que se desea generar
- * @param maximo El número máximo que se desea generar
+ * @param minimo Limite mínimo que se desea generar
+ * @param maximo Limite máximo que se desea generar
 */
 int aleatorioEnRango(int minimo, int maximo) {
   return minimo + rand() / (RAND_MAX / (maximo - minimo + 1) + 1);
@@ -71,7 +71,7 @@ int cadenaAleatoria(int longitud, char *destino) {
  * @param n El número de elementos en el arreglo
  * @return El número mayor de ceros en el arreglo
 */
-int largestAmountCeros(int arr[], int n) {
+int maxCeros(int arr[], int n) {
   int i;
   int max = arr[0];
   for (i = 0; i < n; i++) {
@@ -91,7 +91,7 @@ int largestAmountCeros(int arr[], int n) {
  * 
  * @return A boolean value.
  */
-bool existsInArray(int arr[], int n, int x) {
+bool existeEnArray(int arr[], int n, int x) {
   for (int i = 0; i < n; i++) {
     if (arr[i] == x) {
       return true;
@@ -108,9 +108,9 @@ bool existsInArray(int arr[], int n, int x) {
  * 
  * @return El índice del arreglo que no está aun seleccionado
  */
-int getRandomIndex(int arr[], int n) {
+int obtenerIndiceRandom(int arr[], int n) {
   int index = aleatorioEnRango(0, n - 1);
-  while (existsInArray(arr, n, index)) {
+  while (existeEnArray(arr, n, index)) {
     index = aleatorioEnRango(0, n - 1);
   }
   return index;
@@ -119,28 +119,28 @@ int getRandomIndex(int arr[], int n) {
 /**
  * Tomando dos cadenas, devuelve una nueva cadena que es una combinación de las dos
  * 
- * @param parent1 
- * @param parent2 
+ * @param padre1
+ * @param padre2 
  * 
  * @return El hijo de los dos padres
  */
-string generateChildren(string &parent1, string &parent2) {
-  int index = aleatorioEnRango(0, parent1.length() - 1);
-  string child = parent1.substr(0, index) + parent2.substr(index, 9);
-  return child;
+string generarHijo(string &padre1, string &padre2) {
+  int index = aleatorioEnRango(0, padre1.length() - 1);
+  string hijo = padre1.substr(0, index) + padre2.substr(index, 9);
+  return hijo;
 }
 
 /**
  * Retorna true si el hijo tiene más ceros que el padre
  * 
- * @param child 
- * @param parent 
+ * @param hijo
+ * @param padre 
  * 
  * @return true si el hijo tiene más ceros que el padre
  */
-bool compareChildrenParents(string &child, string &parent) {
-  int cerosHijo = countOccurrences('0', child);
-  int cerosPadre = countOccurrences('0', parent);
+bool copararHijoPadre(string &hijo, string &padre) {
+  int cerosHijo = countOccurrences('0', hijo);
+  int cerosPadre = countOccurrences('0', padre);
   return cerosHijo > cerosPadre;
 }
 
@@ -213,7 +213,7 @@ int sumaCerosGeneracion(string individuos[], int n, int k) {
  */
 void ordenarGeneracion(string generacion[10], string generacionCopia[10], int ceros[11]) {
   for (int i = 0; i < 10; i++) {
-    int max_ceros = largestAmountCeros(ceros, 10);
+    int max_ceros = maxCeros(ceros, 10);
     int index = 0;
     for (int j = 0; j < 10; j++) {
       if (ceros[j] == max_ceros) {
@@ -304,14 +304,14 @@ int main() {
 
       // Seleccionamos 6 elementos al azar de la generacion anterior
       for (int i = 0; i < 6; i++) {
-        int indiceAleatorio = getRandomIndex(indicesAleatorios, 10);
+        int indiceAleatorio = obtenerIndiceRandom(indicesAleatorios, 10);
         indicesAleatorios[i] = indiceAleatorio;
       }
 
       // Cruzamos los 6 elementos seleccionados
       for (int i = 0; i < 6; i++) {
-        string nuevaCadena = generateChildren(binarios1[k-1][indicesAleatorios[i]], binarios1[k-1][indicesAleatorios[6-i]]);
-        if (compareChildrenParents(nuevaCadena, binarios1[k-1][indicesAleatorios[i]])) {
+        string nuevaCadena = generarHijo(binarios1[k-1][indicesAleatorios[i]], binarios1[k-1][indicesAleatorios[6-i]]);
+        if (copararHijoPadre(nuevaCadena, binarios1[k-1][indicesAleatorios[i]])) {
           binarios1[k][i] = nuevaCadena;
         } else {
           binarios1[k][i] = binarios1[k-1][indicesAleatorios[i]];
@@ -325,7 +325,7 @@ int main() {
 
       // Ingresar los 4 elementos que no se seleccionaron
       for (int j = 0; j < 10; j++) {
-        bool exists = existsInArray(indicesAleatorios, 10, j);
+        bool exists = existeEnArray(indicesAleatorios, 10, j);
         if (!exists) {
           indicesNoAleatorios[iterador] = j;
           iterador++;
@@ -363,7 +363,7 @@ int main() {
             indiceParaMutacion = aleatorioEnRango(5, 9);
           }
           // Elegimos dos individuos al azar (no repetidos)
-          bool exists = existsInArray(indicesParaMutacion, 2, indiceParaMutacion);
+          bool exists = existeEnArray(indicesParaMutacion, 2, indiceParaMutacion);
           if (!exists) {
             indicesParaMutacion[iterador] = indiceParaMutacion;
             iterador++;
