@@ -168,9 +168,13 @@ int getIndividuosConDiezCeros(string individuos[], int n) {
  * 
  * @param individuos (generacion)
  * @param n numero de individuos en la generacion (10)
+ * @param k numero de la generacion
  */
-void mostrarGeneracion(string individuos[], int n) {
+void mostrarGeneracion(string individuos[], int n, int k) {
   int cerosPorIndividuo = 0;
+  cout << "--------------------------" << endl;
+	cout << "Generacion " << k + 1 << endl;
+	cout << "--------------------------" << endl;
   for (int i = 0; i < n; i++) {
     cout << i + 1 << ":" << individuos[i] << ":";
     cerosPorIndividuo = countOccurrences('0', individuos[i]);
@@ -225,27 +229,26 @@ void ordenarGeneracion(string generacion[10], string generacionCopia[10], int ce
   }
 }
 
+///////////////////////////////////////////////////////////////////// VARAIBLES GLOBALES
+/* Definiendo la longitud de la cadena a generar. */
+#define LONGITUD_DESEADA 10
 
+/* Definiendo el número maximo de generaciones. */
+#define NUMERO_DE_CADENAS 125
+
+/* Definiendo el arreglo de cadenas. */
+string binarios1[NUMERO_DE_CADENAS][NUMERO_DE_CADENAS];
+
+/* Definiendo el arreglo de cadenas. (copia) */
+string binariosCopy1[NUMERO_DE_CADENAS][NUMERO_DE_CADENAS];
+
+///////////////////////////////////////////////////////////////////// MAIN
 int main() {
 
   srand(time(NULL));
-  
-  /* Definiendo la longitud de la cadena a generar. */
-  #define LONGITUD_DESEADA 10
-  
-  /* Definiendo el número de individuos a generar. */
-  #define NUMERO_DE_CADENAS 125
-
   srand(getpid());
 
-  char auxiliar = '0';
-
-  /* Definiendo el arreglo de cadenas. */
-  string binarios1[NUMERO_DE_CADENAS][NUMERO_DE_CADENAS];
-
-  /* Definiendo el arreglo de cadenas. (copia) */
-  string binariosCopy1[NUMERO_DE_CADENAS][NUMERO_DE_CADENAS];
-
+  ///////////////////////////////////////////////////////////////////// VARAIBLES LOCALES
   /* Definiendo el arreglo de chars para cuando generamos las cadenas */
   char destino[LONGITUD_DESEADA + 1] = "";
 
@@ -254,15 +257,18 @@ int main() {
 
   /* Cuenta de el numero de individuos con todos ceros en la generacion */
   int individuosCeros = 0;
-
+  
+  /* Cuenta de el total de ceros en la generacion k */
   int suma = 0;
+
+  /* Cuenta el numero de ceros en cada individuo dado */
   int cerosIndividuo = 0;
 
+  /* Auxiliar para contar los ceros de cada individuo y de las generaciones */
+  char auxiliar = '0';
+
+  ///////////////////////////////////////////////////////////////////// LOOP PRINCIPAL
   for (int k = 0; k < NUMERO_DE_CADENAS; k++) {
-    
-    cout << "--------------------------" << endl;
-	  cout << "Generacion " << k + 1 << endl;
-	  cout << "--------------------------" << endl;
 
     /* Generando las cadenas aleatorias. (solo en generacion 1)*/
     if (k == 0) {
@@ -371,7 +377,7 @@ int main() {
     // Ordenando
     ordenarGeneracion(binarios1[k], binariosCopy1[k], ceros); 
 
-    mostrarGeneracion(binarios1[k], 10);
+    mostrarGeneracion(binarios1[k], 10, k);
     suma = sumaCerosGeneracion(binarios1[k], 10, k);
     if (suma == 100) return 0;
     suma = 0;
