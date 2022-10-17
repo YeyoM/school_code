@@ -43,7 +43,7 @@ mediana<- x[aux[1]]
 mediana
 
 varianza<- n*p*(1-p)
-varianza.formula.universal<- 
+varianza.formula.universal<- x
   sum((x-media)^2*fx)
 varianza.formula.universal
 desviacion.estandar<- sqrt(varianza)
@@ -104,6 +104,15 @@ x<- 0
 f.x<- exp(-mi)*mi^x/factorial(x)
 fx<- dpois(x=x,lambda=mi)
 c(x,fx,f.x)
+
+# c)
+#Z = numero de autos con defectos
+#Z <- bin(n=10, p=0.3935)
+n <- 10
+p <- 0.3935
+z <- 1
+Fz <- pbinom(q = z, size = 10, prob = p)
+Fz
 
 
 

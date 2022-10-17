@@ -292,7 +292,7 @@ int main() {
   ///////////////////////////////////////////////////////////////////// LOOP PRINCIPAL
   for (int k = 0; k < NUMERO_DE_CADENAS; k++) {
 
-    /* Generando las cadenas aleatorias. (solo en generacion 1)*/
+    /* Generando las cadenas aleatorias. (solo en generacion 1) */
     if (k == 0) {
       for (int i = 0; i < 10; i++) {
         cadenaAleatoria(LONGITUD_DESEADA, destino); // Se guarda en destino
@@ -302,13 +302,13 @@ int main() {
       }
     } else {
 
-      // Seleccionamos 6 elementos al azar de la generacion anterior
+      /* Seleccionamos 6 elementos al azar de la generacion anterior */
       for (int i = 0; i < 6; i++) {
         int indiceAleatorio = obtenerIndiceRandom(indicesAleatorios, 10);
         indicesAleatorios[i] = indiceAleatorio;
       }
 
-      // Cruzamos los 6 elementos seleccionados
+      /* Cruzamos los 6 elementos seleccionados */
       for (int i = 0; i < 6; i++) {
         string nuevaCadena = generarHijo(binarios1[k-1][indicesAleatorios[i]], binarios1[k-1][indicesAleatorios[6-i]]);
         if (copararHijoPadre(nuevaCadena, binarios1[k-1][indicesAleatorios[i]])) {
@@ -323,7 +323,7 @@ int main() {
       seleccionados = 0;
       iterador = 0;
 
-      // Ingresar los 4 elementos que no se seleccionaron
+      /* Ingresar los 4 elementos que no se seleccionaron */
       for (int j = 0; j < 10; j++) {
         bool exists = existeEnArray(indicesAleatorios, 10, j);
         if (!exists) {
@@ -333,20 +333,20 @@ int main() {
         }
       }
 
-      // Ingresamos los 4 elementos restantes
+      /* Ingresamos los 4 elementos restantes */
       for (int i = 6; i < 10; i++) {
         binarios1[k][i] = binarios1[k-1][indicesNoAleatorios[i-6]];
         binariosCopy1[k][i] = binarios1[k][i];
         ceros[i] = countOccurrences(auxiliar, binarios1[k][i]);
       }
 
-      // Ordenando
+      /* Ordenando */
       ordenarGeneracion(binarios1[k], binariosCopy1[k], ceros);
 
-      // contamos cuantos individuos de la generacion tienen 10 ceros
+      /* Contamos cuantos individuos de la generacion tienen 10 ceros */
       individuosCeros = getIndividuosConDiezCeros(binarios1[k], 10);
 
-      // Seleccionamos 2 elementos al azar de la generacion anterior de los ultimos 5 o que no tengan 10 ceros
+      /* Seleccionamos 2 elementos al azar de la generacion anterior de los ultimos 5 o que no tengan 10 ceros */
       if (individuosCeros < 8) {
 
         seleccionados = 0;
@@ -354,15 +354,15 @@ int main() {
 
         while(seleccionados < 2) {
           
-          // En caso de que ya existan mas de cinco individuos con 10 ceros 
+          /* En caso de que ya existan mas de cinco individuos con 10 ceros */ 
           if (individuosCeros >= 5) {
             indiceParaMutacion = aleatorioEnRango(individuosCeros, 9);
           } 
-          // Caso contrario, se eligen dos de los ultimos cinco
+          /* Caso contrario, se eligen dos de los ultimos cinco */
           else {
             indiceParaMutacion = aleatorioEnRango(5, 9);
           }
-          // Elegimos dos individuos al azar (no repetidos)
+          /* Elegimos dos individuos al azar (no repetidos) */
           bool exists = existeEnArray(indicesParaMutacion, 2, indiceParaMutacion);
           if (!exists) {
             indicesParaMutacion[iterador] = indiceParaMutacion;
@@ -371,22 +371,22 @@ int main() {
           }
         }
 
-        // Mutamos los 2 elementos seleccionados
+        /* Mutamos los 2 elementos seleccionados */
         for (int i = 0; i < 2; i++) {
           
-          // Seleccionamos un rango entre 10% y 40% (1 y 4)
+          /* Seleccionamos un rango entre 10% y 40% (1 y 4) */
           numBits = aleatorioEnRango(1, 4);
 
-          // Seleccionamos un bit al azar numBits veces
+          /* Seleccionamos un bit al azar numBits veces */
           for (int j = 0; j < numBits; j++) {
             indiceBit = aleatorioEnRango(0, 9);
             
-            // Si el bit es 0, lo cambiamos a 1
+            /* Si el bit es 0, lo cambiamos a 1 */
             if (binarios1[k][indicesParaMutacion[i]][indiceBit] == '0') {
               binarios1[k][indicesParaMutacion[i]][indiceBit] = '1';
               binariosCopy1[k][indicesParaMutacion[i]][indiceBit] = '1';
             } 
-            // Si el bit es 1, lo cambiamos a 0
+            /* Si el bit es 1, lo cambiamos a 0 */
             else {
               binarios1[k][indicesParaMutacion[i]][indiceBit] = '0';
               binariosCopy1[k][indicesParaMutacion[i]][indiceBit] = '0';
@@ -394,23 +394,23 @@ int main() {
           }
         }
 
-        // Contando los 0's de cada cadena
+        /* Contando los 0's de cada cadena */
         for (int i = 0; i < 10; i++) {
           ceros[i] = countOccurrences(auxiliar, binarios1[k][i]);
         }       
       }
     }
 
-    // Ordenando
+    /* Ordenando */
     ordenarGeneracion(binarios1[k], binariosCopy1[k], ceros); 
 
-    // Imprimiendo la generacion
+    /* Imprimiendo la generacion */
     mostrarGeneracion(binarios1[k], 10, k);
 
-    // Obtenemos la suma total de ceros en la generacion
+    /* Obtenemos la suma total de ceros en la generacion */
     suma = sumaCerosGeneracion(binarios1[k], 10, k);
 
-    // En caso de que suma es igual a 100, se termina el programa
+    /* En caso de que suma es igual a 100, se termina el programa */
     if (suma == 100) return 0;
     
     suma = 0;
