@@ -1,5 +1,5 @@
 /**
- * Algoritmo de cruzamiento de bits
+ * Algoritmo de mutacion de bits
  * 
  * Inteligencia Artificial UAA
  * 
@@ -8,7 +8,7 @@
  * - Diego Alberto Aranda                        
  * - Andrea Margarita Balandran Felix  
  * - María Yoselin García Medina                
- * - Moreno Sánchez Diego Emilio @YeyoM        
+ * - Moreno Sánchez Diego Emilio        
  * 
  * Fecha: 10/10/2022
  * 
@@ -25,14 +25,16 @@
 #include <cstring>
 using namespace std;
 
+///////////////////////////////////////////////////////////////////// FUNCIONES
+
 /**
  * Función para contar el número de veces que aparece un caracter en una cadena
  * @param c Caracter a contar
  * @param str Cadena a buscar
  * @return El número de veces que aparece el caracter c en la cadena str
 */
-size_t countOccurrences(char c, string &str) {
-  size_t count = 0;
+int countOccurrences(char c, string &str) {
+  int count = 0;
   for (char i : str) {
     if (i == c) {
       count++;
@@ -80,6 +82,15 @@ int largestAmountCeros(int arr[], int n) {
   return max;
 }
 
+/**
+ * Retorna true si el número x está en el arreglo arr, y false en caso contrario
+ * 
+ * @param arr El arreglo en el que se buscará
+ * @param n el número de elementos en el arreglo
+ * @param x el número a buscar
+ * 
+ * @return A boolean value.
+ */
 bool existsInArray(int arr[], int n, int x) {
   for (int i = 0; i < n; i++) {
     if (arr[i] == x) {
@@ -89,6 +100,14 @@ bool existsInArray(int arr[], int n, int x) {
   return false;
 }
 
+/**
+ * Retorna un índice aleatorio de un arreglo
+ * 
+ * @param arr El arreglo en el que se buscará si el índice existe
+ * @param n El número de elementos en el arreglo
+ * 
+ * @return El índice del arreglo que no está aun seleccionado
+ */
 int getRandomIndex(int arr[], int n) {
   int index = aleatorioEnRango(0, n - 1);
   while (existsInArray(arr, n, index)) {
@@ -97,18 +116,42 @@ int getRandomIndex(int arr[], int n) {
   return index;
 }
 
+/**
+ * Tomando dos cadenas, devuelve una nueva cadena que es una combinación de las dos
+ * 
+ * @param parent1 
+ * @param parent2 
+ * 
+ * @return El hijo de los dos padres
+ */
 string generateChildren(string &parent1, string &parent2) {
   int index = aleatorioEnRango(0, parent1.length() - 1);
   string child = parent1.substr(0, index) + parent2.substr(index, 9);
   return child;
 }
 
+/**
+ * Retorna true si el hijo tiene más ceros que el padre
+ * 
+ * @param child 
+ * @param parent 
+ * 
+ * @return true si el hijo tiene más ceros que el padre
+ */
 bool compareChildrenParents(string &child, string &parent) {
   int cerosHijo = countOccurrences('0', child);
   int cerosPadre = countOccurrences('0', parent);
   return cerosHijo > cerosPadre;
 }
 
+/**
+ * Hace el conteo de individuos con 10 ceros en la generacion
+ * 
+ * @param individuos generacion
+ * @param n individuos en la generacion (10)
+ * 
+ * @return Numero de individuos con 10 ceros
+ */
 int getIndividuosConDiezCeros(string individuos[], int n) {
   int count = 0;
   for (int i = 0; i < n; i++) {
@@ -119,6 +162,13 @@ int getIndividuosConDiezCeros(string individuos[], int n) {
   return count;
 }
 
+/**
+ * Tomando un arreglo de cadenas y un entero como parámetros, imprime las cadenas en el arreglo,
+ * junto con el número de ceros en cada cadena
+ * 
+ * @param individuos (generacion)
+ * @param n numero de individuos en la generacion (10)
+ */
 void mostrarGeneracion(string individuos[], int n) {
   int cerosPorIndividuo = 0;
   for (int i = 0; i < n; i++) {
@@ -128,6 +178,15 @@ void mostrarGeneracion(string individuos[], int n) {
   }
 }
 
+/**
+ * Funcion que cuenta el numero de ceros en la poblacion y retorna la suma
+ * 
+ * @param individuos (generacion)
+ * @param n numero de individuos en la generacion (10)
+ * @param k numero de la generacion
+ * 
+ * @return El total de ceros en la generacion
+ */
 int sumaCerosGeneracion(string individuos[], int n, int k) {
   int suma = 0;
   for (int i = 0; i < n; i++) {
@@ -139,6 +198,15 @@ int sumaCerosGeneracion(string individuos[], int n, int k) {
   return suma;
 }
 
+/**
+ * Tomando un arreglo de cadenas, un arreglo de cadenas(copia del primero) y 
+ * un arreglo de enteros como parámetros, ordena el primer arreglo de cadenas 
+ * basado en los enteros en el tercer arreglo
+ * 
+ * @param generacion Generacion que se ordenara
+ * @param generacionCopia Generacion copia para ordenar la generacion original
+ * @param ceros Array de enteros que contiene el numero de ceros de cada individuo
+ */
 void ordenarGeneracion(string generacion[10], string generacionCopia[10], int ceros[11]) {
   for (int i = 0; i < 10; i++) {
     int max_ceros = largestAmountCeros(ceros, 10);
