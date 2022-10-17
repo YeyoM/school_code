@@ -120,10 +120,25 @@ int getIndividuosConDiezCeros(string individuos[], int n) {
 }
 
 void mostrarGeneracion(string individuos[], int n) {
+  int cerosPorIndividuo = 0;
   for (int i = 0; i < n; i++) {
-    cout << individuos[i] << endl;
+    cout << i + 1 << ":" << individuos[i] << ":";
+    cerosPorIndividuo = countOccurrences('0', individuos[i]);
+    cout << cerosPorIndividuo << endl;
   }
 }
+
+int sumaCerosGeneracion(string individuos[], int n, int k) {
+  int suma = 0;
+  for (int i = 0; i < n; i++) {
+    suma += countOccurrences('0', individuos[i]);
+  }
+  if (suma == 100) {
+    cout << "Se encontro la solucion en la generacion " << k + 1 << endl;
+  }
+  return suma;
+}
+
 
 int main() {
 
@@ -246,7 +261,7 @@ int main() {
 
         while(seleccionados < 2) {
           // en caso de que haya mas de cinco elementos con diez ceros
-          // solo tomamos lo elelemntos que aun no tienen 10 ceros
+          // solo tomamos lo elementos que aun no tienen 10 ceros
           if (individuosCeros >= 5) {
             indiceParaMutacion = aleatorioEnRango(individuosCeros, 9);
           } else {
@@ -302,21 +317,11 @@ int main() {
       ceros[index] = -1;
     }  
 
-    // Imprimimos la generacion
-    for (int i = 0; i < 10; i++) {
-      cout << i + 1 << ":" << binarios1[k][i] << ":";
-      cerosIndividuo = countOccurrences(auxiliar, binarios1[k][i]);
-      suma += cerosIndividuo;
-      cout << cerosIndividuo << endl;
-    }
-    cout << "Suma de 0's: " << suma << endl;
-
-    if (suma == 100) {
-      cout << "Se encontraron 10 individuos con 10 ceros" << endl;
-      return 0;
-    }
-
+    mostrarGeneracion(binarios1[k], 10);
+    suma = sumaCerosGeneracion(binarios1[k], 10, k);
+    if (suma == 100) return 0;
     suma = 0;
+
   }
 
   return 0;
