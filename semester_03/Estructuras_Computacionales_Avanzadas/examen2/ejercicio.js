@@ -9,34 +9,34 @@
 
 /**
  * El planteamiento de como resolver el problema es el siguiente:
-   Primero el problema lo vamos a ver como un grafo ponderado, dirigido
-   y fuertemente conexo.
-   Creamos la matriz de adyacencia de dicho grafo, cada nodo es una fecha
-   y cada arista es una oferta. Todas las aristas que salgan de un nodo
-   llevan el peso de la oferta de donde salen.
-   La idea es que a paritr de ese grafo nos quede un arbol en forma de lista 
-   donde cada nodo solo tiene una arista que sale y otra que llega a el.
-   A excepcion del primer y ultimo nodo
-   Los pasos para llegar a este resultado son los siguientes:
-   1. Recorrer la matriz de adyacencia
-   2. Para cada iteración vamos a verificar lo siguiente
-    2.1. Si la arista es 0, no hacemos nada
-    2.2. Vamos a revisar si las fechas de i, con j se cruzan
-      2.2.1. Si se cruzan, vamos a ver cual es la mejor fecha (la que mas dinero da por dia)
-      2.2.2. Vamos a eliminar la arista que no es la mejor (eleminar fila y columna de dicha fecha)
-             de esta forma no tendra conexion con ningun nodo y se descarta
-    2.3. Si no se cruzan
-      2.3.1. Revisamos la fecha de salida de j es menor a la fecha de llegada de i
-             esa casilla la marcamos como cero
-   3. Una vez que terminamos de recorrer la matriz de adyacencia
-      tenemos que dejar solo la fecha mas cercana a cierta fecha de salida de cada fila
-     3.1 Esto lo logramos recorriengo otra vez la matriz de adyacencia
-         y guardando cada fila en un array, vamos a comparar todas las fechas
-         de llegada de cada fila y nos quedamos con la mas cercana
-        a la fecha de salida de la fila 
-   4. Una vez que tenemos el arbol en forma de lista, vamos a recorrerlo
-      y vamos a ir sumando los montos de cada arista
-   5. Retornamos el monto total con los datos de cada fecha elegida
+ * Primero el problema lo vamos a ver como un grafo ponderado, dirigido
+ * y fuertemente conexo.
+ * Creamos la matriz de adyacencia de dicho grafo, cada nodo es una fecha
+ * y cada arista es una oferta. Todas las aristas que salgan de un nodo
+ * llevan el peso de la oferta de donde salen.
+ * La idea es que a paritr de ese grafo nos quede un arbol en forma de lista 
+ * donde cada nodo solo tiene una arista que sale y otra que llega a el.
+ * A excepcion del primer y ultimo nodo
+ * Los pasos para llegar a este resultado son los siguientes:
+ * 1. Recorrer la matriz de adyacencia
+ * 2. Para cada iteración vamos a verificar lo siguiente
+ *  2.1. Si la arista es 0, no hacemos nada
+ *  2.2. Vamos a revisar si las fechas de i, con j se cruzan
+ *    2.2.1. Si se cruzan, vamos a ver cual es la mejor fecha (la que mas dinero da por dia)
+ *    2.2.2. Vamos a eliminar la arista que no es la mejor (eleminar fila y columna de dicha fecha)
+ *           de esta forma no tendra conexion con ningun nodo y se descarta
+ *  2.3. Si no se cruzan
+ *    2.3.1. Revisamos la fecha de salida de j es menor a la fecha de llegada de i
+ *           esa casilla la marcamos como cero
+ * 3. Una vez que terminamos de recorrer la matriz de adyacencia
+ *    tenemos que dejar solo la fecha mas cercana a cierta fecha de salida de cada fila
+ *   3.1 Esto lo logramos recorriengo otra vez la matriz de adyacencia
+ *       y guardando cada fila en un array, vamos a comparar todas las fechas
+ *       de llegada de cada fila y nos quedamos con la mas cercana
+ *      a la fecha de salida de la fila 
+ * 4. Una vez que tenemos el arbol en forma de lista, vamos a recorrerlo
+ *    y vamos a ir sumando los montos de cada arista
+ * 5. Retornamos el monto total con los datos de cada fecha elegida
  */
 
 /**
@@ -46,7 +46,7 @@
  * @param {Date} fecha2Inicio
  * @param {Date} fecha2Fin
  */
- function hayCruzamiento(fecha1, fecha2) {
+function hayCruzamiento(fecha1, fecha2) {
   let fecha1Inicio = fecha1.fechaLlegada
   let fecha1Fin = fecha1.fechaSalida
   let fecha2Inicio = fecha2.fechaLlegada
@@ -125,26 +125,8 @@ let nodo3 = {
   id: 3
 }
 
-let nodo4 = {
-  // llegada 18 Julio
-  fechaLlegada: new Date(2022, 6, 18),
-  // salida 2 de agosto 2022
-  fechaSalida: new Date(2022, 7, 2),
-  montoOfrecido: 2500,
-  id: 4
-}
-
-let nodo5 = {
-  // llegada 1 de diciembre 2022
-  fechaLlegada: new Date(2022, 11, 1),
-  // salida 12 de diciembre 2022
-  fechaSalida: new Date(2022, 11, 12),
-  montoOfrecido: 3000,
-  id: 5
-}
-
 // creamos un array de todas las ofertas
-let nodosArr = [nodo0, nodo1, nodo2, nodo3, nodo4, nodo5]
+let nodosArr = [nodo0, nodo1, nodo2, nodo3]
 
 // inicializamos la matriz con solo ceros
 let matrix = []
@@ -161,56 +143,9 @@ for (let i = 0; i < nodosArr.length; i++) {
   }
 }
 
-let seCruza = false
-let fechasCruzadas = []
-
-for (let i = 0; i < nodosArr.length; i++) {
-  for (let j = 0; j < nodosArr.length; j++) {
-    // guardamos las ofertas en variables
-    let fecha1 = nodosArr[i]
-    let fecha2 = nodosArr[j]
-
-    seCruza = hayCruzamiento(fecha1, fecha2)
-
-    if (i !== j) {
-      // si se cruzan
-      if (seCruza) {
-        fechasCruzadas.push(i)
-        fechasCruzadas.push(j)
-      }
-      seCruza = false
-
-    }
-    
-  }
-}
-
-// contar el elemento que mas se repite en fechasCruzadas
-let max = 0
-let maxId = 0
-for (let i = 0; i < fechasCruzadas.length; i++) {
-  let count = 0
-  for (let j = 0; j < fechasCruzadas.length; j++) {
-    if (fechasCruzadas[i] === fechasCruzadas[j]) {
-      count++
-    }
-  }
-  if (count > max) {
-    max = count
-    maxId = fechasCruzadas[i]
-  }
-}
-
-// La fecha que mas se repite es la fecha que mas se cruza con otras fechas
-// por lo quu es la fecha que tenemos que eliminar su fila y columna
-for (let i = 0; i < nodosArr.length; i++) {
-  matrix[maxId][i] = 0
-  matrix[i][maxId] = 0
-}
-
-console.log(matrix)
 
 // recorremos la matriz de adyacencia
+let seCruza = false
 for (let i = 0; i < nodosArr.length; i++) {
   for (let j = 0; j < nodosArr.length; j++) {
 
@@ -219,6 +154,30 @@ for (let i = 0; i < nodosArr.length; i++) {
     let fecha2 = nodosArr[j]
 
     if (i !== j) {
+      // Revisamos si las fechas se cruzan
+      seCruza = hayCruzamiento(fecha1, fecha2)
+    
+      // si se cruzan
+      if (seCruza) {
+        // obtenemos la mejor oferta
+        let mejorFechaId = mejorFecha(fecha1, fecha2)
+        // llenar de ceros la fila y columna de la fecha que no es la mejor
+        if (mejorFechaId === fecha1.id) {
+          matrix[j].fill(0)
+          for (let k = 0; k < matrix.length; k++) {
+            matrix[k][j] = 0
+          }
+        }
+        if (mejorFechaId === fecha2.id) {
+          matrix[i].fill(0)
+          for (let k = 0; k < matrix.length; k++) {
+            matrix[k][i] = 0
+          }
+        }
+      }
+
+      seCruza = false
+
       // si no se cruzan y la fecha 1 es mayor que la fecha 2
       if (fecha2.fechaSalida < fecha1.fechaLlegada) {
         matrix[i][j] = 0
@@ -256,8 +215,6 @@ for (let i = 0; i < nodosArr.length; i++) {
   }
   fechasPosibles = []
 }
-
-console.log(matrix)
 
 // Guardamos las fechas en un array (usando las coordenadas de la matriz)
 let fechasSeleccionadas = []
