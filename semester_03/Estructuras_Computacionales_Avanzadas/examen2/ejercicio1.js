@@ -161,6 +161,8 @@ for (let i = 0; i < nodosArr.length; i++) {
   }
 }
 
+console.log(matrix)
+
 let seCruza = false
 let fechasCruzadas = []
 
