@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 using namespace std;
 
 /**
@@ -9,7 +10,8 @@ using namespace std;
  * autor Diego Emilio Moreno Sánchez @YeyoM
  * @date 25 de octubre de 2022
  * 
- * Procedimiento basado en: Matemática Discreta - Grafo Bipartido. Ej.2 - Jesús Soto (https://www.youtube.com/watch?v=0Kb4r1oLMbY)
+ * Procedimiento basado en: Matemática Discreta - Grafo Bipartido. 
+ * Ej.2 - Jesús Soto (https://www.youtube.com/watch?v=0Kb4r1oLMbY)
  * 
  * En teoría de grafos, un grafo bipartito es un grafo G=(N,E) cuyos 
  * vértices se pueden separar en dos conjuntos disjuntos U y V.
@@ -49,25 +51,36 @@ int main() {
     {1, 1, 0, 0, 0, 0}
   };
 
+  int visitados[NODOS];
+  queue<int> cola;
+
   // Arreglo de nodos
   Nodo nodos[NODOS];
   for (int i = 0; i < NODOS; i++) {
     nodos[i].id = i;
     nodos[i].color = 0;
+    visitados[i] = 0;
   }
 
   // Colorear el primer nodo
   nodos[0].color = 1;
 
-  for (int i = 0; i < NODOS; i++) {
-    for (int j = 0; j < NODOS; j++) {
-      
-      colorActual = nodos[i].color;
-      
-      if (matriz[i][j] == 1) {
-        if (nodos[j].color == 0) {
-          nodos[j].color = colorActual == 1 ? 2 : 1;
-        } else if (nodos[j].color == colorActual) {
+  // Recorrer el grafo 
+  cola.push(0);
+  visitados[0] = 1;
+
+  while(!cola.empty()) {
+    int indiceNodo = cola.front();
+    cola.pop();
+
+    // Colorear los vecinos
+    for (int i = 0; i < NODOS; i++) {
+      if (matriz[indiceNodo][i] == 1) {
+        if (nodos[i].color == 0) {
+          nodos[i].color = nodos[indiceNodo].color == 1 ? 2 : 1;
+          cola.push(i);
+          visitados[i] = 1;
+        } else if (nodos[i].color == nodos[indiceNodo].color) {
           cout << "El grafo no es bipartito" << endl;
           return 0;
         }
@@ -76,6 +89,11 @@ int main() {
   }
 
   cout << "El grafo es bipartito" << endl;
+
+  // color de los nodos
+  for (int i = 0; i < NODOS; i++) {
+    cout << "Nodo " << nodos[i].id << " tiene color " << nodos[i].color << endl;
+  }
 
   return 0;
 }

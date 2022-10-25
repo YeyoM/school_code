@@ -2,6 +2,8 @@
   "C_Cpp.errorSquiggles": "Disabled",
   "files.associations": {
     "*.ejs": "html",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "string_view": "cpp",
+    "regex": "cpp"
   }
 }
