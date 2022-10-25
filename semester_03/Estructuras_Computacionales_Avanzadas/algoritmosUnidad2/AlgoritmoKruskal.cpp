@@ -21,9 +21,9 @@ using namespace std;
 */
 
 // Guardar los pesos de las artistas de menor a mayor
-int pesos[36];
+int pesos[25];
 // Guardar las aristas de menor a mayor (sus indices en letras)
-string aristas[36];
+string aristas[25];
 int iteradorPesos = 0;
 
 // Array que almacena las aristas que forman el arbol de expansion minimo
@@ -76,8 +76,8 @@ int main() {
   // }
 
   // Ordenar los pesos de menor a mayor
-  for (int i = 0; i < 36; i++) {
-    for (int j = 0; j < 36; j++) {
+  for (int i = 0; i < 25; i++) {
+    for (int j = 0; j < 25; j++) {
       if (pesos[i] < pesos[j]) {
         int aux = pesos[i];
         pesos[i] = pesos[j];
@@ -97,7 +97,7 @@ int main() {
   //   }
   // }
 
-  for (int i = 0; i < 36; i++) {
+  for (int i = 0; i < 25; i++) {
     if (pesos[i] != 0) {
       iteradorPesos = i;
       break;
