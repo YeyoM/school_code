@@ -2,7 +2,7 @@
 using namespace std;
 
 /**
- * Algoritmo de Dijkstra
+ * Algoritmo de Kruskal
  * @param matriz de adyacencia de un grafo ponderado
  * @return aristas que forman el arbol de expansion minimo y sus pesos
  * Referencia: S4.4- Algoritmo de Kruskal|UPV (https://www.youtube.com/watch?v=YHzllcQpEdA)
