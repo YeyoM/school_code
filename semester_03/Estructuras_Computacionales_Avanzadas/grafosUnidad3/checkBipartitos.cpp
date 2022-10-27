@@ -30,8 +30,8 @@ using namespace std;
  * 
 */
 
-#define NODOS 6  
-
+// #define NODOS 6  
+#define NODOS 8  
 struct Nodo {
   int color;
   int id;
@@ -42,13 +42,38 @@ int main() {
   int colorActual = 0; 
 
   // Matriz de adyacencia del grafo
+
+  // Grafo Bipartito
+  // int matriz[NODOS][NODOS] = {
+  //   {0, 0, 1, 1, 0, 1},
+  //   {0, 0, 0, 0, 1, 1},
+  //   {1, 0, 0, 0, 0, 0},
+  //   {1, 0, 0, 0, 0, 0},
+  //   {0, 1, 0, 0, 0, 0},
+  //   {1, 1, 0, 0, 0, 0}
+  // };
+
+  // Grafo No Bipartito
+  // int matriz[NODOS][NODOS] = {
+  //   {0, 0, 1, 1, 0, 1},
+  //   {0, 0, 0, 0, 1, 1},
+  //   {1, 0, 0, 0, 0, 0},
+  //   {1, 0, 0, 0, 0, 0},
+  //   {0, 1, 0, 0, 0, 1},
+  //   {1, 1, 0, 0, 1, 0}
+  // };
+
+  // Grafo Bipartito 
+  // (https://www.youtube.com/watch?v=0Kb4r1oLMbY)
   int matriz[NODOS][NODOS] = {
-    {0, 0, 1, 1, 0, 1},
-    {0, 0, 0, 0, 1, 1},
-    {1, 0, 0, 0, 0, 0},
-    {1, 0, 0, 0, 0, 0},
-    {0, 1, 0, 0, 0, 0},
-    {1, 1, 0, 0, 0, 0}
+    {0, 1, 1, 0, 0, 0, 1, 0},
+    {1, 0, 0, 1, 0, 0, 0, 1},
+    {1, 0, 0, 1, 1, 0, 0, 0},
+    {0, 1, 1, 0, 0, 1, 0, 0},
+    {0, 0, 1, 0, 0, 1, 1, 0},
+    {0, 0, 0, 1, 1, 0, 0, 1},
+    {1, 0, 0, 0, 1, 0, 0, 1},
+    {0, 1, 0, 0, 0, 1, 1, 0},
   };
 
   int visitados[NODOS];
