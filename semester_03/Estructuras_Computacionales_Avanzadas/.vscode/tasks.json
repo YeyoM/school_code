@@ -2,8 +2,8 @@
   "tasks": [
     {
       "type": "cppbuild",
-      "label": "C/C++: cpp.exe build active file",
-      "command": "C:\\ProgramData\\chocolatey\\bin\\cpp.exe",
+      "label": "C/C++: g++.exe build active file",
+      "command": "C:\\ProgramData\\chocolatey\\bin\\g++.exe",
       "args": [
         "-fdiagnostics-color=always",
         "-g",
