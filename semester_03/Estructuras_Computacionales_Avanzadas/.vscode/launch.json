@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/Usuario/code/school_code/semester_03/Estructuras_Computacionales_Avanzadas/grafosUnidad3",
-      "program": "c:/Users/Usuario/code/school_code/semester_03/Estructuras_Computacionales_Avanzadas/grafosUnidad3/build/Debug/outDebug",
+      "cwd": "c:/Users/Usuario/code/school_code/semester_03/Estructuras_Computacionales_Avanzadas",
+      "program": "c:/Users/Usuario/code/school_code/semester_03/Estructuras_Computacionales_Avanzadas/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
