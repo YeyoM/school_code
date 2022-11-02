@@ -4,19 +4,22 @@ using namespace std;
 
 /**
  * Algoritmo de emparejamiento de vertices de un grafo
- * @param matriz Matriz de adyacencia del grafo
+ * @param matriz Matriz de adyacencia del grafo bipartito
 */
 
-#define nodos 5 
+#define nodos 8 
 
 int main() {
 
   int matriz[nodos][nodos] = {
-    {0, 1, 1, 1, 1},
-    {1, 0, 1, 0, 0},
-    {1, 1, 0, 1, 1},
-    {1, 0, 1, 0, 1},
-    {1, 0, 1, 1, 0}
+    {0, 1, 1, 0, 0, 0, 1, 0},
+    {1, 0, 0, 1, 0, 0, 0, 1},
+    {1, 0, 0, 1, 1, 0, 0, 0},
+    {0, 1, 1, 0, 0, 1, 0, 0},
+    {0, 0, 1, 0, 0, 1, 1, 0},
+    {0, 0, 0, 1, 1, 0, 0, 1},
+    {1, 0, 0, 0, 1, 0, 0, 1},
+    {0, 1, 0, 0, 0, 1, 1, 0},
   };
 
   vector<int> visitados(nodos, 0);
