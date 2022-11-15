@@ -4,6 +4,7 @@
  */
 package archivosgraficastarea;
 
+import com.sun.jdi.connect.spi.Connection;
 import java.awt.HeadlessException;
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,6 +22,11 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 
 /**
  *
@@ -28,8 +34,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
  */
 public class ArchivosGraficasUI extends javax.swing.JFrame {
     
-    int cuentaMujeres = 0;
-    int cuentaHombres = 0;
     String sexo;
     String estado;
     
@@ -113,7 +117,6 @@ public class ArchivosGraficasUI extends javax.swing.JFrame {
                 BufferedReader br = new BufferedReader(fr);
                 String s;
                 while((s=br.readLine())!=null) {
-                    System.out.println(s);
                     StringTokenizer st = new StringTokenizer(s, "\n");
                     String hombre = (char)34 + "H" + (char)34;
                     String mujer = (char)34 + "M" + (char)34;
@@ -132,11 +135,49 @@ public class ArchivosGraficasUI extends javax.swing.JFrame {
                             } else {
                                 if (sexo.equals(mujer) && estado.equals(estadoABuscar)) {
                                     if (salarioABuscar.equals(actual)) {
-                                        cuentaMujeres++;
+                                        try {
+                                            var con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/salarios", "root", "");
+                                            if (con != null) {
+                                                String insert = "INSERT INTO salarios10 VALUES ('M', "
+                                                                + estado + ", "
+                                                                + actual   + "); ";
+
+                                                System.out.println(insert);  		//imprimimos el Query
+                                                try (Statement stmt = con.createStatement()) {
+                                                    stmt.executeUpdate(insert);      //Se actualiza el registro con los datos
+                                                    stmt.close();  // Se cierran de los objetos 
+                                                } catch (SQLException ex) {
+                                                    System.err.println(ex.getMessage());
+                                                }
+                                                con.close();
+                                                System.out.println("Captura OK"); //Mensaje de verificacion
+                                            }
+                                        } catch (SQLException ex) {
+                                            Logger.getLogger(ArchivosGraficasUI.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
                                     }
                                 }  else if (sexo.equals(hombre) && estado.equals(estadoABuscar)) {
                                     if (salarioABuscar.equals(actual)) {
-                                        cuentaHombres++;
+                                        try {
+                                            var con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/salarios", "root", "");
+                                            if (con != null) {
+                                                String insert = "INSERT INTO salarios10 VALUES ('H', "
+                                                                + estado + ", "
+                                                                + actual   + "); ";
+
+                                                System.out.println(insert);  		//imprimimos el Query
+                                                try (Statement stmt = con.createStatement()) {
+                                                    stmt.executeUpdate(insert);      //Se actualiza el registro con los datos
+                                                    stmt.close();  // Se cierran de los objetos 
+                                                } catch (SQLException ex) {
+                                                    System.err.println(ex.getMessage());
+                                                }
+                                                con.close();
+                                                System.out.println("Captura OK"); //Mensaje de verificacion
+                                            }
+                                        } catch (SQLException ex) {
+                                            Logger.getLogger(ArchivosGraficasUI.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
                                     }
                                 }
                             }
@@ -163,7 +204,6 @@ public class ArchivosGraficasUI extends javax.swing.JFrame {
                 BufferedReader br = new BufferedReader(fr);
                 String s;
                 while((s=br.readLine())!=null) {
-                    System.out.println(s);
                     StringTokenizer st = new StringTokenizer(s, "\n");
                     String hombre = (char)34 + "H" + (char)34;
                     String mujer = (char)34 + "M" + (char)34;
@@ -182,11 +222,49 @@ public class ArchivosGraficasUI extends javax.swing.JFrame {
                             } else {
                                 if (sexo.equals(mujer) && estado.equals(estadoABuscar)) {
                                     if (salarioABuscar.equals(actual)) {
-                                        cuentaMujeres++;
+                                        try {
+                                            var con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/salarios", "root", "");
+                                            if (con != null) {
+                                                String insert = "INSERT INTO salarios10 VALUES ('M', "
+                                                                + estado + ", "
+                                                                + actual   + "); ";
+
+                                                System.out.println(insert);  		//imprimimos el Query
+                                                try (Statement stmt = con.createStatement()) {
+                                                    stmt.executeUpdate(insert);      //Se actualiza el registro con los datos
+                                                    stmt.close();  // Se cierran de los objetos 
+                                                } catch (SQLException ex) {
+                                                    System.err.println(ex.getMessage());
+                                                }
+                                                con.close();
+                                                System.out.println("Captura OK"); //Mensaje de verificacion
+                                            }
+                                        } catch (SQLException ex) {
+                                            Logger.getLogger(ArchivosGraficasUI.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
                                     }
                                 }  else if (sexo.equals(hombre) && estado.equals(estadoABuscar)) {
                                     if (salarioABuscar.equals(actual)) {
-                                        cuentaHombres++;
+                                        try {
+                                            var con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/salarios", "root", "");
+                                            if (con != null) {
+                                                String insert = "INSERT INTO salarios10 VALUES ('H', "
+                                                                + estado + ", "
+                                                                + actual   + "); ";
+
+                                                System.out.println(insert);  		//imprimimos el Query
+                                                try (Statement stmt = con.createStatement()) {
+                                                    stmt.executeUpdate(insert);      //Se actualiza el registro con los datos
+                                                    stmt.close();  // Se cierran de los objetos 
+                                                } catch (SQLException ex) {
+                                                    System.err.println(ex.getMessage());
+                                                }
+                                                con.close();
+                                                System.out.println("Captura OK"); //Mensaje de verificacion
+                                            }
+                                        } catch (SQLException ex) {
+                                            Logger.getLogger(ArchivosGraficasUI.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
                                     }
                                 }
                             }
@@ -208,9 +286,9 @@ public class ArchivosGraficasUI extends javax.swing.JFrame {
         
         CategoryDataset dataset = createDataset();  
         JFreeChart chart = ChartFactory.createBarChart(  
-            "Salarios entre hombres y mujeres por estados", //Chart Title  
+            "Numero de Hombres y Mujeres del estado 10 con salario $888", //Chart Title  
             "", // Category axis  
-            "Salario promedio en MXN", // Value axis  
+            "Número de personas", // Value axis  
             dataset,  
             PlotOrientation.VERTICAL,  
             true,true,false  
@@ -224,7 +302,7 @@ public class ArchivosGraficasUI extends javax.swing.JFrame {
         //renderer.setBasePositiveItemLabelPosition(position);
         
       
-        JFrame frame = new JFrame("Salarios entre hombres y mujeres por estados");
+        JFrame frame = new JFrame("Numero de Hombres y Mujeres del estado 10 con salario $888");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(new ChartPanel(chart));
         frame.setLocationByPlatform(true);
@@ -236,6 +314,32 @@ public class ArchivosGraficasUI extends javax.swing.JFrame {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         
         // Estado 10
+        int cuentaHombres = 0;
+        int cuentaMujeres = 0;
+        
+        try {
+            org.mariadb.jdbc.Connection conn = (org.mariadb.jdbc.Connection) DriverManager.getConnection("jdbc:mariadb://localhost:3306/salarios", "root", "");
+            if (conn != null) {             
+                //crea la declaracion
+                try (Statement st = conn.createStatement()) {
+                    String query = "SELECT * FROM salarios10;";
+                    // ejecuta la consulta y obtiene el resultado
+                    ResultSet rs = st.executeQuery(query);                    
+                    while (rs.next()) {
+                        String sexoBD = rs.getString("sexo");
+                        if ("M".equals(sexoBD)) {
+                            cuentaMujeres++;
+                        } else if ("H".equals(sexoBD)) {
+                            cuentaHombres++;
+                        }
+                    }
+                } catch (SQLException ex) {
+                    System.err.println(ex.getMessage());
+                }
+            }            
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
         dataset.addValue(cuentaMujeres, "Mujeres", "Estado 10");  
         dataset.addValue(cuentaHombres, "Hombres", "Estado 10");  
       
