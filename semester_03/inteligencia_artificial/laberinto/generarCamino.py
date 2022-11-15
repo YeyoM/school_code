@@ -42,7 +42,10 @@
       en cuenta el porcentaje de obstaculos, este
       numero puede variar entre un 40 y un 70%
 
-  3. Buscar el camino más corto entre la entrada y la salida
+  3. Juntar los laberintos generados en un solo
+     tomando como prioridad el de los caminos
+
+  4. Buscar el camino más corto entre la entrada y la salida
 
     - Usar diferentes algoritmos para comparar
     
@@ -119,9 +122,6 @@ def generar_caminos(m, n):
       movimiento_anterior = movimiento
       movimientos_posibles = obtener_posibles_movimientos(x, y, m, n, movimiento_anterior)
       probabilidades = obtener_probabilidades(probabildades_salida_entrada, movimientos_posibles)
-
-    imprimir_laberinto(caminos)
-    print()
   
     return caminos
 
@@ -192,18 +192,29 @@ def generar_laberinto(m, n, densidad):
 
   return laberinto
 
+
+def juntar_laberintos(caminos, laberinto_aleatorio):
+  for i in range(len(caminos)):
+    for j in range(len(caminos)):
+      if caminos[i][j] == '1':
+        laberinto_aleatorio[i][j] = '1'
+  return laberinto_aleatorio
+
 def imprimir_laberinto(laberinto):
   # Cambiar 0 por █
   # Cambiar 1 por ' '
-  for i in range(len(laberinto)):
-    for j in range(len(laberinto[0])):
-      if laberinto[i][j] == '0':
-        laberinto[i][j] = '█'
+
+  # crear copia del laberinto
+  laberinto_copia = laberinto.copy()
+
+  for i in range(len(laberinto_copia)):
+    for j in range(len(laberinto_copia[0])):
+      if laberinto_copia[i][j] == '0':
+        laberinto_copia[i][j] = '█'
       else:
-        laberinto[i][j] = ' '
-  print('\n'.join(''.join(fila) for fila in laberinto))
-
-
+        laberinto_copia[i][j] = ' '
+  print('\n'.join(''.join(fila) for fila in laberinto_copia))
+  print()
 
 def _main_():
 
@@ -211,13 +222,20 @@ def _main_():
   m = 40
   n = 40
   caminos = generar_caminos(m, n)
+  imprimir_laberinto(caminos)
 
   # Parte 2. Generar laberinto
   m = 40
   n = 40
-  densidad = 0.4
+  densidad = 0.6
   laberinto_aleatorio = generar_laberinto(m, n, densidad)
   imprimir_laberinto(laberinto_aleatorio)
+
+  # Parte 3. Juntar laberintos
+  laberinto = juntar_laberintos(caminos, laberinto_aleatorio)
+  imprimir_laberinto(laberinto)
+
+
 
 if __name__ == "__main__":
   _main_()
