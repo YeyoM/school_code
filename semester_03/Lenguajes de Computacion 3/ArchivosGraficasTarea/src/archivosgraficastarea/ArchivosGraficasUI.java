@@ -342,6 +342,9 @@ public class ArchivosGraficasUI extends javax.swing.JFrame {
         }
         dataset.addValue(cuentaMujeres, "Mujeres", "Estado 10");  
         dataset.addValue(cuentaHombres, "Hombres", "Estado 10");  
+        
+        System.out.println(cuentaHombres);
+        System.out.println(cuentaMujeres);
       
         return dataset;  
     }  
