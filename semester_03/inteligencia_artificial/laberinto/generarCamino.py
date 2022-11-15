@@ -151,22 +151,22 @@ def obtener_posibles_movimientos(x, y, m, n, movimiento_anterior):
 
 def obtener_probabilidades(probabilidades, movimientos_posibles):
   
-  probabilidades_entrada_salida = []
+  probabilidades_reales = []
 
   for i in movimientos_posibles:
     if i == 'up':
-      probabilidades_entrada_salida.append(probabilidades[0])
+      probabilidades_reales.append(probabilidades[0])
     elif i == 'down':
-      probabilidades_entrada_salida.append(probabilidades[1])
+      probabilidades_reales.append(probabilidades[1])
     elif i == 'left':
-      probabilidades_entrada_salida.append(probabilidades[2])
+      probabilidades_reales.append(probabilidades[2])
     elif i == 'right':
-      probabilidades_entrada_salida.append(probabilidades[3])
+      probabilidades_reales.append(probabilidades[3])
 
   # Normalizar probabilidades
-  probabilidades_entrada_salida = [i / sum(probabilidades_entrada_salida) for i in probabilidades_entrada_salida]
+  probabilidades_reales = [i / sum(probabilidades_reales) for i in probabilidades_reales]
   
-  return probabilidades_entrada_salida
+  return probabilidades_reales
 
 # PARTE 2. GENERAR LABERINTO
 def generar_laberinto(m, n, densidad):
