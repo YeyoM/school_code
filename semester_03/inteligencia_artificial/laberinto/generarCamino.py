@@ -93,13 +93,35 @@ def generar_caminos(m, n):
       movimientos_posibles = obtener_posibles_movimientos(x, y, m, n, movimiento_anterior)
       probabilidades = obtener_probabilidades(probabildades_entrada_salida, movimientos_posibles)
     
-    print(caminos)
-
-
     # Generar camino de salida a entrada
     x = m - 1
     y = n - 1
     caminos[x][y] = '1'
+    movimiento_anterior = ''
+
+    movimientos_posibles = obtener_posibles_movimientos(x, y, m, n, movimiento_anterior)
+    probabilidades = obtener_probabilidades(probabildades_salida_entrada, movimientos_posibles)
+
+    print(movimientos_posibles)
+    print(probabilidades)
+    
+    while (x != 0 or y != 0):
+      movimiento = np.random.choice(movimientos_posibles, p=probabilidades)
+      if movimiento == 'up':
+        x -= 1
+      elif movimiento == 'down':
+        x += 1
+      elif movimiento == 'left':
+        y -= 1
+      elif movimiento == 'right':
+        y += 1
+      caminos[x][y] = '1'
+      movimiento_anterior = movimiento
+      movimientos_posibles = obtener_posibles_movimientos(x, y, m, n, movimiento_anterior)
+      probabilidades = obtener_probabilidades(probabildades_salida_entrada, movimientos_posibles)
+
+    imprimir_laberinto(caminos)
+    print()
   
     return caminos
 
@@ -186,8 +208,8 @@ def imprimir_laberinto(laberinto):
 def _main_():
 
   # Parte 1. Generar Caminos
-  m = 18
-  n = 18
+  m = 40
+  n = 40
   caminos = generar_caminos(m, n)
 
   # Parte 2. Generar laberinto
