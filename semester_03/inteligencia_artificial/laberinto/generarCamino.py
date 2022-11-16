@@ -78,9 +78,6 @@ def generar_caminos(m, n):
     movimientos_posibles = obtener_posibles_movimientos(x, y, m, n, movimiento_anterior)
     probabilidades = obtener_probabilidades(probabildades_entrada_salida, movimientos_posibles)
 
-    print(movimientos_posibles)
-    print(probabilidades)
-
     while (x != m - 1 or y != n - 1):
       movimiento = np.random.choice(movimientos_posibles, p=probabilidades)
       if movimiento == 'up':
@@ -104,9 +101,6 @@ def generar_caminos(m, n):
 
     movimientos_posibles = obtener_posibles_movimientos(x, y, m, n, movimiento_anterior)
     probabilidades = obtener_probabilidades(probabildades_salida_entrada, movimientos_posibles)
-
-    print(movimientos_posibles)
-    print(probabilidades)
     
     while (x != 0 or y != 0):
       movimiento = np.random.choice(movimientos_posibles, p=probabilidades)
