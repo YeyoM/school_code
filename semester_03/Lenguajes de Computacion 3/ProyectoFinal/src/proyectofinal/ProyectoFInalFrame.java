@@ -16,11 +16,14 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.Locale;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.mariadb.jdbc.Connection;
+import java.sql.Time;
+
 
 /**
  *
@@ -384,7 +387,19 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
                         ResultSet rs = st.executeQuery(query);
                         while(rs.next()) {
                             // OBTENER LOS DATOS QUE QUERRAMOS
-                            
+                            int newUsers = rs.getInt("new_users");
+                            int activeUsers = rs.getInt("active_users");
+                            int avgUserUsage = rs.getInt("avg_usage_per_user");
+                            String country = rs.getString("country_most_users");
+                            Date dateQuery = rs.getDate("date");
+                            Time timeQuery = rs.getTime("peek_hour");
+                            //System.out.println(newUsers);
+                            //System.out.println(activeUsers);
+                            //System.out.println(avgUserUsage);
+                            //System.out.println(country);
+                            //System.out.println(dateQuery);
+                            //System.out.println(timeQuery);
+
                         }
                     } else {
                         notificationLabel.setText("Date must have the correct format yyyy-MM-dd");
