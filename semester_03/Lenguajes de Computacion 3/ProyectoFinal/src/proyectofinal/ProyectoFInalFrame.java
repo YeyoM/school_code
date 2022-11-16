@@ -181,6 +181,11 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
         monthInput.setText("MM");
 
         monthQueryBtn.setText("EXECUTE");
+        monthQueryBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                monthQueryBtnActionPerformed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Space Grotesk Light", 0, 14)); // NOI18N
         jLabel8.setText("Query by month");
@@ -350,6 +355,45 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
 
     private void countryQueryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_countryQueryBtnActionPerformed
         // TODO add your handling code here:
+        try {
+            Connection conn = (Connection) DriverManager.getConnection("jdbc:mariadb://localhost:3306/proyectofinal", "root", "");
+            if (conn != null) {
+                notificationLabel.setText("Connected to dataBase 'proyectofinal'");
+                //crea la declaracion
+                try (Statement st = conn.createStatement()) {
+                    
+                    String country = countryInput.getText();
+                    String query;
+                    
+                    if (!"".equals(country)) {
+                        query = "SELECT * FROM `user_stats` WHERE country_most_users='" + country + "';";
+                        System.out.println(query);
+                        
+                        ResultSet rs = st.executeQuery(query);
+                        while(rs.next()) {
+                            // OBTENER LOS DATOS QUE QUERRAMOS
+                            int newUsers = rs.getInt("new_users");
+                            int activeUsers = rs.getInt("active_users");
+                            int avgUserUsage = rs.getInt("avg_usage_per_user");
+                            Date dateQuery = rs.getDate("date");
+                            Time timeQuery = rs.getTime("peek_hour");
+                            System.out.println(newUsers);
+                            System.out.println(activeUsers);
+                            System.out.println(avgUserUsage);
+                            System.out.println(country);
+                            System.out.println(dateQuery);
+                            System.out.println(timeQuery);
+                        }
+                    } else {
+                        notificationLabel.setText("Date must have the correct format yyyy-MM-dd");
+                    }
+                } catch (SQLException ex) {
+                    System.err.println(ex.getMessage());
+                }
+            }   
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
     }//GEN-LAST:event_countryQueryBtnActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -412,6 +456,39 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
             System.err.println(ex.getMessage());
         }
     }//GEN-LAST:event_dateQueryBtnActionPerformed
+
+    private void monthQueryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthQueryBtnActionPerformed
+        // TODO add your handling code here:
+        try {
+            Connection conn = (Connection) DriverManager.getConnection("jdbc:mariadb://localhost:3306/proyectofinal", "root", "");
+            if (conn != null) {
+                notificationLabel.setText("Connected to dataBase 'proyectofinal'");
+                //crea la declaracion
+                try (Statement st = conn.createStatement()) {
+                    
+                    String month = monthInput.getText();
+                    String query;
+                    
+                    if (!"".equals(month)) {
+                        query = "SELECT * FROM `user_stats` WHERE 1;";
+                        System.out.println(query);
+                        
+                        ResultSet rs = st.executeQuery(query);
+                        while(rs.next()) {
+                            // OBTENER LOS DATOS QUE QUERRAMOS (que tengan el mes que estamos buscando)
+                            
+                        }
+                    } else {
+                        notificationLabel.setText("Date must have the correct format yyyy-MM-dd");
+                    }
+                } catch (SQLException ex) {
+                    System.err.println(ex.getMessage());
+                }
+            }   
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_monthQueryBtnActionPerformed
 
     /**
      * @param args the command line arguments
