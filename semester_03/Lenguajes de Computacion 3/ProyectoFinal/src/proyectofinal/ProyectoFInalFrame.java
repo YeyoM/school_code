@@ -5,8 +5,15 @@
 package proyectofinal;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.HeadlessException;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,17 +30,29 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.mariadb.jdbc.Connection;
 import java.sql.Time;
-
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
  * @author Usuario
  */
 public class ProyectoFInalFrame extends javax.swing.JFrame {
-
-    /**
-     * Creates new form ProyectoFInalFrame
-     */
+    
+    // CREATING FORM INITILIZING... /////////////////////////////////////////////////////
+    
     public ProyectoFInalFrame() {
         try {
             UIManager.setLookAndFeel( new FlatDarkLaf() );
@@ -44,6 +63,26 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
         notificationLabel.setText("");
     }
     
+    // VARIABLES GLOBALES //////////////////////////////////////////////////////////////
+    
+    String dateForGraph;
+    int newUsersForGraph;
+    int activeUserForGraph;
+    String peekHourForGraph;
+    int avgUsageForGraph;
+    String countryForGraph;
+    String monthForGraph;
+    
+    ArrayList<String> many_dateForGraph = new ArrayList<>();
+    ArrayList<Integer> many_newUsersForGraph = new ArrayList<>();
+    ArrayList<Integer> many_activeUserForGraph = new ArrayList<>();
+    ArrayList<String> many_peekHourForGraph = new ArrayList<>();
+    ArrayList<Integer> many_avgUsageForGraph = new ArrayList<>();
+    ArrayList<String> many_countryForGraph = new ArrayList<>();
+
+    
+    // FUNCIONES AUXILIARES ///////////////////////////////////////////////////////////
+
     public static boolean isValidFormat(String format, String value, Locale locale) {
         LocalDateTime ldt = null;
         DateTimeFormatter fomatter = DateTimeFormatter.ofPattern(format, locale);
@@ -70,6 +109,155 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
         }
 
         return false;
+    }
+    
+    public void deleteInfo() {
+        dateForGraph = "";
+        newUsersForGraph = 0;
+        activeUserForGraph = 0;
+        peekHourForGraph = "";
+        avgUsageForGraph = 0;
+        countryForGraph = "";
+        
+        many_dateForGraph.removeAll(many_dateForGraph);
+        many_newUsersForGraph.removeAll(many_newUsersForGraph);
+        many_activeUserForGraph.removeAll(many_activeUserForGraph);
+        many_peekHourForGraph.removeAll(many_peekHourForGraph);
+        many_avgUsageForGraph.removeAll(many_avgUsageForGraph);
+        many_countryForGraph.removeAll(many_countryForGraph);
+    }
+    
+    public void setInfo(Date dateQuery, Time timeQuery, int newUsers, int activeUsers, int avgUserUsage, String countryQuery) {
+        dateForGraph = dateQuery.toString();
+        newUsersForGraph = newUsers;
+        activeUserForGraph = activeUsers;
+        peekHourForGraph = timeQuery.toString();
+        avgUsageForGraph = avgUserUsage;
+        countryForGraph = countryQuery;
+    }
+    
+    public CategoryDataset createDatasetAlone(int newUsers, int activeUsers) {  
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        
+        dataset.addValue(newUsers, "New Users", "New Users");
+        dataset.addValue(activeUsers, "Active Users", "Active Users");
+      
+        return dataset;  
+    }  
+    
+    public void CreateBarChartUnique(String dateQuery, String timeQuery, int newUsers, int activeUsers, int avgUserUsage, String countryQuery) {
+        chartPanel.removeAll();
+        chartPanel.revalidate();
+        chartPanel.repaint();
+        CategoryDataset dataset = createDatasetAlone(newUsers, activeUsers);  
+        JFreeChart chart = ChartFactory.createBarChart(  
+            "New and Active Users for " + countryQuery + " at " + dateQuery + " at " + timeQuery + " and avg usage: " + avgUserUsage + "hrs", 
+            "", // Category axis  
+            "Number of persons", // Value axis  
+            dataset,  
+            PlotOrientation.VERTICAL,  
+            true,true,false  
+        );
+        ChartPanel chartPanel2 = new ChartPanel(chart);
+        chartPanel2.setMouseWheelEnabled(true);
+        chartPanel2.setPreferredSize(new Dimension(416, 278));
+        chartPanel.setLayout(new BorderLayout());
+        chartPanel.add(chartPanel2, BorderLayout.NORTH);
+        pack();
+        repaint();
+    }
+    
+    public CategoryDataset createDatasetMany(ArrayList<Integer> many_activeUsers, ArrayList<Integer> many_newUsers) {  
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        
+        double activeUsersMean = calculateAverage(many_activeUsers);
+        double newUsersMean = calculateAverage(many_newUsers);
+
+        
+        dataset.addValue(newUsersMean, "New Users", "New Users");
+        dataset.addValue(activeUsersMean, "Active Users", "Active Users");
+      
+        return dataset;  
+    }  
+    
+    public void CreateBarChartMonth(String month, ArrayList<Integer> many_newUsers, ArrayList<Integer> many_activeUsers, ArrayList<Integer> many_avgUsage) {
+        chartPanel.removeAll();
+        chartPanel.revalidate();
+        chartPanel.repaint();
+        CategoryDataset dataset = createDatasetMany(many_activeUsers, many_newUsers);  
+        double avgUsageMean = calculateAverage(many_avgUsage);
+        JFreeChart chart = ChartFactory.createBarChart(  
+            "New and Active Users for the month: " + month + " and avg usage: " + avgUsageMean + "hrs", 
+            "", // Category axis  
+            "Number of persons", // Value axis  
+            dataset,  
+            PlotOrientation.VERTICAL,  
+            true,true,false  
+        );
+        ChartPanel chartPanel2 = new ChartPanel(chart);
+        chartPanel2.setMouseWheelEnabled(true);
+        chartPanel2.setPreferredSize(new Dimension(416, 278));
+        chartPanel.setLayout(new BorderLayout());
+        chartPanel.add(chartPanel2, BorderLayout.NORTH);
+        pack();
+        repaint();
+    }
+    
+    public void CreateBarChartAllTime(ArrayList<Integer> many_newUsers, ArrayList<Integer> many_activeUsers, ArrayList<Integer> many_avgUsage) {
+        chartPanel.removeAll();
+        chartPanel.revalidate();
+        chartPanel.repaint();
+        CategoryDataset dataset = createDatasetMany(many_activeUsers, many_newUsers);  
+        double avgUsageMean = calculateAverage(many_avgUsage);
+        JFreeChart chart = ChartFactory.createBarChart(  
+            "New and Active Users all time, avg usage: " + avgUsageMean + "hrs", 
+            "", // Category axis  
+            "Number of persons", // Value axis  
+            dataset,  
+            PlotOrientation.VERTICAL,  
+            true,true,false  
+        );
+        ChartPanel chartPanel2 = new ChartPanel(chart);
+        chartPanel2.setMouseWheelEnabled(true);
+        chartPanel2.setPreferredSize(new Dimension(416, 278));
+        chartPanel.setLayout(new BorderLayout());
+        chartPanel.add(chartPanel2, BorderLayout.NORTH);
+        pack();
+        repaint();
+    }
+    
+    public void CreateBarChartImported(ArrayList<Integer> many_newUsers, ArrayList<Integer> many_activeUsers, ArrayList<Integer> many_avgUsage) {
+        chartPanel.removeAll();
+        chartPanel.revalidate();
+        chartPanel.repaint();
+        CategoryDataset dataset = createDatasetMany(many_activeUsers, many_newUsers);  
+        double avgUsageMean = calculateAverage(many_avgUsage);
+        JFreeChart chart = ChartFactory.createBarChart(  
+            "New and Active Users information imported, avg usage: " + avgUsageMean + "hrs", 
+            "", // Category axis  
+            "Number of persons", // Value axis  
+            dataset,  
+            PlotOrientation.VERTICAL,  
+            true,true,false  
+        );
+        ChartPanel chartPanel2 = new ChartPanel(chart);
+        chartPanel2.setMouseWheelEnabled(true);
+        chartPanel2.setPreferredSize(new Dimension(416, 278));
+        chartPanel.setLayout(new BorderLayout());
+        chartPanel.add(chartPanel2, BorderLayout.NORTH);
+        pack();
+        repaint();
+    }
+    
+    private double calculateAverage(ArrayList <Integer> marks) {
+        Integer sum = 0;
+        if(!marks.isEmpty()) {
+            for (Integer mark : marks) {
+                sum += mark;
+            }
+            return sum.doubleValue() / marks.size();
+        }
+        return sum;
     }
 
     /**
@@ -101,10 +289,11 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
         queryAllBtn = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         importBtn = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        uploadFileBtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         exportBtn = new javax.swing.JButton();
+        chartPanel = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -132,7 +321,7 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(56, 56, 56));
-        getContentPane().setLayout(new java.awt.GridLayout());
+        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         previewPane.setBackground(new java.awt.Color(56, 56, 56));
         previewPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -191,6 +380,11 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
         jLabel8.setText("Query by month");
 
         queryAllBtn.setText("EXECUTE");
+        queryAllBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                queryAllBtnActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Space Grotesk Light", 0, 14)); // NOI18N
         jLabel9.setText("Import From txt");
@@ -202,7 +396,12 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Upload to BD");
+        uploadFileBtn.setText("Upload to BD");
+        uploadFileBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                uploadFileBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -212,11 +411,11 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(notificationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                                 .addComponent(dateInput, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,14 +433,12 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(importBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                            .addComponent(uploadFileBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+                            .addComponent(importBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(queryAllBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(monthQueryBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(countryQueryBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dateQueryBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                            .addComponent(dateQueryBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -273,8 +470,8 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(importBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(uploadFileBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(notificationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -289,17 +486,31 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
         exportBtn.setFont(new java.awt.Font("Space Grotesk Light", 0, 22)); // NOI18N
         exportBtn.setText("Export graph");
 
+        javax.swing.GroupLayout chartPanelLayout = new javax.swing.GroupLayout(chartPanel);
+        chartPanel.setLayout(chartPanelLayout);
+        chartPanelLayout.setHorizontalGroup(
+            chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        chartPanelLayout.setVerticalGroup(
+            chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 278, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(219, Short.MAX_VALUE)
-                .addComponent(exportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(chartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 213, Short.MAX_VALUE)
+                        .addComponent(exportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -307,7 +518,9 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 290, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(exportBtn)
                 .addContainerGap())
         );
@@ -355,6 +568,7 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
 
     private void countryQueryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_countryQueryBtnActionPerformed
         // TODO add your handling code here:
+        deleteInfo();
         try {
             Connection conn = (Connection) DriverManager.getConnection("jdbc:mariadb://localhost:3306/proyectofinal", "root", "");
             if (conn != null) {
@@ -377,12 +591,7 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
                             int avgUserUsage = rs.getInt("avg_usage_per_user");
                             Date dateQuery = rs.getDate("date");
                             Time timeQuery = rs.getTime("peek_hour");
-                            System.out.println(newUsers);
-                            System.out.println(activeUsers);
-                            System.out.println(avgUserUsage);
-                            System.out.println(country);
-                            System.out.println(dateQuery);
-                            System.out.println(timeQuery);
+                            setInfo(dateQuery, timeQuery, newUsers, activeUsers, avgUserUsage, country);
                         }
                     } else {
                         notificationLabel.setText("Date must have the correct format yyyy-MM-dd");
@@ -394,6 +603,7 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
+        CreateBarChartImported(dateForGraph, peekHourForGraph, newUsersForGraph, activeUserForGraph, avgUsageForGraph, countryForGraph);
     }//GEN-LAST:event_countryQueryBtnActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -402,18 +612,64 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
 
     private void importBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importBtnActionPerformed
         // TODO add your handling code here:
+        deleteInfo();
+        int contadoraaa = 0;
         try {
             JFileChooser open = new JFileChooser();
             int option = open.showOpenDialog(this);
             File f1 = new File(open.getSelectedFile().getPath());
             // LEER EL ARCHIVO AQUI
+            try (FileReader fr = new FileReader(f1)) {
+                BufferedReader br = new BufferedReader(fr);
+                String s;
+                while((s=br.readLine())!=null) {
+                    StringTokenizer st = new StringTokenizer(s, "\n");
+                    while(st.hasMoreTokens()) {
+                        StringTokenizer st2 = new StringTokenizer(st.nextToken(), "|");
+                        while(st2.hasMoreTokens()) {
+                            String actual = st2.nextToken();
+                            System.out.println(contadoraaa +" "+ actual);
+                            switch (contadoraaa) {
+                                case 0:
+                                    many_dateForGraph.add(actual);
+                                    break;
+                                case 1:
+                                    many_newUsersForGraph.add(Integer.parseInt(actual));
+                                    break;
+                                case 2:
+                                    many_activeUserForGraph.add(Integer.parseInt(actual));
+                                    break;
+                                case 3:
+                                    many_peekHourForGraph.add(actual);
+                                    break;
+                                case 4:
+                                    many_avgUsageForGraph.add(Integer.parseInt(actual));
+                                    break;
+                                case 5:
+                                    many_countryForGraph.add(actual);
+                                    break;
+                                default:
+                                    break;
+                            }
+                            contadoraaa++;
+                        }
+                        contadoraaa = 0;
+                    }
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(ProyectoFInalFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(ProyectoFInalFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch(HeadlessException ae) {
             System.out.println(ae);
         }
+        CreateBarChartAllTime(many_newUsersForGraph, many_activeUserForGraph, many_avgUsageForGraph);
     }//GEN-LAST:event_importBtnActionPerformed
 
     private void dateQueryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateQueryBtnActionPerformed
         // TODO add your handling code here:
+        deleteInfo();
         try {
             Connection conn = (Connection) DriverManager.getConnection("jdbc:mariadb://localhost:3306/proyectofinal", "root", "");
             if (conn != null) {
@@ -437,13 +693,7 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
                             String country = rs.getString("country_most_users");
                             Date dateQuery = rs.getDate("date");
                             Time timeQuery = rs.getTime("peek_hour");
-                            //System.out.println(newUsers);
-                            //System.out.println(activeUsers);
-                            //System.out.println(avgUserUsage);
-                            //System.out.println(country);
-                            //System.out.println(dateQuery);
-                            //System.out.println(timeQuery);
-
+                            setInfo(dateQuery, timeQuery, newUsers, activeUsers, avgUserUsage, country);
                         }
                     } else {
                         notificationLabel.setText("Date must have the correct format yyyy-MM-dd");
@@ -455,10 +705,12 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
+        CreateBarChartUnique(dateForGraph, peekHourForGraph, newUsersForGraph, activeUserForGraph, avgUsageForGraph, countryForGraph);
     }//GEN-LAST:event_dateQueryBtnActionPerformed
 
     private void monthQueryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthQueryBtnActionPerformed
         // TODO add your handling code here:
+        deleteInfo();
         try {
             Connection conn = (Connection) DriverManager.getConnection("jdbc:mariadb://localhost:3306/proyectofinal", "root", "");
             if (conn != null) {
@@ -467,6 +719,7 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
                 try (Statement st = conn.createStatement()) {
                     
                     String month = monthInput.getText();
+                    monthForGraph = month;
                     String query;
                     
                     if (!"".equals(month)) {
@@ -476,7 +729,23 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
                         ResultSet rs = st.executeQuery(query);
                         while(rs.next()) {
                             // OBTENER LOS DATOS QUE QUERRAMOS (que tengan el mes que estamos buscando)
-                            
+                            Date dateQuery = rs.getDate("date");
+                            int monthQuery = dateQuery.getMonth();
+                            if (Integer.parseInt(month) == (monthQuery + 1)) {
+                                
+                                int newUsers = rs.getInt("new_users");
+                                int activeUsers = rs.getInt("active_users");
+                                int avgUserUsage = rs.getInt("avg_usage_per_user");
+                                String country = rs.getString("country_most_users");
+                                Time timeQuery = rs.getTime("peek_hour");
+                                
+                                many_dateForGraph.add(dateQuery.toString());
+                                many_newUsersForGraph.add(newUsers);
+                                many_activeUserForGraph.add(activeUsers);
+                                many_peekHourForGraph.add(timeQuery.toString());
+                                many_avgUsageForGraph.add(avgUserUsage);
+                                many_countryForGraph.add(country);
+                            }
                         }
                     } else {
                         notificationLabel.setText("Date must have the correct format yyyy-MM-dd");
@@ -488,7 +757,85 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
+        CreateBarChartMonth(monthForGraph, many_newUsersForGraph, many_activeUserForGraph, many_avgUsageForGraph);
     }//GEN-LAST:event_monthQueryBtnActionPerformed
+
+    private void queryAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryAllBtnActionPerformed
+        // TODO add your handling code here:
+        deleteInfo();
+        try {
+            Connection conn = (Connection) DriverManager.getConnection("jdbc:mariadb://localhost:3306/proyectofinal", "root", "");
+            if (conn != null) {
+                notificationLabel.setText("Connected to dataBase 'proyectofinal'");
+                //crea la declaracion
+                try (Statement st = conn.createStatement()) {
+                    
+                    String month = monthInput.getText();
+                    String query;
+
+                    query = "SELECT * FROM `user_stats` WHERE 1;";
+                    System.out.println(query);
+                    
+                    ResultSet rs = st.executeQuery(query);
+                    while(rs.next()) {
+                        // OBTENER LOS DATOS QUE QUERRAMOS (que tengan el mes que estamos buscando)
+
+                        Date dateQuery = rs.getDate("date");
+                        int monthQuery = dateQuery.getMonth();
+                        int newUsers = rs.getInt("new_users");
+                        int activeUsers = rs.getInt("active_users");
+                        int avgUserUsage = rs.getInt("avg_usage_per_user");
+                        String country = rs.getString("country_most_users");
+                        Time timeQuery = rs.getTime("peek_hour");
+                        
+                        many_dateForGraph.add(dateQuery.toString());
+                        many_newUsersForGraph.add(newUsers);
+                        many_activeUserForGraph.add(activeUsers);       
+                        many_peekHourForGraph.add(timeQuery.toString());
+                        many_avgUsageForGraph.add(avgUserUsage);
+                        many_countryForGraph.add(country);
+                    }
+
+                } catch (SQLException ex) {
+                    System.err.println(ex.getMessage());
+                }
+            }   
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        CreateBarChartAllTime(many_newUsersForGraph, many_activeUserForGraph, many_avgUsageForGraph) ;
+    }//GEN-LAST:event_queryAllBtnActionPerformed
+
+    private void uploadFileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadFileBtnActionPerformed
+        // TODO add your handling code here:
+        for (int i = 0; i < many_dateForGraph.size(); i++) {
+            try {
+                var con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/proyectofinal", "root", "");
+                if (con != null) {
+                    String insert = "INSERT INTO user_stats VALUES ('"
+                            + many_dateForGraph.get(i) + "', "
+                            + many_newUsersForGraph.get(i) + ", "
+                            + many_activeUserForGraph.get(i) + ", '"
+                            + many_peekHourForGraph.get(i) + "', "
+                            + many_avgUsageForGraph.get(i) + ", '"
+                            + many_countryForGraph.get(i)   + "'); ";
+                    System.out.println(insert);  		//imprimimos el Query
+               
+                    try (Statement stmt = con.createStatement()) {
+                        stmt.executeUpdate(insert);      //Se actualiza el registro con los datos
+                        stmt.close();  // Se cierran de los objetos 
+
+                    } catch (SQLException ex) {
+                        System.err.println(ex.getMessage());
+                    }
+                    con.close();
+                    System.out.println("Captura OK"); //Mensaje de verificacion
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ProyectoFInalFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }   
+        }
+    }//GEN-LAST:event_uploadFileBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -528,13 +875,13 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel chartPanel;
     private javax.swing.JTextField countryInput;
     private javax.swing.JButton countryQueryBtn;
     private javax.swing.JTextField dateInput;
     private javax.swing.JButton dateQueryBtn;
     private javax.swing.JButton exportBtn;
     private javax.swing.JButton importBtn;
-    private javax.swing.JButton jButton1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
@@ -560,5 +907,6 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
     private javax.swing.JLabel notificationLabel;
     private javax.swing.JTabbedPane previewPane;
     private javax.swing.JButton queryAllBtn;
+    private javax.swing.JButton uploadFileBtn;
     // End of variables declaration//GEN-END:variables
 }
