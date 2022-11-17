@@ -618,6 +618,7 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
                         System.out.println(query);
                         
                         ResultSet rs = st.executeQuery(query);
+                                        notificationLabel.setText("Getting Data");
                         while(rs.next()) {
                             // OBTENER LOS DATOS QUE QUERRAMOS
                             int newUsers = rs.getInt("new_users");
@@ -632,13 +633,18 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
                     }
                 } catch (SQLException ex) {
                     System.err.println(ex.getMessage());
+                                    notificationLabel.setText("Error");
+
                 }
             }   
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
+                            notificationLabel.setText("Error");
+
         }
 
         CreateBarChartUnique(dateForGraph, peekHourForGraph, newUsersForGraph, activeUserForGraph, avgUsageForGraph, countryForGraph);
+        notificationLabel.setText("Chart Generated!");
     }//GEN-LAST:event_countryQueryBtnActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -657,6 +663,8 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
             int option = open.showOpenDialog(this);
             File f1 = new File(open.getSelectedFile().getPath());
             // LEER EL ARCHIVO AQUI
+                            notificationLabel.setText("Getting Data");
+
             try (FileReader fr = new FileReader(f1)) {
                 BufferedReader br = new BufferedReader(fr);
                 String s;
@@ -696,13 +704,18 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
                 }
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(ProyectoFInalFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                notificationLabel.setText("Error");
+
             } catch (IOException ex) {
                 Logger.getLogger(ProyectoFInalFrame.class.getName()).log(Level.SEVERE, null, ex);
+                notificationLabel.setText("Error");
             }
         } catch(HeadlessException ae) {
             System.out.println(ae);
+                        notificationLabel.setText("Error");
         }
         CreateBarChartImported(many_newUsersForGraph, many_activeUserForGraph, many_avgUsageForGraph) ;
+        notificationLabel.setText("Chart Generated!");
     }//GEN-LAST:event_importBtnActionPerformed
 
     private void dateQueryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateQueryBtnActionPerformed
@@ -721,7 +734,8 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
                     if (isValidFormat("yyyy-MM-dd", date, Locale.ENGLISH)) {
                         query = "SELECT * FROM `user_stats` WHERE date='" + date + "';";
                         System.out.println(query);
-                        
+                                        notificationLabel.setText("Getting Data");
+
                         ResultSet rs = st.executeQuery(query);
                         while(rs.next()) {
                             // OBTENER LOS DATOS QUE QUERRAMOS
@@ -738,12 +752,15 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
                     }
                 } catch (SQLException ex) {
                     System.err.println(ex.getMessage());
+                                    notificationLabel.setText("Error");
                 }
             }   
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
+                notificationLabel.setText("Error");
         }
         CreateBarChartUnique(dateForGraph, peekHourForGraph, newUsersForGraph, activeUserForGraph, avgUsageForGraph, countryForGraph);
+        notificationLabel.setText("Chart Generated!");
     }//GEN-LAST:event_dateQueryBtnActionPerformed
 
     private void monthQueryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthQueryBtnActionPerformed
@@ -763,7 +780,8 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
                     if (!"".equals(month)) {
                         query = "SELECT * FROM `user_stats` WHERE 1;";
                         System.out.println(query);
-                        
+                                        notificationLabel.setText("Getting Data");
+
                         ResultSet rs = st.executeQuery(query);
                         while(rs.next()) {
                             // OBTENER LOS DATOS QUE QUERRAMOS (que tengan el mes que estamos buscando)
@@ -790,12 +808,15 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
                     }
                 } catch (SQLException ex) {
                     System.err.println(ex.getMessage());
+                                    notificationLabel.setText("Error");
                 }
             }   
         } catch (SQLException ex) {
+                            notificationLabel.setText("Error");
             System.err.println(ex.getMessage());
         }
         CreateBarChartMonth(monthForGraph, many_newUsersForGraph, many_activeUserForGraph, many_avgUsageForGraph);
+        notificationLabel.setText("Chart Generated!");
     }//GEN-LAST:event_monthQueryBtnActionPerformed
 
     private void queryAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryAllBtnActionPerformed
@@ -813,9 +834,11 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
 
                     query = "SELECT * FROM `user_stats` WHERE 1;";
                     System.out.println(query);
-                    
+                                    notificationLabel.setText("Getting Data");
+
                     ResultSet rs = st.executeQuery(query);
                     while(rs.next()) {
+                        notificationLabel.setText("Getting Data");
                         // OBTENER LOS DATOS QUE QUERRAMOS (que tengan el mes que estamos buscando)
 
                         Date dateQuery = rs.getDate("date");
@@ -836,12 +859,15 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
 
                 } catch (SQLException ex) {
                     System.err.println(ex.getMessage());
+                                    notificationLabel.setText("Error");
                 }
             }   
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
+                            notificationLabel.setText("Error");
         }
         CreateBarChartAllTime(many_newUsersForGraph, many_activeUserForGraph, many_avgUsageForGraph) ;
+        notificationLabel.setText("Chart Generated!");
     }//GEN-LAST:event_queryAllBtnActionPerformed
 
     private void uploadFileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadFileBtnActionPerformed
@@ -850,6 +876,7 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
             try {
                 var con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/proyectofinal", "root", "");
                 if (con != null) {
+                    notificationLabel.setText("Uploading...");
                     String insert = "INSERT INTO user_stats VALUES ('"
                             + many_dateForGraph.get(i) + "', "
                             + many_newUsersForGraph.get(i) + ", "
@@ -865,16 +892,19 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
 
                     } catch (SQLException ex) {
                         System.err.println(ex.getMessage());
+                                        notificationLabel.setText("Error");
                     }
                     con.close();
                     System.out.println("Captura OK"); //Mensaje de verificacion
                 }
             } catch (SQLException ex) {
+                                notificationLabel.setText("Error");
                 Logger.getLogger(ProyectoFInalFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }   
+            }
+            notificationLabel.setText("Uploaded Successfully...");
         }
     }//GEN-LAST:event_uploadFileBtnActionPerformed
-
+    
     private void exportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportBtnActionPerformed
         // TODO add your handling code here:
         
@@ -889,6 +919,7 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
         
         contextChart.draw(g2, new Rectangle(0, 0, 612, 468));
         pdfDoc.writeToFile(new File("D:\\JFreeChart-PDF-" + rep +".pdf"));
+        notificationLabel.setText("PDF saved!");
     }//GEN-LAST:event_exportBtnActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -940,13 +971,18 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
                 }
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(ProyectoFInalFrame.class.getName()).log(Level.SEVERE, null, ex);
+                notificationLabel.setText("Error");
             } catch (IOException ex) {
                 Logger.getLogger(ProyectoFInalFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                notificationLabel.setText("Error");
             }
         } catch(HeadlessException ae) {
             System.out.println(ae);
+                            notificationLabel.setText("Error");
+
         }
         CreateBarChartImported(many_newUsersForGraph, many_activeUserForGraph, many_avgUsageForGraph) ;
+        notificationLabel.setText("Chart Generated!");
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -962,6 +998,7 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
         
         contextChart.draw(g2, new Rectangle(0, 0, 612, 468));
         pdfDoc.writeToFile(new File("D:\\JFreeChart-PDF-" + rep +".pdf"));
+        notificationLabel.setText("PDF saved!");
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
