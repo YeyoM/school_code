@@ -5,10 +5,14 @@
 package proyectofinal;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.orsonpdf.PDFDocument;
+import com.orsonpdf.PDFGraphics2D;
+import com.orsonpdf.Page;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.HeadlessException;
+import java.awt.Rectangle;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -72,6 +76,7 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
     int avgUsageForGraph;
     String countryForGraph;
     String monthForGraph;
+    JFreeChart contextChart;
     
     ArrayList<String> many_dateForGraph = new ArrayList<>();
     ArrayList<Integer> many_newUsersForGraph = new ArrayList<>();
@@ -158,6 +163,7 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
             PlotOrientation.VERTICAL,  
             true,true,false  
         );
+        contextChart = chart;
         ChartPanel chartPanel2 = new ChartPanel(chart);
         chartPanel2.setMouseWheelEnabled(true);
         chartPanel2.setPreferredSize(new Dimension(416, 278));
@@ -194,6 +200,7 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
             PlotOrientation.VERTICAL,  
             true,true,false  
         );
+        contextChart = chart;
         ChartPanel chartPanel2 = new ChartPanel(chart);
         chartPanel2.setMouseWheelEnabled(true);
         chartPanel2.setPreferredSize(new Dimension(416, 278));
@@ -217,6 +224,7 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
             PlotOrientation.VERTICAL,  
             true,true,false  
         );
+        contextChart = chart;
         ChartPanel chartPanel2 = new ChartPanel(chart);
         chartPanel2.setMouseWheelEnabled(true);
         chartPanel2.setPreferredSize(new Dimension(416, 278));
@@ -240,6 +248,7 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
             PlotOrientation.VERTICAL,  
             true,true,false  
         );
+        contextChart = chart;
         ChartPanel chartPanel2 = new ChartPanel(chart);
         chartPanel2.setMouseWheelEnabled(true);
         chartPanel2.setPreferredSize(new Dimension(416, 278));
@@ -485,6 +494,11 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
 
         exportBtn.setFont(new java.awt.Font("Space Grotesk Light", 0, 22)); // NOI18N
         exportBtn.setText("Export graph");
+        exportBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout chartPanelLayout = new javax.swing.GroupLayout(chartPanel);
         chartPanel.setLayout(chartPanelLayout);
@@ -532,9 +546,19 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
         jMenu2.setText("File");
 
         jMenuItem4.setText("Import txt");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenuItem5.setText("Export Graph");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem5);
 
         jMenuBar1.add(jMenu2);
@@ -550,9 +574,19 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
         jMenu3.add(jMenuItem1);
 
         jMenuItem2.setText("Clear Graph");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem2);
 
         jMenuItem3.setText("Clear All");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem3);
 
         jMenuBar1.add(jMenu3);
@@ -603,11 +637,15 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
-        CreateBarChartImported(dateForGraph, peekHourForGraph, newUsersForGraph, activeUserForGraph, avgUsageForGraph, countryForGraph);
+
+        CreateBarChartUnique(dateForGraph, peekHourForGraph, newUsersForGraph, activeUserForGraph, avgUsageForGraph, countryForGraph);
     }//GEN-LAST:event_countryQueryBtnActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+        countryInput.setText("");
+        dateInput.setText("");
+        monthInput.setText("");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void importBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importBtnActionPerformed
@@ -664,7 +702,7 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
         } catch(HeadlessException ae) {
             System.out.println(ae);
         }
-        CreateBarChartAllTime(many_newUsersForGraph, many_activeUserForGraph, many_avgUsageForGraph);
+        CreateBarChartImported(many_newUsersForGraph, many_activeUserForGraph, many_avgUsageForGraph) ;
     }//GEN-LAST:event_importBtnActionPerformed
 
     private void dateQueryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateQueryBtnActionPerformed
@@ -836,6 +874,113 @@ public class ProyectoFInalFrame extends javax.swing.JFrame {
             }   
         }
     }//GEN-LAST:event_uploadFileBtnActionPerformed
+
+    private void exportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportBtnActionPerformed
+        // TODO add your handling code here:
+        
+        PDFDocument pdfDoc = new PDFDocument();
+        pdfDoc.setTitle("Chart");
+        pdfDoc.setAuthor("YOu");
+        
+        Page page = pdfDoc.createPage(new Rectangle(612, 468));
+        PDFGraphics2D g2 = page.getGraphics2D();
+        
+        String rep = contextChart.toString();
+        
+        contextChart.draw(g2, new Rectangle(0, 0, 612, 468));
+        pdfDoc.writeToFile(new File("D:\\JFreeChart-PDF-" + rep +".pdf"));
+    }//GEN-LAST:event_exportBtnActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+         // TODO add your handling code here:
+        deleteInfo();
+        int contadoraaa = 0;
+        try {
+            JFileChooser open = new JFileChooser();
+            int option = open.showOpenDialog(this);
+            File f1 = new File(open.getSelectedFile().getPath());
+            // LEER EL ARCHIVO AQUI
+            try (FileReader fr = new FileReader(f1)) {
+                BufferedReader br = new BufferedReader(fr);
+                String s;
+                while((s=br.readLine())!=null) {
+                    StringTokenizer st = new StringTokenizer(s, "\n");
+                    while(st.hasMoreTokens()) {
+                        StringTokenizer st2 = new StringTokenizer(st.nextToken(), "|");
+                        while(st2.hasMoreTokens()) {
+                            String actual = st2.nextToken();
+                            System.out.println(contadoraaa +" "+ actual);
+                            switch (contadoraaa) {
+                                case 0:
+                                    many_dateForGraph.add(actual);
+                                    break;
+                                case 1:
+                                    many_newUsersForGraph.add(Integer.parseInt(actual));
+                                    break;
+                                case 2:
+                                    many_activeUserForGraph.add(Integer.parseInt(actual));
+                                    break;
+                                case 3:
+                                    many_peekHourForGraph.add(actual);
+                                    break;
+                                case 4:
+                                    many_avgUsageForGraph.add(Integer.parseInt(actual));
+                                    break;
+                                case 5:
+                                    many_countryForGraph.add(actual);
+                                    break;
+                                default:
+                                    break;
+                            }
+                            contadoraaa++;
+                        }
+                        contadoraaa = 0;
+                    }
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(ProyectoFInalFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(ProyectoFInalFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch(HeadlessException ae) {
+            System.out.println(ae);
+        }
+        CreateBarChartImported(many_newUsersForGraph, many_activeUserForGraph, many_avgUsageForGraph) ;
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        PDFDocument pdfDoc = new PDFDocument();
+        pdfDoc.setTitle("Chart");
+        pdfDoc.setAuthor("YOu");
+        
+        Page page = pdfDoc.createPage(new Rectangle(612, 468));
+        PDFGraphics2D g2 = page.getGraphics2D();
+        
+        String rep = contextChart.toString();
+        
+        contextChart.draw(g2, new Rectangle(0, 0, 612, 468));
+        pdfDoc.writeToFile(new File("D:\\JFreeChart-PDF-" + rep +".pdf"));
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+
+        chartPanel.removeAll();
+        chartPanel.revalidate();
+        chartPanel.repaint();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        chartPanel.removeAll();
+        chartPanel.revalidate();
+        chartPanel.repaint();
+        countryInput.setText("");
+        dateInput.setText("");
+        monthInput.setText("");
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
