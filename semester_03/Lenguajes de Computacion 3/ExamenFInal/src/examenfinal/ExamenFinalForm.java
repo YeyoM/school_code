@@ -1,14 +1,13 @@
 package examenfinal;
 
-import com.sun.jdi.connect.spi.Connection;
+import com.formdev.flatlaf.FlatDarkLaf;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -21,13 +20,22 @@ import java.util.logging.Logger;
  */
 public class ExamenFinalForm extends javax.swing.JFrame {
     
-    String carritoIds;
-    String carritoCantidades;
+    ArrayList<String> carritoIds = new ArrayList<>();
+    ArrayList<String> carritoCantidades = new ArrayList<>();
+    ArrayList<String> inventarioActual = new ArrayList<>();
+    ArrayList<String> nuevoInventario = new ArrayList<>();
+    
+    Integer total = 0;
     
     /**
      * Creates new form ExamenFinalForm
      */
     public ExamenFinalForm() {
+        try {
+            UIManager.setLookAndFeel( new FlatDarkLaf() );
+        } catch( UnsupportedLookAndFeelException ex ) {
+            System.err.println( "Failed to initialize LaF" );
+        }
         initComponents();
     }
 
@@ -61,9 +69,11 @@ public class ExamenFinalForm extends javax.swing.JFrame {
         idInputCarrito = new javax.swing.JTextField();
         cantidadInputCarrito = new javax.swing.JTextField();
         agragarAlCarrito = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        pagarBtn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         carritoArea = new javax.swing.JTextArea();
+        totalLabel = new javax.swing.JLabel();
+        notificaciones = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -167,11 +177,20 @@ public class ExamenFinalForm extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Pagar");
+        pagarBtn.setText("Pagar");
+        pagarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pagarBtnActionPerformed(evt);
+            }
+        });
 
         carritoArea.setColumns(20);
         carritoArea.setRows(5);
         jScrollPane2.setViewportView(carritoArea);
+
+        totalLabel.setText("Total: ");
+
+        notificaciones.setText(" ");
 
         javax.swing.GroupLayout carritoPaneLayout = new javax.swing.GroupLayout(carritoPane);
         carritoPane.setLayout(carritoPaneLayout);
@@ -183,7 +202,10 @@ public class ExamenFinalForm extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(carritoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pagarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(totalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(notificaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(carritoPaneLayout.createSequentialGroup()
                         .addGroup(carritoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(carritoPaneLayout.createSequentialGroup()
@@ -213,8 +235,13 @@ public class ExamenFinalForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addGap(3, 3, 3)
-                .addGroup(carritoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
+                .addGroup(carritoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(carritoPaneLayout.createSequentialGroup()
+                        .addComponent(notificaciones)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(totalLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pagarBtn))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
@@ -246,6 +273,7 @@ public class ExamenFinalForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buscarTodosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarTodosBtnActionPerformed
+        displayProducts.setText("");
         try {
             org.mariadb.jdbc.Connection conn = (org.mariadb.jdbc.Connection) DriverManager.getConnection("jdbc:mariadb://localhost:3306/examen_final", "root", "");
             if (conn != null) {
@@ -277,6 +305,7 @@ public class ExamenFinalForm extends javax.swing.JFrame {
 
     private void buscarIdBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarIdBtnActionPerformed
         // TODO add your handling code here:
+        displayProducts.setText("");
         try {
             org.mariadb.jdbc.Connection conn = (org.mariadb.jdbc.Connection) DriverManager.getConnection("jdbc:mariadb://localhost:3306/examen_final", "root", "");
             if (conn != null) {
@@ -310,6 +339,7 @@ public class ExamenFinalForm extends javax.swing.JFrame {
 
     private void buscarNombreBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarNombreBtnActionPerformed
         // TODO add your handling code here:
+        displayProducts.setText("");
         try {
             org.mariadb.jdbc.Connection conn = (org.mariadb.jdbc.Connection) DriverManager.getConnection("jdbc:mariadb://localhost:3306/examen_final", "root", "");
             if (conn != null) {
@@ -346,10 +376,6 @@ public class ExamenFinalForm extends javax.swing.JFrame {
         
         String idCarrito = idInputCarrito.getText();
         String cantidadCarrito = cantidadInputCarrito.getText();
-        String nombre;
-        String id;
-        Integer precio;
-        Integer inventario = null;
         
         if (!" ".equals(idCarrito) && Integer.parseInt(cantidadCarrito) != 0) {
             try {
@@ -363,16 +389,43 @@ public class ExamenFinalForm extends javax.swing.JFrame {
 
                         ResultSet rs = st.executeQuery(query);
                         while(rs.next()) {
-                            nombre = rs.getString("nom");
+                            
+                            String id;
+                            Integer precio;
+                            Integer inventario;
+                            Integer nuevoInventarioQ;
+                            
                             id = rs.getString("id");
                             precio = rs.getInt("precio");
                             inventario = rs.getInt("inventario");
-                        }
-                        
-                        if (Integer.parseInt(cantidadCarrito) <= inventario) {
+                                                    
+                            if (Integer.parseInt(cantidadCarrito) <= inventario) {
+                                
+                                nuevoInventarioQ = inventario - Integer.parseInt(cantidadCarrito);
+                                
+                                carritoIds.add(id);
+                                carritoCantidades.add(cantidadCarrito);
+                                inventarioActual.add(inventario.toString());
+                                nuevoInventario.add(nuevoInventarioQ.toString());
+                                
+                                Integer precioTotal = precio * Integer.parseInt(cantidadCarrito);
+                                
+                                total += precioTotal;
+                                
+                                // agregar al textarea del carrito
+                                String paraCarrito = id + " | " + cantidadCarrito + "pza: $" + precioTotal + "\n";
+                                carritoArea.append(paraCarrito);
+                                
+                                totalLabel.setText("Total: " + total);
+                                
+                                notificaciones.setText("Producto agregado!");
+                                
+                                idInputCarrito.setText("");
+                                cantidadInputCarrito.setText("");
+                            } else {
+                                // no se puede
+                            }
                             
-                        } else {
-                            // no se puede
                         }
 
                     } catch (SQLException ex) {
@@ -384,6 +437,39 @@ public class ExamenFinalForm extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_agragarAlCarritoActionPerformed
+
+    private void pagarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarBtnActionPerformed
+           
+        // TODO add your handling code here:
+         try {
+            org.mariadb.jdbc.Connection conn = (org.mariadb.jdbc.Connection) DriverManager.getConnection("jdbc:mariadb://localhost:3306/examen_final", "root", "");
+            if (conn != null) {
+                //crea la declaracion
+                try (Statement st = conn.createStatement()) {
+                    
+                    for (int i = 0; i < carritoIds.size(); i++) {
+                                        
+                        // actualizar el inventario
+                        String query = "UPDATE `inventario` \nSET inventario=" + nuevoInventario.get(i) + "\nWHERE id=" + carritoIds.get(i) + ";" ;
+                        st.executeUpdate(query);
+                    }
+                    
+                } catch (SQLException ex) {
+                    System.err.println(ex.getMessage());
+                }
+            }   
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        
+        carritoIds.removeAll(carritoIds);
+        carritoCantidades.removeAll(carritoCantidades);
+        total = 0;
+        
+        notificaciones.setText("Pago completado!");
+        carritoArea.setText("");
+        totalLabel.setText("Total: 0");
+    }//GEN-LAST:event_pagarBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -431,7 +517,6 @@ public class ExamenFinalForm extends javax.swing.JFrame {
     private javax.swing.JTextArea displayProducts;
     private javax.swing.JTextField idInput;
     private javax.swing.JTextField idInputCarrito;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -443,6 +528,9 @@ public class ExamenFinalForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField nombreInput;
+    private javax.swing.JLabel notificaciones;
+    private javax.swing.JButton pagarBtn;
     private javax.swing.JPanel productosPane;
+    private javax.swing.JLabel totalLabel;
     // End of variables declaration//GEN-END:variables
 }
