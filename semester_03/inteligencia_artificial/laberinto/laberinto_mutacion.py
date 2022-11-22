@@ -216,11 +216,23 @@ def generar_laberinto(m, n, valoresAleatorios):
 
     return laberinto
 
+def reducirCaminosFila(fila, densidad):
+    return True
+
+def aumentarCaminosFila(fila, densidad):
+    return True
+
 def comprobarLaberinto(laberinto, m, n, valoresAleatorios):
 
     for i in range(m):
         # contar los ceros de cada fila y comprobar con los valores aleatorios
-        print(list(laberinto[i]).count('0') * 100 / n)
+        densidadActual = list(laberinto[i]).count('0') * 100 / n
+        if (densidadActual < valoresAleatorios[i]):
+            print("Aumentar Caminos")
+        elif (densidadActual > valoresAleatorios[i]):
+            print("Reducir Caminos")
+        else:
+            print("Correcto")
 
     return laberinto
 
