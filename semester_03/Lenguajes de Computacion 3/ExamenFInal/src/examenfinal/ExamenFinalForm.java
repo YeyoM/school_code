@@ -1,11 +1,16 @@
 package examenfinal;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -246,11 +251,12 @@ public class ExamenFinalForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(carritoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cantidadInputCarrito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(idInputCarrito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(carritoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(carritoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cantidadInputCarrito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(idInputCarrito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(agragarAlCarrito)
                 .addGap(14, 14, 14))
@@ -416,7 +422,7 @@ public class ExamenFinalForm extends javax.swing.JFrame {
                                 String paraCarrito = id + " | " + cantidadCarrito + "pza: $" + precioTotal + "\n";
                                 carritoArea.append(paraCarrito);
                                 
-                                totalLabel.setText("Total: " + total);
+                                totalLabel.setText("Total: $" + total);
                                 
                                 notificaciones.setText("Producto agregado!");
                                 
@@ -452,10 +458,15 @@ public class ExamenFinalForm extends javax.swing.JFrame {
                         // actualizar el inventario
                         String query = "UPDATE `inventario` \nSET inventario=" + nuevoInventario.get(i) + "\nWHERE id=" + carritoIds.get(i) + ";" ;
                         st.executeUpdate(query);
+                        String content = "Abarrotes La Esquina \n\nGracias Por Su Pago \n\nProductos: \n" + carritoArea.getText() + "\nTotal: $" + total.toString();
+                        String path = "D:/ticket.txt";
+                        Files.write( Paths.get(path), content.getBytes());
                     }
                     
                 } catch (SQLException ex) {
                     System.err.println(ex.getMessage());
+                } catch (IOException ex) {
+                    Logger.getLogger(ExamenFinalForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }   
         } catch (SQLException ex) {
@@ -468,7 +479,7 @@ public class ExamenFinalForm extends javax.swing.JFrame {
         
         notificaciones.setText("Pago completado!");
         carritoArea.setText("");
-        totalLabel.setText("Total: 0");
+        totalLabel.setText("Total: $0");
     }//GEN-LAST:event_pagarBtnActionPerformed
 
     /**
