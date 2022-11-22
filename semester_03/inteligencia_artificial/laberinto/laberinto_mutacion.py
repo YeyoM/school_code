@@ -201,7 +201,6 @@ def generar_laberinto(m, n, valoresAleatorios):
 
     # Generar obstaculos por linea
     for i in range(m):
-        # Generar 40% de obstaculos de la fila
         densidad = randint(55, 67)
         valoresAleatorios.append(densidad)
         obstaculos = int(n * densidad/100)
@@ -216,8 +215,36 @@ def generar_laberinto(m, n, valoresAleatorios):
 
     return laberinto
 
-def reducirCaminosFila(fila, densidad):
-    return True
+def reducirCaminosFila(fila, densidadActual, densidadObjetivo, n, m):
+
+    # print('Reduciendo caminos de la fila', fila)
+    #print('Densidad actual:', densidadActual)
+    #print('Densidad objetivo:', densidadObjetivo)
+
+    cantidadObtasculosObjetivo = int(n * densidadObjetivo/100)
+    cantidadObstaculosActual = int(n * densidadActual/100)
+
+    #print('Cantidad de obstaculos objetivo:', cantidadObtasculosObjetivo)
+    #print('Cantidad de obstaculos actual:', cantidadObstaculosActual)
+
+    while (cantidadObstaculosActual < cantidadObtasculosObjetivo):
+        # seleccionar entre 1 y cantidadObstaculosObjetivos - cantidadObstaculosActual para mutar
+        cantidadObstaculosMutar = randint(1, cantidadObtasculosObjetivo - cantidadObstaculosActual)
+        # print('Cantidad de obstaculos a mutar:', cantidadObstaculosMutar)
+        # seleccionar obstaculos a mutar
+        obstaculosMutar = random.sample(range(n), cantidadObstaculosMutar)
+        # mutar obstaculos
+        for i in obstaculosMutar:
+            if (fila[i] == '0'):
+                fila[i] = '1'
+            elif (fila[i] == '1'):
+                fila[i] = '0'
+
+        cantidadObstaculosActual = list(fila).count('0')
+        # print('Cantidad de obstaculos actual:', cantidadObstaculosActual)
+        # print('Cantidad de obstaculos objetivo:', cantidadObtasculosObjetivo)
+
+    return fila
 
 def aumentarCaminosFila(fila, densidad):
     return True
@@ -225,12 +252,14 @@ def aumentarCaminosFila(fila, densidad):
 def comprobarLaberinto(laberinto, m, n, valoresAleatorios):
 
     for i in range(m):
-        # contar los ceros de cada fila y comprobar con los valores aleatorios
+        # contar los ceros de cada fila y comprobar con los valores aleatorios (obstaculos)
         densidadActual = list(laberinto[i]).count('0') * 100 / n
         if (densidadActual < valoresAleatorios[i]):
-            print("Aumentar Caminos")
+            # reducir caminos
+            #print("Reducir Caminos")
+            reducirCaminosFila(laberinto[i], densidadActual, valoresAleatorios[i], n, m)
         elif (densidadActual > valoresAleatorios[i]):
-            print("Reducir Caminos")
+            print("Aumentar Caminos")
         else:
             print("Correcto")
 
@@ -244,6 +273,12 @@ def juntar_laberintos(caminos, laberinto_aleatorio):
                 laberinto_aleatorio[i][j] = '1'
     return laberinto_aleatorio
 
+def escarbar_laberinto(laberinto, m, n):
+
+    # Escarbar laberinto
+    # Escarbar hasta encontrar un camino o un laberinto (uno y uno)
+
+    return laberinto
 
 def imprimir_laberinto(laberinto):
     # Cambiar 0 por █
@@ -286,6 +321,10 @@ def _main_():
     # Parte 4. Revisar cada fila y verificar que compla con el porcentaje entre 33 y 45% de caminos
     print("Valores aleatorios: ", valoresAleatorios)
     comprobarLaberinto(laberinto, m, n, valoresAleatorios)
+    imprimir_laberinto(laberinto)
+
+    # Parte 5. Escarbar laberinto
+    escarbarLaberinto(laberinto, m, n)
 
 if __name__ == "__main__":
     _main_()
