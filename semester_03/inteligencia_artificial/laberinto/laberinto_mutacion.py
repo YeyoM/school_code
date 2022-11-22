@@ -307,10 +307,17 @@ def escarbar_laberinto(laberinto, m, n):
             x += 1
 
         elif movimiento == 'left':
-            #siguiente_camino = buscar_siguiente_camino(x, y, m, n, movimiento, laberinto)
+            siguiente_camino = buscar_siguiente_camino(x, y, m, n, movimiento, laberinto)
+            #print('Siguiente camino:', siguiente_camino)
             # crear camino desde las coordenadas actuales hasta el siguiente camino
-            #print("[", x, ",", y, "] -> [", siguiente_camino[0], ",", siguiente_camino[1], "]")
-            y -= 1
+            if (siguiente_camino[0][0] == x and siguiente_camino[0][1] == y): 
+                y -= 1
+            else:
+                print("[", x, ",", y, "] -> [", siguiente_camino[0][0], ",", siguiente_camino[0][1], "]")
+                for i in range(y, siguiente_camino[0][1], -1):
+                    laberinto[x][i] = '1'
+                x = siguiente_camino[0][0]
+                y = siguiente_camino[0][1]
 
         elif movimiento == 'right':
             siguiente_camino = buscar_siguiente_camino(x, y, m, n, movimiento, laberinto)
@@ -318,9 +325,9 @@ def escarbar_laberinto(laberinto, m, n):
             if (siguiente_camino[0][0] == x and siguiente_camino[0][1] == y):
                 y += 1
             else:
-                print("[", x, ",", y, "] -> [", siguiente_camino[0][0], ",", siguiente_camino[0][1], "]")
+                # print("[", x, ",", y, "] -> [", siguiente_camino[0][0], ",", siguiente_camino[0][1], "]")
                 for i in range(y, siguiente_camino[0][1]):
-                    print("[", x, ",", i, "]")
+                    # print("[", x, ",", i, "]")
                     laberinto[x][i] = '1'
                 x = siguiente_camino[0][0]
                 y = siguiente_camino[0][1]
@@ -336,7 +343,14 @@ def buscar_siguiente_camino(x, y, m, n, movimiento_anterior, laberinto):
     
     coordenadas = []
 
-    if movimiento_anterior == 'right':
+    if movimiento_anterior == 'left':
+        for i in range(y, 0, -1):
+            if laberinto[x][i] == '1' and i != y:
+                coordenadas.append([x, i])
+                return coordenadas
+        coordenadas.append([x, y - 1])
+
+    elif movimiento_anterior == 'right':
         for i in range(y, n):
             if laberinto[x][i] == '1' and laberinto[x][i - 1] == '0':
                 coordenadas.append([x, i])
