@@ -246,9 +246,6 @@ def reducirCaminosFila(fila, densidadActual, densidadObjetivo, n, m):
 
     return fila
 
-def aumentarCaminosFila(fila, densidad):
-    return True
-
 def comprobarLaberinto(laberinto, m, n, valoresAleatorios):
 
     for i in range(m):
@@ -276,9 +273,77 @@ def juntar_laberintos(caminos, laberinto_aleatorio):
 def escarbar_laberinto(laberinto, m, n):
 
     # Escarbar laberinto
-    # Escarbar hasta encontrar un camino o un laberinto (uno y uno)
+    # Escarbar hasta encontrar un camino o un obstaculo (uno y uno)
+
+    movimiento_anterior = ''
+    movimientos_posibles = ['up', 'down', 'left', 'right']
+    probabildades = [0.15, 0.35, 0.15, 0.35]
+
+    # Generar camino de entrada a salida
+    x = 0
+    y = 0
+    laberinto[x][y] = '1'
+
+    movimientos_posibles = obtener_posibles_movimientos(x, y, m, n, movimiento_anterior)
+    probabilidades = obtener_probabilidades(probabildades, movimientos_posibles)
+
+    while (x != m - 1 or y != n - 1):
+        movimiento = np.random.choice(movimientos_posibles, p=probabilidades)
+        if movimiento == 'up':
+            # siguiente_camino = buscar_siguiente_camino(x, y, m, n, movimiento, laberinto)
+            # print('Siguiente camino:', siguiente_camino)
+            # # crear camino desde las coordenadas actuales hasta el siguiente camino
+            # for i in range(x, siguiente_camino[0][0]):
+            #     laberinto[i][y] = '1'
+            # x = siguiente_camino[0][0]
+            # y = siguiente_camino[0][1]
+            # print("[", x, ",", y, "] -> [", siguiente_camino[0][0], ",", siguiente_camino[0][1], "]")
+            x -= 1
+
+        elif movimiento == 'down':
+            #siguiente_camino = buscar_siguiente_camino(x, y, m, n, movimiento, laberinto)
+            # crear camino desde las coordenadas actuales hasta el siguiente camino
+            #print("[", x, ",", y, "] -> [", siguiente_camino[0], ",", siguiente_camino[1], "]")
+            x += 1
+
+        elif movimiento == 'left':
+            #siguiente_camino = buscar_siguiente_camino(x, y, m, n, movimiento, laberinto)
+            # crear camino desde las coordenadas actuales hasta el siguiente camino
+            #print("[", x, ",", y, "] -> [", siguiente_camino[0], ",", siguiente_camino[1], "]")
+            y -= 1
+
+        elif movimiento == 'right':
+            siguiente_camino = buscar_siguiente_camino(x, y, m, n, movimiento, laberinto)
+            # crear camino desde las coordenadas actuales hasta el siguiente camino
+            if (siguiente_camino[0][0] == x and siguiente_camino[0][1] == y):
+                y += 1
+            else:
+                print("[", x, ",", y, "] -> [", siguiente_camino[0][0], ",", siguiente_camino[0][1], "]")
+                for i in range(y, siguiente_camino[0][1]):
+                    print("[", x, ",", i, "]")
+                    laberinto[x][i] = '1'
+                x = siguiente_camino[0][0]
+                y = siguiente_camino[0][1]
+
+        laberinto[x][y] = '1'
+        movimiento_anterior = movimiento
+        movimientos_posibles = obtener_posibles_movimientos(x, y, m, n, movimiento_anterior)
+        probabilidades = obtener_probabilidades(probabildades, movimientos_posibles)
 
     return laberinto
+
+def buscar_siguiente_camino(x, y, m, n, movimiento_anterior, laberinto):
+    
+    coordenadas = []
+
+    if movimiento_anterior == 'right':
+        for i in range(y, n):
+            if laberinto[x][i] == '1' and laberinto[x][i - 1] == '0':
+                coordenadas.append([x, i])
+                return coordenadas
+        coordenadas.append([x, y + 1])
+
+    return coordenadas
 
 def imprimir_laberinto(laberinto):
     # Cambiar 0 por █
@@ -297,7 +362,7 @@ def imprimir_laberinto(laberinto):
     print()
 
 def _main_():
-
+    
     seed(1)
 
     valoresAleatorios = []
@@ -324,7 +389,8 @@ def _main_():
     imprimir_laberinto(laberinto)
 
     # Parte 5. Escarbar laberinto
-    escarbarLaberinto(laberinto, m, n)
+    escarbar_laberinto(laberinto, m, n)
+    imprimir_laberinto(laberinto)
 
 if __name__ == "__main__":
     _main_()
