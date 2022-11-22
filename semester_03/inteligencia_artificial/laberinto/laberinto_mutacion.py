@@ -290,34 +290,25 @@ def escarbar_laberinto(laberinto, m, n):
     while (x != m - 1 or y != n - 1):
         movimiento = np.random.choice(movimientos_posibles, p=probabilidades)
         if movimiento == 'up':
-            # siguiente_camino = buscar_siguiente_camino(x, y, m, n, movimiento, laberinto)
-            # print('Siguiente camino:', siguiente_camino)
-            # # crear camino desde las coordenadas actuales hasta el siguiente camino
-            # for i in range(x, siguiente_camino[0][0]):
-            #     laberinto[i][y] = '1'
-            # x = siguiente_camino[0][0]
-            # y = siguiente_camino[0][1]
-            # print("[", x, ",", y, "] -> [", siguiente_camino[0][0], ",", siguiente_camino[0][1], "]")
             x -= 1
 
-        elif movimiento == 'down':
-            #siguiente_camino = buscar_siguiente_camino(x, y, m, n, movimiento, laberinto)
-            # crear camino desde las coordenadas actuales hasta el siguiente camino
-            #print("[", x, ",", y, "] -> [", siguiente_camino[0], ",", siguiente_camino[1], "]")
-            x += 1
 
-        elif movimiento == 'left':
+
+        elif movimiento == 'down':
             siguiente_camino = buscar_siguiente_camino(x, y, m, n, movimiento, laberinto)
             #print('Siguiente camino:', siguiente_camino)
             # crear camino desde las coordenadas actuales hasta el siguiente camino
             if (siguiente_camino[0][0] == x and siguiente_camino[0][1] == y): 
-                y -= 1
+                x += 1
             else:
                 print("[", x, ",", y, "] -> [", siguiente_camino[0][0], ",", siguiente_camino[0][1], "]")
-                for i in range(y, siguiente_camino[0][1], -1):
-                    laberinto[x][i] = '1'
+                for i in range(x, siguiente_camino[0][0]):
+                    laberinto[i][y] = '1'
                 x = siguiente_camino[0][0]
                 y = siguiente_camino[0][1]
+
+        elif movimiento == 'left':
+            y -= 1
 
         elif movimiento == 'right':
             siguiente_camino = buscar_siguiente_camino(x, y, m, n, movimiento, laberinto)
@@ -335,6 +326,8 @@ def escarbar_laberinto(laberinto, m, n):
         laberinto[x][y] = '1'
         movimiento_anterior = movimiento
         movimientos_posibles = obtener_posibles_movimientos(x, y, m, n, movimiento_anterior)
+        if movimiento_anterior in movimientos_posibles:
+            movimientos_posibles.remove(movimiento_anterior)
         probabilidades = obtener_probabilidades(probabildades, movimientos_posibles)
 
     return laberinto
@@ -343,7 +336,21 @@ def buscar_siguiente_camino(x, y, m, n, movimiento_anterior, laberinto):
     
     coordenadas = []
 
-    if movimiento_anterior == 'left':
+    if movimiento_anterior == 'up':
+        for i in range(x, m):
+            if laberinto[i][y] == '1':
+                coordenadas.append([i, y])
+                return coordenadas
+        coordenadas.append([x - 1, y])
+
+    elif movimiento_anterior == 'down':
+        for i in range(x, -1, -1):
+            if laberinto[i][y] == '1':
+                coordenadas.append([i, y])
+                return coordenadas
+        coordenadas.append([x + 1, y])
+
+    elif movimiento_anterior == 'left':
         for i in range(y, 0, -1):
             if laberinto[x][i] == '1' and i != y:
                 coordenadas.append([x, i])
