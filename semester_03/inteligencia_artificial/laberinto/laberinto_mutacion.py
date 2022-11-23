@@ -290,8 +290,17 @@ def escarbar_laberinto(laberinto, m, n):
     while (x != m - 1 or y != n - 1):
         movimiento = np.random.choice(movimientos_posibles, p=probabilidades)
         if movimiento == 'up':
+        #    siguiente_camino = buscar_siguiente_camino(x, y, m, n, movimiento, laberinto)
+        #    #print('Siguiente camino:', siguiente_camino)
+        #    # crear camino desde las coordenadas actuales hasta el siguiente camino
+        #    if (siguiente_camino[0][0] == x and siguiente_camino[0][1] == y): 
             x -= 1
-
+        #     else:
+        #         print("[", x, ",", y, "] -> [", siguiente_camino[0][0], ",", siguiente_camino[0][1], "]")
+        #         for i in range(x, siguiente_camino[0][0], -1):
+        #             laberinto[i][y] = '1'
+        #         x = siguiente_camino[0][0]
+        #         y = siguiente_camino[0][1]
 
 
         elif movimiento == 'down':
@@ -308,7 +317,17 @@ def escarbar_laberinto(laberinto, m, n):
                 y = siguiente_camino[0][1]
 
         elif movimiento == 'left':
-            y -= 1
+            # siguiente_camino = buscar_siguiente_camino(x, y, m, n, movimiento, laberinto)
+            # #print('Siguiente camino:', siguiente_camino)
+            # # crear camino desde las coordenadas actuales hasta el siguiente camino
+            # if (siguiente_camino[0][0] == x and siguiente_camino[0][1] == y): 
+                y -= 1
+            # else:
+            #     # print("[", x, ",", y, "] -> [", siguiente_camino[0][0], ",", siguiente_camino[0][1], "]")
+            #     for i in range(y, siguiente_camino[0][1], -1):
+            #         laberinto[x][i] = '1'
+            #     x = siguiente_camino[0][0]
+            #     y = siguiente_camino[0][1]
 
         elif movimiento == 'right':
             siguiente_camino = buscar_siguiente_camino(x, y, m, n, movimiento, laberinto)
@@ -376,9 +395,9 @@ def imprimir_laberinto(laberinto):
     for i in range(len(laberinto_copia)):
         for j in range(len(laberinto_copia[0])):
             if laberinto_copia[i][j] == '0':
-                laberinto_copia[i][j] = '█'
+                laberinto_copia[i][j] = '⬛'
             else:
-                laberinto_copia[i][j] = ' '
+                laberinto_copia[i][j] = '⬜'
     print('\n'.join(''.join(fila) for fila in laberinto_copia))
     print()
 
@@ -391,18 +410,18 @@ def _main_():
     # Parte 1. Generar Caminos
     m = 40
     n = 40
-    caminos = generar_caminos(m, n)
-    imprimir_laberinto(caminos)
+    #caminos = generar_caminos(m, n)
+    #imprimir_laberinto(caminos)
 
     # Parte 2. Generar laberinto
     m = 40
     n = 40
-    laberinto_aleatorio = generar_laberinto(m, n, valoresAleatorios)
-    imprimir_laberinto(laberinto_aleatorio)
+    laberinto = generar_laberinto(m, n, valoresAleatorios)
+    imprimir_laberinto(laberinto)
 
     # Parte 3. Juntar laberintos
-    laberinto = juntar_laberintos(caminos, laberinto_aleatorio)
-    imprimir_laberinto(laberinto)
+    #laberinto = juntar_laberintos(caminos, laberinto_aleatorio)
+    #imprimir_laberinto(laberinto)
 
     # Parte 4. Revisar cada fila y verificar que compla con el porcentaje entre 33 y 45% de caminos
     print("Valores aleatorios: ", valoresAleatorios)
