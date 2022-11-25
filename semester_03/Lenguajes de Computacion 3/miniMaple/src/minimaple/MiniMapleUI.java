@@ -4,6 +4,7 @@
  */
 package minimaple;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 import org.apache.commons.lang3.math.Fraction;
 
@@ -39,11 +40,11 @@ public class MiniMapleUI extends javax.swing.JFrame {
         displayMatriz = new javax.swing.JTextArea();
         fraccionInput2 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        renglonInput2 = new javax.swing.JTextField();
+        renglonInput1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         operacionInput = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        rengonInput2 = new javax.swing.JTextField();
+        renglonInput2 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         renglonInput3 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -126,6 +127,11 @@ public class MiniMapleUI extends javax.swing.JFrame {
         });
 
         operarBtn2.setText("Operar");
+        operarBtn2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                operarBtn2ActionPerformed(evt);
+            }
+        });
 
         fraccionInput3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,7 +166,7 @@ public class MiniMapleUI extends javax.swing.JFrame {
                                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(16, 16, 16))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(renglonInput2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(renglonInput1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(operacionInput, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -171,7 +177,7 @@ public class MiniMapleUI extends javax.swing.JFrame {
                                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(rengonInput2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(renglonInput2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,10 +234,10 @@ public class MiniMapleUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
                             .addComponent(fraccionInput2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(renglonInput2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(renglonInput1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(operacionInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(fraccInput1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(rengonInput2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(renglonInput2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(renglonInput3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(operarBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -281,6 +287,7 @@ public class MiniMapleUI extends javax.swing.JFrame {
     private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
         // TODO add your handling code here:
         String contenido = displayMatriz.getText();
+        int iteradorVector = 0;
         
         ArrayList<Fraction> vector = new ArrayList<>();
         
@@ -320,12 +327,12 @@ public class MiniMapleUI extends javax.swing.JFrame {
         
 //        System.out.println(vector.toString());
 //        
-//        for (int i = 0; i < filas; i++) {
-//            for (int j = 0; j < columnas; j++) {
-//                matriz.get(i).add(vector.get(iteradorVector));
-//                iteradorVector++;
-//            }            
-//        }
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                matriz.get(i).add(vector.get(iteradorVector));
+                iteradorVector++;
+            }            
+        }
 //        
 //        int filasMatriz = matriz.size();
 //        
@@ -377,10 +384,57 @@ public class MiniMapleUI extends javax.swing.JFrame {
     private void operarBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_operarBtn1ActionPerformed
         // TODO add your handling code here:
         
-        // Revbisar que los input no esten vacios
+        // Revisar que los input no esten vacios
         
     }//GEN-LAST:event_operarBtn1ActionPerformed
 
+    private void operarBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_operarBtn2ActionPerformed
+        // TODO add your handling code here:
+        
+        // revisar que los inputs no esten vacios
+        String fraccion1Input = fraccionInput3.getText();
+        Fraction fraccion1;
+        
+        if (fraccion1Input.contains("/")) {
+            int indice = fraccion1Input.indexOf("/");
+            int inicio = 0;
+            int termino = fraccion1Input.length();
+            int numerador = Integer.parseInt(fraccion1Input.substring(inicio, indice));
+            int denominador = Integer.parseInt(fraccion1Input.substring(indice + 1, termino));
+            fraccion1 = Fraction.getFraction(numerador, denominador);
+            System.out.println(fraccion1);
+        } else {
+            int numerador = Integer.parseInt(fraccion1Input);
+            int denominador = 1;
+            fraccion1 = Fraction.getFraction(numerador, denominador);
+        }
+        
+        int renglon1 = Integer.parseInt(renglonInput4.getText()) - 1;
+        int renglon2 = Integer.parseInt(renglonInput5.getText()) - 1;
+        
+        // crear copia del renglon que queremos modificar
+        ArrayList<Fraction> copiaRenglon = new ArrayList<>();
+        
+        for (int i = 0; i < columnas; i++) {
+            copiaRenglon.add(matriz.get(renglon1).get(i));
+        }
+        
+        // creamos arrayList del rengon donde se va a guardar el resultado
+        ArrayList<Fraction> resultados = new ArrayList<>(columnas);
+        
+        for (int i = 0; i < columnas; i++) {
+            Fraction fraccion = copiaRenglon.get(i);
+            Fraction resultado = fraccion.multiplyBy(fraccion1);
+            resultados.add(resultado);
+        }
+        
+        matriz.set(renglon2, resultados);
+        
+        System.out.println(matriz.toString());
+    }//GEN-LAST:event_operarBtn2ActionPerformed
+
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -442,10 +496,10 @@ public class MiniMapleUI extends javax.swing.JFrame {
     private javax.swing.JTextField operacionInput;
     private javax.swing.JButton operarBtn1;
     private javax.swing.JButton operarBtn2;
+    private javax.swing.JTextField renglonInput1;
     private javax.swing.JTextField renglonInput2;
     private javax.swing.JTextField renglonInput3;
     private javax.swing.JTextField renglonInput4;
     private javax.swing.JTextField renglonInput5;
-    private javax.swing.JTextField rengonInput2;
     // End of variables declaration//GEN-END:variables
 }

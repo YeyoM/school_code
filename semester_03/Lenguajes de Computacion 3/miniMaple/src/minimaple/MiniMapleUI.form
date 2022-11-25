@@ -48,7 +48,7 @@
                                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Component id="renglonInput2" min="-2" pref="56" max="-2" attributes="0"/>
+                                      <Component id="renglonInput1" min="-2" pref="56" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -63,7 +63,7 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="rengonInput2" min="-2" pref="51" max="-2" attributes="0"/>
+                                  <Component id="renglonInput2" min="-2" pref="51" max="-2" attributes="0"/>
                                   <Component id="jLabel4" min="-2" pref="57" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -140,10 +140,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" max="-2" attributes="0">
                           <Component id="fraccionInput2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="renglonInput2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="renglonInput1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="operacionInput" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="fraccInput1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="rengonInput2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="renglonInput2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="renglonInput3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -218,7 +218,7 @@
         <Property name="text" type="java.lang.String" value="a / b"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="renglonInput2">
+    <Component class="javax.swing.JTextField" name="renglonInput1">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -232,7 +232,7 @@
         <Property name="text" type="java.lang.String" value="+/-"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="rengonInput2">
+    <Component class="javax.swing.JTextField" name="renglonInput2">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
@@ -301,6 +301,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Operar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="operarBtn2ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="fraccionInput3">
       <Events>
