@@ -225,10 +225,14 @@ public class MiniMapleUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         String contenido = displayMatriz.getText();
         
+        int iteradorVector = 0;
+        ArrayList<Fraction> vector = new ArrayList<>();
+        
         StringTokenizer st = new StringTokenizer(contenido, " \n");
         
         while(st.hasMoreTokens()) {
             String actual = st.nextToken();
+            
             if (actual.contains("/")) {
                 
                 int indice = actual.indexOf("/");
@@ -241,11 +245,41 @@ public class MiniMapleUI extends javax.swing.JFrame {
                 System.out.println("Fraccion -> " + actual);
                 System.out.println("Numerador -> " + numerador);
                 System.out.println("Denominador -> " + denominador);
+                
+                Fraction.getFraction(numerador, denominador);
+                
+                vector.add(Fraction.getFraction(numerador, denominador));
 
             } else {
+                
                 System.out.println("Entero -> " + actual);
+                int numerador = Integer.parseInt(actual);
+                int denominador = 1;
+                
+                Fraction.getFraction(numerador, denominador);
+                vector.add(Fraction.getFraction(numerador, denominador));
+                
             }
         }
+        
+//        System.out.println(vector.toString());
+//        
+//        for (int i = 0; i < filas; i++) {
+//            for (int j = 0; j < columnas; j++) {
+//                matriz.get(i).add(vector.get(iteradorVector));
+//                iteradorVector++;
+//            }            
+//        }
+//        
+//        int filasMatriz = matriz.size();
+//        
+//        for (int i = 0; i < filasMatriz; i++) {
+//            int columnasMatriz = matriz.get(i).size();
+//            for (int j = 0; j < columnasMatriz; j++) {
+//                Fraction fraccion = matriz.get(i).get(j);
+//                System.out.println(fraccion);
+//            }
+//        }
     }//GEN-LAST:event_guardarBtnActionPerformed
 
     private void columnasInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_columnasInputActionPerformed
