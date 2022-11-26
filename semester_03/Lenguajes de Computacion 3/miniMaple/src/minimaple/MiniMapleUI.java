@@ -385,6 +385,98 @@ public class MiniMapleUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         // Revisar que los input no esten vacios
+        String fraccion1Input = fraccInput1.getText();
+        String fraccion2Input = fraccionInput2.getText();
+        
+        String renglon1Input = renglonInput1.getText();        
+        String renglon2Input = renglonInput2.getText();
+        String renglon3Input = renglonInput3.getText();
+        
+        String signoInput = operacionInput.getText();
+        
+        Fraction fraccion1;
+        Fraction fraccion2;
+
+        if (!"".equals(fraccion1Input) && 
+            !"".equals(fraccion2Input) && 
+            !"".equals(renglon1Input) &&
+            !"".equals(renglon2Input) && 
+            !"".equals(renglon3Input) &&
+            !"".equals(signoInput)) {
+            
+            if (fraccion1Input.contains("/")) {
+                int indice = fraccion1Input.indexOf("/");
+                int inicio = 0;
+                int termino = fraccion1Input.length();
+                int numerador = Integer.parseInt(fraccion1Input.substring(inicio, indice));
+                int denominador = Integer.parseInt(fraccion1Input.substring(indice + 1, termino));
+                fraccion1 = Fraction.getFraction(numerador, denominador);
+                System.out.println(fraccion1);
+            } else {
+                int numerador = Integer.parseInt(fraccion1Input);
+                int denominador = 1;
+                fraccion1 = Fraction.getFraction(numerador, denominador);
+            }
+            
+            if (fraccion2Input.contains("/")) {
+                int indice = fraccion2Input.indexOf("/");
+                int inicio = 0;
+                int termino = fraccion2Input.length();
+                int numerador = Integer.parseInt(fraccion2Input.substring(inicio, indice));
+                int denominador = Integer.parseInt(fraccion2Input.substring(indice + 1, termino));
+                fraccion2 = Fraction.getFraction(numerador, denominador);
+                System.out.println(fraccion2);
+            } else {
+                int numerador = Integer.parseInt(fraccion2Input);
+                int denominador = 1;
+                fraccion2 = Fraction.getFraction(numerador, denominador);
+            }
+            
+            int renglon1 = Integer.parseInt(renglon1Input) - 1;            
+            int renglon2 = Integer.parseInt(renglon2Input) - 1;
+            int renglon3 = Integer.parseInt(renglon3Input) - 1;
+
+            // crear copia de los renglones
+            ArrayList<Fraction> copiaRenglon1 = new ArrayList<>();            
+            ArrayList<Fraction> copiaRenglon2 = new ArrayList<>();
+            ArrayList<Fraction> resultadosParcial1 = new ArrayList<>();
+            ArrayList<Fraction> resultadosParcial2 = new ArrayList<>();
+            ArrayList<Fraction> resultados = new ArrayList<>();
+
+            
+            for (int i = 0; i < columnas; i++) {
+                copiaRenglon1.add(matriz.get(renglon1).get(i));    
+                copiaRenglon2.add(matriz.get(renglon2).get(i));
+            }
+            
+            for (int i = 0; i < columnas; i++) {
+                Fraction fraccionParcial1 = copiaRenglon1.get(i);
+                Fraction resultadoParcial1 = fraccionParcial1.multiplyBy(fraccion1);
+                resultadosParcial1.add(resultadoParcial1);   
+                
+                Fraction fraccionParcial2 = copiaRenglon2.get(i);
+                Fraction resultadoParcial2 = fraccionParcial2.multiplyBy(fraccion2);
+                resultadosParcial2.add(resultadoParcial2);
+            }
+            
+            if ("+".equals(signoInput)) {
+                for (int i = 0; i < columnas; i++ ) {
+                    Fraction entrada1 = resultadosParcial1.get(i);
+                    Fraction entrada2 = resultadosParcial2.get(i);
+                    Fraction salida = entrada1.add(entrada2);
+                    resultados.add(salida);
+                }
+            } else if ("-".equals(signoInput)) {
+                for (int i = 0; i < columnas; i++ ) {
+                    Fraction entrada1 = resultadosParcial1.get(i);
+                    Fraction entrada2 = resultadosParcial2.get(i);
+                    Fraction salida = entrada1.subtract(entrada2);
+                    resultados.add(salida);
+                }
+            }
+            
+            matriz.set(renglon3, resultados);
+        }
         
     }//GEN-LAST:event_operarBtn1ActionPerformed
 
