@@ -23,6 +23,7 @@ public class MiniMapleUI extends javax.swing.JFrame {
      */
     public MiniMapleUI() {
         initComponents();
+        notificacionesLabel.setText("");
     }
 
     /**
@@ -374,16 +375,17 @@ public class MiniMapleUI extends javax.swing.JFrame {
                 iteradorVector++;
             }            
         }
-//        
-//        int filasMatriz = matriz.size();
-//        
-//        for (int i = 0; i < filasMatriz; i++) {
-//            int columnasMatriz = matriz.get(i).size();
-//            for (int j = 0; j < columnasMatriz; j++) {
-//                Fraction fraccion = matriz.get(i).get(j);
-//                System.out.println(fraccion);
-//            }
-//        }
+        
+        int filasMatriz = matriz.size();
+        
+        for (int i = 0; i < filasMatriz; i++) {
+            int columnasMatriz = matriz.get(i).size();
+            for (int j = 0; j < columnasMatriz; j++) {
+                Fraction fraccion = matriz.get(i).get(j);
+                System.out.println(fraccion);
+            }
+        }
+        notificacionesLabel.setText("Matriz guardada correctamente!");
     }//GEN-LAST:event_guardarBtnActionPerformed
 
     private void columnasInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_columnasInputActionPerformed
@@ -416,6 +418,7 @@ public class MiniMapleUI extends javax.swing.JFrame {
 //                System.out.println(fraccion);
 //            }
 //        }
+        notificacionesLabel.setText("Matriz inicializada, ingrese la matriz");
     }//GEN-LAST:event_inicializarBtnActionPerformed
 
     private void fraccionInput3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fraccionInput3ActionPerformed
