@@ -5,6 +5,7 @@
 package minimaple;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Formatter;
 import java.util.StringTokenizer;
 import org.apache.commons.lang3.math.Fraction;
 
@@ -347,9 +348,9 @@ public class MiniMapleUI extends javax.swing.JFrame {
                 int numerador = Integer.parseInt(actual.substring(inicio, indice));
                 int denominador = Integer.parseInt(actual.substring(indice + 1, termino));
                         
-                System.out.println("Fraccion -> " + actual);
-                System.out.println("Numerador -> " + numerador);
-                System.out.println("Denominador -> " + denominador);
+                // System.out.println("Fraccion -> " + actual);
+                // System.out.println("Numerador -> " + numerador);
+                // System.out.println("Denominador -> " + denominador);
                 
                 Fraction.getFraction(numerador, denominador);
                 
@@ -385,6 +386,26 @@ public class MiniMapleUI extends javax.swing.JFrame {
                 System.out.println(fraccion);
             }
         }
+        
+        // Imprimir la matriz con el formato correcto
+        String str = "| ";
+        displayMatriz.append("\n");
+        
+        for (int i = 0; i < filasMatriz; i++) {
+            int columnasMatriz = matriz.get(i).size();
+            for (int j = 0; j < columnasMatriz; j++) {
+                if (j == columnasMatriz - 1) {
+                    str += matriz.get(i).get(j).toString() + " ";
+                } else {
+                    str += matriz.get(i).get(j).toString() + "\t";
+                }
+            }
+            System.out.println(str + "|");
+            displayMatriz.append(str + "|\n");
+            str = "| ";
+        }
+        
+        
         notificacionesLabel.setText("Matriz guardada correctamente!");
     }//GEN-LAST:event_guardarBtnActionPerformed
 
