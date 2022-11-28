@@ -299,7 +299,7 @@ def solucionar_laberinto_dijsktra(laberinto, inicio, fin):
     #distancias[vecinos[i]] = 2
   # print(distancias[1, 3])
 
-  print("Entramos")
+  # print("Entramos")
   while actual[0] != fin[0] or actual[1] != fin[1]:
 
     # Agregar el nodo actual a visitados
@@ -307,14 +307,14 @@ def solucionar_laberinto_dijsktra(laberinto, inicio, fin):
 
     # Obtener el peso del camino del nodo actual
     peso_actual = distancias[tuple(actual)]
-    print("Peso del camino del nodo actual -> ", peso_actual)
+    # print("Peso del camino del nodo actual -> ", peso_actual)
 
     # Obtenemos los vecinos del nodo actual junto con sus pesos
     vecinos = obtener_vecinos_peso(laberinto, actual[0], actual[1], visitados)
     vecinos_coordenas = list(vecinos.keys())
 
-    print("Vecinos del nodo actual -> ", vecinos)
-    print("Coordenadas de los vecinos del nodo actual -> ", vecinos_coordenas)
+    # print("Vecinos del nodo actual -> ", vecinos)
+    # print("Coordenadas de los vecinos del nodo actual -> ", vecinos_coordenas)
 
     # Agragar los vecinos que no esten visitados a la cola
     for i in range(len(vecinos_coordenas)):
@@ -323,27 +323,27 @@ def solucionar_laberinto_dijsktra(laberinto, inicio, fin):
 
     # Ordenar la cola por peso
     queue = ordenar_por_peso(queue)
-    print(queue)
+    # print(queue)
 
     # Definimos los pesos que vamos a usar
     for i in range(len(queue)):
-      print(queue[i][0])
-      print(queue[i][1])
-      print(distancias[queue[i][0]])
+      # print(queue[i][0])
+      # print(queue[i][1])
+      # print(distancias[queue[i][0]])
       if distancias[queue[i][0]] > peso_actual + queue[i][1]:
         distancias[queue[i][0]] = peso_actual + queue[i][1]
         nodos_anteriores[queue[i][0]] = actual
 
-    print(queue)
+    #print(queue)
 
     # Seleccionar el nodo con menor peso
     actual = queue[0][0]
-    print("actual -> ", actual)
+    # print("actual -> ", actual)
 
     queue = dict(queue[1:])
 
-  print(distancias)
-  print(nodos_anteriores)
+  # print(distancias)
+  # print(nodos_anteriores)
 
   # El camino se obtiene recorriendo los nodos anteriores desde el nodo final
   # hasta el nodo inicial
@@ -353,7 +353,7 @@ def solucionar_laberinto_dijsktra(laberinto, inicio, fin):
     actual = nodos_anteriores[tuple(actual)]
 
   camino.append(inicio)
-  print(camino)
+  # print(camino)
 
   # Marcar el camino en el laberinto
   for i in range(len(camino)):
