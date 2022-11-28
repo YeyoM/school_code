@@ -131,8 +131,27 @@ def solucionar_laberinto(laberinto, inicio, fin):
   
       if actual == fin:
         break
-  
-    return visitados
+
+    # Marcar el camino
+    for i in range(len(visitados)):
+      if i < len(visitados)-1:
+        actual = visitados[i]
+        siguiente = visitados[i+1]
+        # Obtener la coordenada entre visitados[i] y visitados[i+1]
+        print(actual, siguiente)
+        if actual[0] == siguiente[0]:
+          if actual[1] < siguiente[1]:
+            laberinto[actual[0]][actual[1]+1] = '2'
+          elif actual[1] > siguiente[1]:
+            laberinto[actual[0]][actual[1]-1] = '2'
+        elif actual[1] == siguiente[1]:
+          if actual[0] < siguiente[0]:
+            laberinto[actual[0]+1][actual[1]] = '2'
+          elif actual[0] > siguiente[0]:
+            laberinto[actual[0]-1][actual[1]] = '2'
+
+      laberinto[visitados[i][0]][visitados[i][1]] = '2'
+
 
 def _main_():
 
@@ -184,11 +203,7 @@ def _main_():
   imprimir_laberinto(laberinto)
 
   # Solucionar el laberinto
-  solucion = solucionar_laberinto(laberinto, [1, 1], [m-2, n-2])
-
-  # Imprimir la solucion
-  for i in range(len(solucion)):
-    laberinto[solucion[i][0]][solucion[i][1]] = '2'
+  solucionar_laberinto(laberinto, [1, 1], [m-2, n-2])
 
   imprimir_laberinto(laberinto)
 
