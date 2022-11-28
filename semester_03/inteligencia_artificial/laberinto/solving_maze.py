@@ -600,6 +600,15 @@ def _main_():
   # Imprimir el laberinto
   imprimir_laberinto(laberinto)
 
+  # Modificar el laberinto para que tenga mas caminos posibles
+  # Agregar caminos aleatorios para conectar nodos
+  for i in range(35):
+    x = random.randint(1, n-2)
+    y = random.randint(1, m-2)
+    laberinto[x][y] = '1'
+
+  imprimir_laberinto(laberinto)
+
   laberinto_para_dfs = laberinto.copy()
   laberinto_para_bfs = laberinto.copy()
   laberinto_para_dijkstra = laberinto.copy()
