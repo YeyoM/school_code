@@ -606,16 +606,24 @@ def _main_():
   laberinto_para_a_estrella = laberinto.copy()
  
   # Solucionar el laberinto
+  start_time_dfs = time.time()
   solucionar_laberinto_dfs(laberinto_para_dfs, [1, 1], [m-2, n-2])
+  print("Tiempo de ejecucion DFS: %s segundos" % (time.time() - start_time_dfs))
   imprimir_laberinto(laberinto_para_dfs)
 
+  start_time_bfs = time.time()
   solucionar_laberinto_bfs(laberinto_para_bfs, [1, 1], [m-2, n-2])
+  print("Tiempo de ejecucion BFS: %s segundos" % (time.time() - start_time_bfs))
   imprimir_laberinto(laberinto_para_bfs)
 
+  start_time_dijkstra = time.time()
   solucionar_laberinto_dijsktra(laberinto_para_dijkstra, [1, 1], [m-2, n-2])
+  print("Tiempo de ejecucion Dijkstra: %s segundos" % (time.time() - start_time_dijkstra))
   imprimir_laberinto(laberinto_para_dijkstra)
 
+  start_time_a_estrella = time.time()
   solucionar_laberinto_a_estrella(laberinto_para_a_estrella, [1, 1], [m-2, n-2])
+  print("Tiempo de ejecucion A*: %s segundos" % (time.time() - start_time_a_estrella))
   imprimir_laberinto(laberinto_para_a_estrella)
 
 if __name__ == "__main__":
