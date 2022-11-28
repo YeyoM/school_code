@@ -1,6 +1,7 @@
 import random
 import numpy as np
 import math
+import time
 
 def imprimir_laberinto(laberinto):
 
@@ -130,6 +131,45 @@ def obtener_vecinos_peso(laberinto, i, j, visitados):
 
   for vecino in vecinos_solucion:
     vecinos_con_peso[tuple(vecino)] = 2
+
+  return vecinos_con_peso
+
+def obtener_vecinos_peso_heuristica(laberinto, i, j, visitados, heuristica):
+  vecinos = []
+
+  if i > 1 and [i-2, j] not in visitados:
+    vecinos.append([i-2, j])
+  
+  if i < len(laberinto)-2 and [i+2, j] not in visitados:
+    vecinos.append([i+2, j])
+
+  if j > 1 and [i, j-2] not in visitados:
+    vecinos.append([i, j-2])
+
+  if j < len(laberinto[0])-2 and [i, j+2] not in visitados:
+    vecinos.append([i, j+2])
+
+  vecinos_solucion = []
+
+  # Comprobar si entre el actual y el vecino hay un 1
+  for vecino in vecinos:
+    if vecino[0] == i and vecino[1] == j + 2 :
+      if laberinto[i][j+1] == '1':
+        vecinos_solucion.append(vecino)
+    elif vecino[0] == i and vecino[1] == j - 2:
+      if laberinto[i][j-1] == '1':
+        vecinos_solucion.append(vecino)
+    elif vecino[0] == i + 2 and vecino[1] == j:
+      if laberinto[i+1][j] == '1':
+        vecinos_solucion.append(vecino)
+    elif vecino[0] == i - 2 and vecino[1] == j:
+      if laberinto[i-1][j] == '1':
+        vecinos_solucion.append(vecino)
+
+  vecinos_con_peso = {}
+
+  for vecino in vecinos_solucion:
+    vecinos_con_peso[tuple(vecino)] = 2 + heuristica[tuple(vecino)]
 
   return vecinos_con_peso
 
@@ -374,6 +414,141 @@ def solucionar_laberinto_dijsktra(laberinto, inicio, fin):
 
     laberinto[camino[i][0]][camino[i][1]] = '2'
 
+def solucionar_laberinto_a_estrella(laberinto, inicio, fin):
+
+  camino = []
+  visitados = []
+  queue = {}
+
+  # Creamos un diccionario con la distancia de inicio a cada nodo
+  # Al inicio la distancia de inicio a inicio es 0 y a todos los demas es infinito
+  # Recordar que los nodos son tuplas (x, y) y son los elementos de la cuadricula
+  distancias = {}
+  for i in range(len(laberinto)):
+    if i % 2 != 0:
+      for j in range(len(laberinto)):
+        if i == inicio[0] and j == inicio[1]:
+          distancias[(i, j)] = 0
+        elif j % 2 != 0:
+          distancias[(i, j)] = math.inf
+  
+  # print(distancias[1, 3])
+
+  # Creamos un diccionario con la heuristica de cada nodo, esta se calcula
+  # como la distancia de cada nodo al nodo final (diferencia en las coordenadas i, j)
+  heuristica = {}
+  for i in range(len(laberinto)):
+    if i % 2 != 0:
+      for j in range(len(laberinto)):
+        if j % 2 != 0:
+          heuristica[(i, j)] = abs(fin[0] - i) + abs(fin[1] - j)
+        
+  # print(heuristica)
+
+  # Creamos un diccionario con el nodo anterior a cada nodo
+  # Al inicio el nodo anterior de inicio es None y a todos los demas es None
+  nodos_anteriores = {}
+  for i in range(len(laberinto)):
+    if i % 2 != 0:
+      for j in range(len(laberinto)):
+        if i == inicio[0] and j == inicio[1]:
+          nodos_anteriores[(i, j)] = None
+        elif j % 2 != 0:
+          nodos_anteriores[(i, j)] = None
+
+  # print(nodos_anteriores)
+
+  # Inicializar el nodo actual
+  actual = inicio
+
+  #vecinos = obtener_vecinos_peso(laberinto, actual[0], actual[1], visitados)
+  #print(actual)
+  #print(vecinos)
+
+  # Transformar vecinos.keys() en una lista de coordenadas
+  # Donde cada key es una tupla (x, y)
+  #vecinos = list(vecinos.keys())
+  #print(vecinos[0][0])
+  #for i in range(len(vecinos)):
+    # print(distancias[vecinos[i]])
+    #distancias[vecinos[i]] = 2
+  # print(distancias[1, 3])
+
+  # print("Entramos")
+  while actual[0] != fin[0] or actual[1] != fin[1]:
+
+    # Agregar el nodo actual a visitados
+    visitados.append(actual)
+
+    # Obtener el peso del camino del nodo actual
+    peso_actual = distancias[tuple(actual)]
+    # print("Nodo actual -> ", actual)
+    # print("Peso del camino del nodo actual -> ", peso_actual)
+
+    # Obtenemos los vecinos del nodo actual junto con sus pesos
+    vecinos = obtener_vecinos_peso_heuristica(laberinto, actual[0], actual[1], visitados, heuristica)
+    vecinos_coordenas = list(vecinos.keys())
+
+    # print("Vecinos del nodo actual -> ", vecinos)
+    # print("Coordenadas de los vecinos del nodo actual -> ", vecinos_coordenas)
+
+    # Agragar los vecinos que no esten visitados a la cola
+    for i in range(len(vecinos_coordenas)):
+      if vecinos_coordenas[i] not in visitados:
+        queue[vecinos_coordenas[i]] = vecinos[vecinos_coordenas[i]]
+    
+    # Agregar a cada peso de cada nodo en la cola el peso del camino del nodo actual
+    for i in range(len(queue)):
+      queue[list(queue.keys())[i]] += peso_actual
+
+    queue = ordenar_por_peso(queue)
+
+    # Definimos los pesos que vamos a usar
+    for i in range(len(queue)):
+      # print(queue[i][0])
+      # print(queue[i][1])
+      # print(distancias[queue[i][0]])
+      if distancias[queue[i][0]] > peso_actual + queue[i][1]:
+        distancias[queue[i][0]] = peso_actual + queue[i][1]
+        nodos_anteriores[queue[i][0]] = actual
+
+    # Seleccionar el nodo con menor peso
+    actual = queue[0][0]
+    # print("actual -> ", actual)
+
+    queue = dict(queue[1:])
+
+  # print(distancias)
+  # print(nodos_anteriores)
+
+  # El camino se obtiene recorriendo los nodos anteriores desde el nodo final
+  # hasta el nodo inicial
+  actual = fin
+  while actual != inicio:
+    camino.append(actual)
+    actual = nodos_anteriores[tuple(actual)]
+
+  camino.append(inicio)
+  # print(camino)
+
+  # Marcar el camino en el laberinto
+  for i in range(len(camino)):
+    if i < len(camino)-1:
+      actual = camino[i]
+      siguiente = camino[i+1]
+      # Obtener la coordenada entre camino[i] y camino[i+1]
+      if actual[0] == siguiente[0]:
+        if actual[1] < siguiente[1]:
+          laberinto[actual[0]][actual[1]+1] = '2'
+        elif actual[1] > siguiente[1]:
+          laberinto[actual[0]][actual[1]-1] = '2'
+      elif actual[1] == siguiente[1]:
+        if actual[0] < siguiente[0]:
+          laberinto[actual[0]+1][actual[1]] = '2'
+        elif actual[0] > siguiente[0]:
+          laberinto[actual[0]-1][actual[1]] = '2'
+
+    laberinto[camino[i][0]][camino[i][1]] = '2'
 
 
 def _main_():
@@ -427,6 +602,8 @@ def _main_():
 
   laberinto_para_dfs = laberinto.copy()
   laberinto_para_bfs = laberinto.copy()
+  laberinto_para_dijkstra = laberinto.copy()
+  laberinto_para_a_estrella = laberinto.copy()
  
   # Solucionar el laberinto
   solucionar_laberinto_dfs(laberinto_para_dfs, [1, 1], [m-2, n-2])
@@ -435,8 +612,11 @@ def _main_():
   solucionar_laberinto_bfs(laberinto_para_bfs, [1, 1], [m-2, n-2])
   imprimir_laberinto(laberinto_para_bfs)
 
-  solucionar_laberinto_dijsktra(laberinto, [1, 1], [m-2, n-2])
-  imprimir_laberinto(laberinto)
+  solucionar_laberinto_dijsktra(laberinto_para_dijkstra, [1, 1], [m-2, n-2])
+  imprimir_laberinto(laberinto_para_dijkstra)
+
+  solucionar_laberinto_a_estrella(laberinto_para_a_estrella, [1, 1], [m-2, n-2])
+  imprimir_laberinto(laberinto_para_a_estrella)
 
 if __name__ == "__main__":
   _main_()
