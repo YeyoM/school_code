@@ -344,7 +344,37 @@ def solucionar_laberinto_dijsktra(laberinto, inicio, fin):
 
   print(distancias)
   print(nodos_anteriores)
-  return camino
+
+  # El camino se obtiene recorriendo los nodos anteriores desde el nodo final
+  # hasta el nodo inicial
+  actual = fin
+  while actual != inicio:
+    camino.append(actual)
+    actual = nodos_anteriores[tuple(actual)]
+
+  camino.append(inicio)
+  print(camino)
+
+  # Marcar el camino en el laberinto
+  for i in range(len(camino)):
+    if i < len(camino)-1:
+      actual = camino[i]
+      siguiente = camino[i+1]
+      # Obtener la coordenada entre camino[i] y camino[i+1]
+      if actual[0] == siguiente[0]:
+        if actual[1] < siguiente[1]:
+          laberinto[actual[0]][actual[1]+1] = '2'
+        elif actual[1] > siguiente[1]:
+          laberinto[actual[0]][actual[1]-1] = '2'
+      elif actual[1] == siguiente[1]:
+        if actual[0] < siguiente[0]:
+          laberinto[actual[0]+1][actual[1]] = '2'
+        elif actual[0] > siguiente[0]:
+          laberinto[actual[0]-1][actual[1]] = '2'
+
+    laberinto[camino[i][0]][camino[i][1]] = '2'
+
+
 
 def _main_():
 
