@@ -17,6 +17,7 @@ public class MiniMapleUI extends javax.swing.JFrame {
 
     ArrayList<ArrayList<Fraction>> matriz = new ArrayList<>();
     ArrayList<String> coeficientes = new ArrayList<>();
+    ArrayList<String> coeficientesAlone = new ArrayList<>();
     Integer filas = 0;
     Integer columnas = 0;
     
@@ -381,6 +382,7 @@ public class MiniMapleUI extends javax.swing.JFrame {
                     System.out.println("Letra -> " + actual);
                 
                     coeficientes.add("1*" + actual);
+                    coeficientesAlone.add(actual);
                 
                     vector.add(Fraction.getFraction(1, 1));
                 
@@ -699,18 +701,68 @@ public class MiniMapleUI extends javax.swing.JFrame {
         
         if (literalsInput != null) {
             
-            // Analizar cuantos terminos tenemos 
-            // contamos los signos + y -
-            int cuentaMas = StringUtils.countMatches(literalsInput, "+");
-            int cuentaMenos = StringUtils.countMatches(literalsInput, "-");
-            int cuentaTotal = cuentaMas + cuentaMenos;
-            int numeroTerminos = cuentaTotal + 1;
+            Fraction multiplicar = fraccion1;
             
+            ArrayList<Fraction> coeficientesParciales = new ArrayList<>();
+            ArrayList<Fraction> resultadosCoeficientes = new ArrayList<>();
+            
+            StringTokenizer st = new StringTokenizer(literalsInput, " ");
+            while(st.hasMoreTokens()) {
+                String actual = st.nextToken();
+                if (!"+".equals(actual) && !"-".equals(actual)) {
+                    // obtener el coeficiente
+                    int indice1 = actual.indexOf("*");
+                    int inicio = 0;
+                    int termino = actual.length();
+                
+                    String coeficiente = actual.substring(inicio, indice1);
+                    String literal = actual.substring(indice1 + 1, termino);
+                
+                    // System.out.println("Coeficiente -> " + coeficiente);
+                    // System.out.println("Literal -> " + literal);
+                
+                    if (coeficiente.contains("/")) {
+                        int indice2 = coeficiente.indexOf("/");
+                        int inicio2 = 0;
+                        int termino2 = coeficiente.length();
+                
+                        int numerador = Integer.parseInt(coeficiente.substring(inicio2, indice2));
+                        int denominador = Integer.parseInt(coeficiente.substring(indice2 + 1, termino2));
+                        
+                        // System.out.println("Fraccion -> " + actual);
+                        // System.out.println("Numerador -> " + numerador);
+                        // System.out.println("Denominador -> " + denominador);
+                
+                        Fraction.getFraction(numerador, denominador);
+                        coeficientesParciales.add(Fraction.getFraction(numerador, denominador)); 
+                    } else {
+                        // System.out.println("Entero -> " + actual);
+                        int numerador = Integer.parseInt(coeficiente);
+                        int denominador = 1;
+                
+                        coeficientesParciales.add(Fraction.getFraction(numerador, denominador)); 
+                    }
+                }
+                for (int i = 0; i < coeficientesParciales.size(); i++) {
+                    Fraction fraccion = coeficientesParciales.get(i);
+                    Fraction result = fraccion.multiplyBy(multiplicar);
+                    resultadosCoeficientes.add(result);
+                }
+                
+                String paraCoeficientes = "";
+                
+                for (int i = 0; i < coeficientesParciales.size(); i++) {
+                    paraCoeficientes += resultadosCoeficientes.get(i).toString() + "*" + coeficientesAlone.get(i) + " ";
+                }
+                                
+                coeficientes.set(renglon1, paraCoeficientes);
+            }
         }
         
         matriz.set(renglon2, resultados);
         
         System.out.println(matriz.toString());
+        System.out.println(coeficientes.toString());
         
         displayMatriz.append("----- " + fraccion1Input + " * R" + renglon1 + " ---> " + renglon2);
         
@@ -718,20 +770,37 @@ public class MiniMapleUI extends javax.swing.JFrame {
         String str = "|   ";
         displayMatriz.append("\n");
         
-        for (int i = 0; i < filas; i++) {
-            int columnasMatriz = matriz.get(i).size();
-            for (int j = 0; j < columnasMatriz; j++) {
-                if (j == columnasMatriz - 1) {
-                    str += "|   " + matriz.get(i).get(j).toString() + "\t";
-                } else {
-                    str += matriz.get(i).get(j).toString() + "\t";
+        if (literalsInput != null) {
+             for (int i = 0; i < filas; i++) {
+                int columnasMatriz = matriz.get(i).size();
+                for (int j = 0; j < columnasMatriz; j++) {
+                    if (j == columnasMatriz - 1) {
+                        str += "|   " + coeficientes.get(i) + "\t";
+                    } else {
+                        str += matriz.get(i).get(j).toString() + "\t";
+                    }
                 }
+                System.out.println(str + "|");
+                displayMatriz.append(str + "|\n");
+                str = "| ";
             }
-            System.out.println(str + "|");
-            displayMatriz.append(str + "|\n");
-            str = "| ";
+            displayMatriz.append("\n");
+        } else {
+            for (int i = 0; i < filas; i++) {
+                int columnasMatriz = matriz.get(i).size();
+                for (int j = 0; j < columnasMatriz; j++) {
+                    if (j == columnasMatriz - 1) {
+                        str += "|   " + matriz.get(i).get(j).toString() + "\t";
+                    } else {
+                        str += matriz.get(i).get(j).toString() + "\t";
+                    }
+                }
+                System.out.println(str + "|");
+                displayMatriz.append(str + "|\n");
+                str = "| ";
+            }
+            displayMatriz.append("\n");
         }
-        displayMatriz.append("\n");
     }//GEN-LAST:event_operarBtn2ActionPerformed
 
     
