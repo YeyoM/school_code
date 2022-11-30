@@ -519,6 +519,9 @@ public class MiniMapleUI extends javax.swing.JFrame {
         
         String signoInput = operacionInput.getText();
         
+        String outputLiterales = null;
+
+        
         Fraction fraccion1;
         Fraction fraccion2;
 
@@ -582,9 +585,7 @@ public class MiniMapleUI extends javax.swing.JFrame {
             
             String literals1 = coeficientes.get(renglon1);
             String literals2 = coeficientes.get(renglon2);
-            
-            String outputLiterales = null;
-            
+                        
             System.out.println(literals1);
             System.out.println(literals2);
 
@@ -774,10 +775,15 @@ public class MiniMapleUI extends javax.swing.JFrame {
                         // Aqui ya tenemos los resultados
                         System.out.println(resultadosCoeficientesFinal.toString());
                         System.out.println(literalesalFinal.toString());
-                        
+                        outputLiterales = "";
                         for (int j = 0; j < resultadosCoeficientesFinal.size(); j++) {
                             // escribir el output outputLiterales
+                            outputLiterales += resultadosCoeficientesFinal.get(j).toString() + "*" + literalesalFinal.get(j) + " ";
                         }
+                        
+                        System.out.println(outputLiterales);
+                        
+                        coeficientes.set(renglon3, outputLiterales);
                         
                         resultadosParcial1.add(Fraction.getFraction(1, 1));
                         resultadosParcial2.add(Fraction.getFraction(1, 1));
@@ -811,20 +817,37 @@ public class MiniMapleUI extends javax.swing.JFrame {
         String str = "|";
         displayMatriz.append("\n");
         
-        for (int i = 0; i < filas; i++) {
-            int columnasMatriz = matriz.get(i).size();
-            for (int j = 0; j < columnasMatriz; j++) {
-                if (j == columnasMatriz - 1) {
-                    str += "|   " + matriz.get(i).get(j).toString() + "\t";
-                } else {
-                    str += matriz.get(i).get(j).toString() + "\t";
+        if (outputLiterales != null) {
+             for (int i = 0; i < filas; i++) {
+                int columnasMatriz = matriz.get(i).size();
+                for (int j = 0; j < columnasMatriz; j++) {
+                    if (j == columnasMatriz - 1) {
+                        str += "|   " + coeficientes.get(i) + "\t";
+                    } else {
+                        str += matriz.get(i).get(j).toString() + "\t";
+                    }
                 }
+                System.out.println(str + "|");
+                displayMatriz.append(str + "|\n");
+                str = "| ";
             }
-            System.out.println(str + "|");
-            displayMatriz.append(str + "|\n");
-            str = "| ";
-        }
-        displayMatriz.append("\n");
+            displayMatriz.append("\n");
+        } else {
+            for (int i = 0; i < filas; i++) {
+                int columnasMatriz = matriz.get(i).size();
+                for (int j = 0; j < columnasMatriz; j++) {
+                    if (j == columnasMatriz - 1) {
+                        str += "|   " + matriz.get(i).get(j).toString() + "\t";
+                    } else {
+                        str += matriz.get(i).get(j).toString() + "\t";
+                    }
+                }
+                System.out.println(str + "|");
+                displayMatriz.append(str + "|\n");
+                str = "| ";
+            }
+            displayMatriz.append("\n");
+        }         
     }//GEN-LAST:event_operarBtn1ActionPerformed
 
     private void operarBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_operarBtn2ActionPerformed
