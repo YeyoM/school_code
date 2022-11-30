@@ -4,10 +4,10 @@
  */
 package minimaple;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Formatter;
 import java.util.StringTokenizer;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.Fraction;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  *
@@ -16,6 +16,7 @@ import org.apache.commons.lang3.math.Fraction;
 public class MiniMapleUI extends javax.swing.JFrame {
 
     ArrayList<ArrayList<Fraction>> matriz = new ArrayList<>();
+    ArrayList<String> coeficientes = new ArrayList<>();
     Integer filas = 0;
     Integer columnas = 0;
     
@@ -25,6 +26,10 @@ public class MiniMapleUI extends javax.swing.JFrame {
     public MiniMapleUI() {
         initComponents();
         notificacionesLabel.setText("");
+        displayMatriz.setEnabled(false);
+        guardarBtn.setEnabled(false);
+        operarBtn1.setEnabled(false);
+        operarBtn2.setEnabled(false);
     }
 
     /**
@@ -176,22 +181,22 @@ public class MiniMapleUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(guardarBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(guardarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(filasInput, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)
-                                .addComponent(columnasInput, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(inicializarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(filasInput, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                                    .addComponent(columnasInput)))
+                            .addComponent(inicializarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(operarBtn1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -244,7 +249,7 @@ public class MiniMapleUI extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(notificacionesLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,7 +300,7 @@ public class MiniMapleUI extends javax.swing.JFrame {
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel17)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                         .addComponent(notificacionesLabel))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -311,7 +316,7 @@ public class MiniMapleUI extends javax.swing.JFrame {
                                     .addComponent(jLabel8)
                                     .addComponent(columnasInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(inicializarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
+                                .addComponent(inicializarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(guardarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
@@ -327,6 +332,18 @@ public class MiniMapleUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_fraccInput1ActionPerformed
 
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        } 
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+    
     private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
         // TODO add your handling code here:
         String contenido = displayMatriz.getText();
@@ -348,7 +365,7 @@ public class MiniMapleUI extends javax.swing.JFrame {
                 int numerador = Integer.parseInt(actual.substring(inicio, indice));
                 int denominador = Integer.parseInt(actual.substring(indice + 1, termino));
                         
-                // System.out.println("Fraccion -> " + actual);
+                System.out.println("Fraccion -> " + actual);
                 // System.out.println("Numerador -> " + numerador);
                 // System.out.println("Denominador -> " + denominador);
                 
@@ -358,18 +375,33 @@ public class MiniMapleUI extends javax.swing.JFrame {
 
             } else {
                 
-                System.out.println("Entero -> " + actual);
-                int numerador = Integer.parseInt(actual);
-                int denominador = 1;
+                // en caso de que sea una letra, siempre van al final
+                if (!isNumeric(actual)) {
                 
-                Fraction.getFraction(numerador, denominador);
-                vector.add(Fraction.getFraction(numerador, denominador));
+                    System.out.println("Letra -> " + actual);
+                
+                    coeficientes.add("1*" + actual);
+                
+                    vector.add(Fraction.getFraction(1, 1));
+                
+                } else {
+                    System.out.println("Entero -> " + actual);
+                    int numerador = Integer.parseInt(actual);
+                    int denominador = 1;
+                
+                    Fraction.getFraction(numerador, denominador);
+                    vector.add(Fraction.getFraction(numerador, denominador));
+                }
                 
             }
         }
         
 //        System.out.println(vector.toString());
 //        
+
+        filas = Integer.parseInt(filasInput.getText());
+        columnas = Integer.parseInt(columnasInput.getText());
+
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
                 matriz.get(i).add(vector.get(iteradorVector));
@@ -388,25 +420,46 @@ public class MiniMapleUI extends javax.swing.JFrame {
         }
         
         // Imprimir la matriz con el formato correcto
-        String str = "| ";
+        String str = "|";
         displayMatriz.append("\n");
         
-        for (int i = 0; i < filasMatriz; i++) {
-            int columnasMatriz = matriz.get(i).size();
-            for (int j = 0; j < columnasMatriz; j++) {
-                if (j == columnasMatriz - 1) {
-                    str += matriz.get(i).get(j).toString() + " ";
-                } else {
-                    str += matriz.get(i).get(j).toString() + "\t";
+        if (coeficientes.isEmpty()) {
+            for (int i = 0; i < filasMatriz; i++) {
+                int columnasMatriz = matriz.get(i).size();
+                for (int j = 0; j < columnasMatriz; j++) {
+                    if (j == columnasMatriz - 1) {
+                        str += "|   " + matriz.get(i).get(j).toString() + "\t";
+                    } else {
+                        str += matriz.get(i).get(j).toString() + "\t";
+                    }
                 }
+                System.out.println(str + "|");
+                displayMatriz.append(str + "|\n");
+                str = "| ";
             }
-            System.out.println(str + "|");
-            displayMatriz.append(str + "|\n");
-            str = "| ";
+            displayMatriz.append("\n");
+        } else {
+            for (int i = 0; i < filasMatriz; i++) {
+                int columnasMatriz = matriz.get(i).size();
+                for (int j = 0; j < columnasMatriz; j++) {
+                    if (j == columnasMatriz - 1) {
+                        str += "|   " + coeficientes.get(i) + "\t";
+                    } else {
+                        str += matriz.get(i).get(j).toString() + "\t";
+                    }
+                }
+                System.out.println(str + "|");
+                displayMatriz.append(str + "|\n");
+                str = "| ";
+            }
+            displayMatriz.append("\n");
         }
         
-        
         notificacionesLabel.setText("Matriz guardada correctamente!");
+        displayMatriz.setEditable(false);
+        guardarBtn.setEnabled(false);
+        operarBtn1.setEnabled(true);
+        operarBtn2.setEnabled(true);
     }//GEN-LAST:event_guardarBtnActionPerformed
 
     private void columnasInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_columnasInputActionPerformed
@@ -440,6 +493,11 @@ public class MiniMapleUI extends javax.swing.JFrame {
 //            }
 //        }
         notificacionesLabel.setText("Matriz inicializada, ingrese la matriz");
+        displayMatriz.setEnabled(true);
+        guardarBtn.setEnabled(true);
+        inicializarBtn.setEnabled(false);
+        columnasInput.setEnabled(false);
+        filasInput.setEnabled(false);
     }//GEN-LAST:event_inicializarBtnActionPerformed
 
     private void fraccionInput3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fraccionInput3ActionPerformed
@@ -515,13 +573,33 @@ public class MiniMapleUI extends javax.swing.JFrame {
             }
             
             for (int i = 0; i < columnas; i++) {
-                Fraction fraccionParcial1 = copiaRenglon1.get(i);
-                Fraction resultadoParcial1 = fraccionParcial1.multiplyBy(fraccion1);
-                resultadosParcial1.add(resultadoParcial1);   
                 
-                Fraction fraccionParcial2 = copiaRenglon2.get(i);
-                Fraction resultadoParcial2 = fraccionParcial2.multiplyBy(fraccion2);
-                resultadosParcial2.add(resultadoParcial2);
+                if (i != columnas - 1) {
+                    Fraction fraccionParcial1 = copiaRenglon1.get(i);
+                    Fraction resultadoParcial1 = fraccionParcial1.multiplyBy(fraccion1);
+                    resultadosParcial1.add(resultadoParcial1);   
+                
+                    Fraction fraccionParcial2 = copiaRenglon2.get(i);
+                    Fraction resultadoParcial2 = fraccionParcial2.multiplyBy(fraccion2);
+                    resultadosParcial2.add(resultadoParcial2);
+                } else {
+                    if (coeficientes.isEmpty()) {
+                        Fraction fraccionParcial1 = copiaRenglon1.get(i);
+                        Fraction resultadoParcial1 = fraccionParcial1.multiplyBy(fraccion1);
+                        resultadosParcial1.add(resultadoParcial1);   
+                
+                        Fraction fraccionParcial2 = copiaRenglon2.get(i);
+                        Fraction resultadoParcial2 = fraccionParcial2.multiplyBy(fraccion2);
+                        resultadosParcial2.add(resultadoParcial2);
+                    } else {
+                        
+
+
+                        
+                        resultadosParcial1.add(Fraction.getFraction(1, 1));
+                        resultadosParcial2.add(Fraction.getFraction(1, 1));
+                    }
+                }
             }
             
             if ("+".equals(signoInput)) {
@@ -543,6 +621,27 @@ public class MiniMapleUI extends javax.swing.JFrame {
             matriz.set(renglon3, resultados);
         }
         System.out.println(matriz.toString());
+        
+        displayMatriz.append("----- " + fraccion1Input + " * R" + renglon1Input + " " + signoInput + " " + fraccion2Input + " * R" + renglon2Input + " ----> " + renglon3Input);
+        
+        // Imprimir la matriz con el formato correcto
+        String str = "|";
+        displayMatriz.append("\n");
+        
+        for (int i = 0; i < filas; i++) {
+            int columnasMatriz = matriz.get(i).size();
+            for (int j = 0; j < columnasMatriz; j++) {
+                if (j == columnasMatriz - 1) {
+                    str += "|   " + matriz.get(i).get(j).toString() + "\t";
+                } else {
+                    str += matriz.get(i).get(j).toString() + "\t";
+                }
+            }
+            System.out.println(str + "|");
+            displayMatriz.append(str + "|\n");
+            str = "| ";
+        }
+        displayMatriz.append("\n");
     }//GEN-LAST:event_operarBtn1ActionPerformed
 
     private void operarBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_operarBtn2ActionPerformed
@@ -578,16 +677,61 @@ public class MiniMapleUI extends javax.swing.JFrame {
         
         // creamos arrayList del rengon donde se va a guardar el resultado
         ArrayList<Fraction> resultados = new ArrayList<>(columnas);
+        String literalsInput = null;
         
         for (int i = 0; i < columnas; i++) {
-            Fraction fraccion = copiaRenglon.get(i);
-            Fraction resultado = fraccion.multiplyBy(fraccion1);
-            resultados.add(resultado);
+            
+            if (i != columnas - 1) {
+                Fraction fraccion = copiaRenglon.get(i);
+                Fraction resultado = fraccion.multiplyBy(fraccion1);
+                resultados.add(resultado);
+            } else {
+                if (coeficientes.isEmpty()) {
+                    Fraction fraccion = copiaRenglon.get(i);
+                    Fraction resultado = fraccion.multiplyBy(fraccion1);
+                    resultados.add(resultado);
+                } else {
+                    literalsInput = coeficientes.get(renglon1);
+                    resultados.add(Fraction.getFraction(1, 1));
+                }
+            }
+        }
+        
+        if (literalsInput != null) {
+            
+            // Analizar cuantos terminos tenemos 
+            // contamos los signos + y -
+            int cuentaMas = StringUtils.countMatches(literalsInput, "+");
+            int cuentaMenos = StringUtils.countMatches(literalsInput, "-");
+            int cuentaTotal = cuentaMas + cuentaMenos;
+            int numeroTerminos = cuentaTotal + 1;
+            
         }
         
         matriz.set(renglon2, resultados);
         
         System.out.println(matriz.toString());
+        
+        displayMatriz.append("----- " + fraccion1Input + " * R" + renglon1 + " ---> " + renglon2);
+        
+        // Imprimir la matriz con el formato correcto
+        String str = "|   ";
+        displayMatriz.append("\n");
+        
+        for (int i = 0; i < filas; i++) {
+            int columnasMatriz = matriz.get(i).size();
+            for (int j = 0; j < columnasMatriz; j++) {
+                if (j == columnasMatriz - 1) {
+                    str += "|   " + matriz.get(i).get(j).toString() + "\t";
+                } else {
+                    str += matriz.get(i).get(j).toString() + "\t";
+                }
+            }
+            System.out.println(str + "|");
+            displayMatriz.append(str + "|\n");
+            str = "| ";
+        }
+        displayMatriz.append("\n");
     }//GEN-LAST:event_operarBtn2ActionPerformed
 
     
