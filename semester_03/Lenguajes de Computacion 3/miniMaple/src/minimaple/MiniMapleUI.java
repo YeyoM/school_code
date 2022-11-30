@@ -567,6 +567,26 @@ public class MiniMapleUI extends javax.swing.JFrame {
             ArrayList<Fraction> resultadosParcial1 = new ArrayList<>();
             ArrayList<Fraction> resultadosParcial2 = new ArrayList<>();
             ArrayList<Fraction> resultados = new ArrayList<>();
+            
+            ArrayList<Fraction> coeficientesParciales1 = new ArrayList<>();
+            ArrayList<Fraction> coeficientesParciales2 = new ArrayList<>();
+            
+            ArrayList<Fraction> resultadosCoeficientes1 = new ArrayList<>();
+            ArrayList<Fraction> resultadosCoeficientes2 = new ArrayList<>();
+
+            ArrayList<Fraction> resultadosCoeficientesFinal = new ArrayList<>();
+            ArrayList<String> literalesalFinal = new ArrayList<>();
+            
+            ArrayList<String> literalesal1 = new ArrayList<>();
+            ArrayList<String> literalesal2 = new ArrayList<>();
+            
+            String literals1 = coeficientes.get(renglon1);
+            String literals2 = coeficientes.get(renglon2);
+            
+            String outputLiterales = null;
+            
+            System.out.println(literals1);
+            System.out.println(literals2);
 
             
             for (int i = 0; i < columnas; i++) {
@@ -595,8 +615,169 @@ public class MiniMapleUI extends javax.swing.JFrame {
                         resultadosParcial2.add(resultadoParcial2);
                     } else {
                         
+                        StringTokenizer st1 = new StringTokenizer(literals1, " ");
+                        while(st1.hasMoreTokens()) {
+                            String actual = st1.nextToken();
+                            System.out.println(actual);
+                            if (!"+".equals(actual) && !"-".equals(actual)) {
+                                 // obtener el coeficiente
+                                int indice1 = actual.indexOf("*");
+                                int inicio = 0;
+                                int termino = actual.length();
+                
+                                String coeficiente = actual.substring(inicio, indice1);
+                                String literal = actual.substring(indice1 + 1, termino);
 
+                                literalesal1.add(literal);
 
+                                // System.out.println("Coeficiente -> " + coeficiente);
+                                // System.out.println("Literal -> " + literal);
+
+                                if (coeficiente.contains("/")) {
+                                    int indice2 = coeficiente.indexOf("/");
+                                    int inicio2 = 0;
+                                    int termino2 = coeficiente.length();
+
+                                    int numerador = Integer.parseInt(coeficiente.substring(inicio2, indice2));
+                                    int denominador = Integer.parseInt(coeficiente.substring(indice2 + 1, termino2));
+
+                                    // System.out.println("Fraccion -> " + actual);
+                                    // System.out.println("Numerador -> " + numerador);
+                                    // System.out.println("Denominador -> " + denominador);
+
+                                    Fraction.getFraction(numerador, denominador);
+                                    coeficientesParciales1.add(Fraction.getFraction(numerador, denominador)); 
+                                } else {
+                                    // System.out.println("Entero -> " + actual);
+                                    int numerador = Integer.parseInt(coeficiente);
+                                    int denominador = 1;
+
+                                    coeficientesParciales1.add(Fraction.getFraction(numerador, denominador)); 
+                                }
+                            }
+                        }
+                        System.out.println("AQUIII");
+                        System.out.println(literalesal1.toString());
+                        System.out.println(coeficientesParciales1.toString());
+
+                        
+                        StringTokenizer st2 = new StringTokenizer(literals2, " ");
+                        while(st2.hasMoreTokens()) {
+                            String actual = st2.nextToken();
+                            System.out.println(actual);
+                            if (!"+".equals(actual) && !"-".equals(actual)) {
+                                 // obtener el coeficiente
+                                int indice1 = actual.indexOf("*");
+                                int inicio = 0;
+                                int termino = actual.length();
+                
+                                String coeficiente = actual.substring(inicio, indice1);
+                                String literal = actual.substring(indice1 + 1, termino);
+
+                                literalesal2.add(literal);
+
+                                // System.out.println("Coeficiente -> " + coeficiente);
+                                // System.out.println("Literal -> " + literal);
+
+                                if (coeficiente.contains("/")) {
+                                    int indice2 = coeficiente.indexOf("/");
+                                    int inicio2 = 0;
+                                    int termino2 = coeficiente.length();
+
+                                    int numerador = Integer.parseInt(coeficiente.substring(inicio2, indice2));
+                                    int denominador = Integer.parseInt(coeficiente.substring(indice2 + 1, termino2));
+
+                                    // System.out.println("Fraccion -> " + actual);
+                                    // System.out.println("Numerador -> " + numerador);
+                                    // System.out.println("Denominador -> " + denominador);
+
+                                    Fraction.getFraction(numerador, denominador);
+                                    coeficientesParciales2.add(Fraction.getFraction(numerador, denominador)); 
+                                } else {
+                                    // System.out.println("Entero -> " + actual);
+                                    int numerador = Integer.parseInt(coeficiente);
+                                    int denominador = 1;
+
+                                    coeficientesParciales2.add(Fraction.getFraction(numerador, denominador)); 
+                                }
+                            }
+                        }
+                        
+                        System.out.println("AQUIII");
+                        System.out.println(literalesal2.toString());
+                        System.out.println(coeficientesParciales2.toString());
+                        
+                        for (int j = 0; j < coeficientesParciales1.size(); j++) {
+                            Fraction fraccion = coeficientesParciales1.get(j);
+                            Fraction result = fraccion.multiplyBy(fraccion1);
+                            resultadosCoeficientes1.add(result);
+                        }
+                        
+                        for (int j = 0; j < coeficientesParciales2.size(); j++) {
+                            Fraction fraccion = coeficientesParciales2.get(j);
+                            Fraction result = fraccion.multiplyBy(fraccion2);
+                            resultadosCoeficientes2.add(result);
+                        }
+                        
+                        System.out.println("AQUIII 2");
+                        
+                        System.out.println(literalesal1.toString());
+                        System.out.println(resultadosCoeficientes1.toString());
+
+                        System.out.println(literalesal2.toString());
+                        System.out.println(resultadosCoeficientes2.toString());
+                        
+                        // Aqui ya tenemos los coeficientes y literales de los dos renglones
+                        // Juntamos los terminos semejantes entre los dos renglones y \
+                        // juntamos todo en el renglon correspondiente en coeficientes<>
+
+                        // recorremos el primer renglon y le vamos agregando a los resultados
+                        for (int j = 0; j < resultadosCoeficientes1.size(); j++) {
+                            // revisamos si la letra de literales1 en la posicion j ya esta en literalesalFinal
+                            if (literalesalFinal.contains(literalesal1.get(j))) {
+                                int indexFraction = literalesalFinal.indexOf(literalesal1.get(j));
+                                Fraction fracc1 = resultadosCoeficientes1.get(j);
+                                Fraction fracc2 = resultadosCoeficientesFinal.get(indexFraction);
+                                Fraction result;
+                                if ("+".equals(signoInput)) {
+                                    result = fracc2.add(fracc1);
+                                } else {
+                                    result = fracc2.subtract(fracc1);
+                                }
+                                resultadosCoeficientesFinal.set(indexFraction, result);
+                            } else {
+                                literalesalFinal.add(literalesal1.get(j));
+                                resultadosCoeficientesFinal.add(resultadosCoeficientes1.get(j));
+                            }
+                        }
+                        
+                        // recorremos el segundo renglon y le vamos agregando a los resultados
+                        for (int j = 0; j < resultadosCoeficientes2.size(); j++) {
+                            // revisamos si la letra de literales2 en la posicion j ya esta en literalesalFinal
+                            if (literalesalFinal.contains(literalesal2.get(j))) {
+                                int indexFraction = literalesalFinal.indexOf(literalesal2.get(j));
+                                Fraction fracc1 = resultadosCoeficientes2.get(j);
+                                Fraction fracc2 = resultadosCoeficientesFinal.get(indexFraction);
+                                Fraction result;
+                                if ("+".equals(signoInput)) {
+                                    result = fracc2.add(fracc1);
+                                } else {
+                                    result = fracc2.subtract(fracc1);
+                                }
+                                resultadosCoeficientesFinal.set(indexFraction, result);
+                            } else {
+                                literalesalFinal.add(literalesal2.get(j));
+                                resultadosCoeficientesFinal.add(resultadosCoeficientes2.get(j));
+                            }
+                        }
+                       
+                        // Aqui ya tenemos los resultados
+                        System.out.println(resultadosCoeficientesFinal.toString());
+                        System.out.println(literalesalFinal.toString());
+                        
+                        for (int j = 0; j < resultadosCoeficientesFinal.size(); j++) {
+                            // escribir el output outputLiterales
+                        }
                         
                         resultadosParcial1.add(Fraction.getFraction(1, 1));
                         resultadosParcial2.add(Fraction.getFraction(1, 1));
@@ -705,6 +886,7 @@ public class MiniMapleUI extends javax.swing.JFrame {
             
             ArrayList<Fraction> coeficientesParciales = new ArrayList<>();
             ArrayList<Fraction> resultadosCoeficientes = new ArrayList<>();
+            ArrayList<String> literales = new ArrayList<>();
             
             StringTokenizer st = new StringTokenizer(literalsInput, " ");
             while(st.hasMoreTokens()) {
@@ -717,6 +899,8 @@ public class MiniMapleUI extends javax.swing.JFrame {
                 
                     String coeficiente = actual.substring(inicio, indice1);
                     String literal = actual.substring(indice1 + 1, termino);
+                    
+                    literales.add(literal);
                 
                     // System.out.println("Coeficiente -> " + coeficiente);
                     // System.out.println("Literal -> " + literal);
@@ -752,7 +936,7 @@ public class MiniMapleUI extends javax.swing.JFrame {
                 String paraCoeficientes = "";
                 
                 for (int i = 0; i < coeficientesParciales.size(); i++) {
-                    paraCoeficientes += resultadosCoeficientes.get(i).toString() + "*" + coeficientesAlone.get(i) + " ";
+                    paraCoeficientes += resultadosCoeficientes.get(i).toString() + "*" + literales.get(i) + " ";
                 }
                                 
                 coeficientes.set(renglon1, paraCoeficientes);
