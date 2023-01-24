@@ -31,6 +31,9 @@ public class MiniMaple {
     
     public static void main(String[] args) {
         
+        MiniMapleUI ui = new MiniMapleUI();
+        ui.setVisible(true);
+        
         String literalsInput = "1*a + 1/2*b - 3/2*c";
         
         Fraction multiplicar = Fraction.getFraction(1, 2);
