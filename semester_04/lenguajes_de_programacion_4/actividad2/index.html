@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Blog</title>
   <meta charset="UTF-8">
@@ -10,14 +11,16 @@
       background-color: #f0f0f2;
       margin: 0;
       padding: 0;
-      font-family:  "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
       display: flex;
+      flex-direction: column;
       justify-content: center;
     }
 
     .blog-post {
       width: 600px;
       padding: 2em;
+      align-self: center;
     }
 
     .orange-text {
@@ -45,9 +48,42 @@
       cursor: pointer;
     }
 
+    .table {
+      border-collapse: collapse;
+      width: 80%;
+      border: 1px solid black;
+    }
+
+    .browser-compability {
+      display: flex;
+      justify-content: center;
+    }
+
+    thead {
+      background-color: #e0e0e0;
+      color: #fff;
+      border-bottom: 1px solid black;
+    }
+
+    tbody {
+      background-color: #efeeee;
+      color: #000;
+    }
+
+    th {
+      padding: 0.5em;
+      text-align: left;
+    }
+
+    td {
+      padding: 0.5em;
+      text-align: left;
+    }
+
     p {
       font-size: 1.1rem;
       font-weight: semi-bold;
+      margin: 20px 0 0 0;
     }
 
     ul {
@@ -63,40 +99,138 @@
       color: #ff6600;
     }
 
+    .footer {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 120px;
+      background-color: #e0e0e0;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-title {
+      margin-right: 10px;
+    }
+
+    input {
+      padding: 0.5em;
+      border: 1px solid #ccc;
+      border-radius: 0.5em;
+      margin-right: 10px;
+    }
+
+    .submit {
+      padding: 0.5em;
+      border: 1px solid #ccc;
+      border-radius: 0.5em;
+      background-color: #ff6600;
+      color: #fff;
+      cursor: pointer;
+    }
+
     ::selection {
       background: #ff6600;
       color: #fff;
     }
 
     @media (max-width: 700px) {
-      div {
+      .blog-post {
         margin: 0 auto;
         width: auto;
       }
     }
   </style>
 </head>
+
 <body class="body">
   <div class="blog-post">
     <h1>The <span class="orange-text">dialog</span> element</h1>
-    <p>Do you want to confirm something from the user? You present the user a dialog with selectable options. Do you want to gather info from the user? You use a dialog with a submittable form input. There are numerous use cases when it comes to using the dialog in your UIs.</p>
-    <p>You can use dialogs by installing JavaScript libraries in your project, and these are available in any kind of framework you’re using.</p>
-    <p>Third-party libraries are great, but they do come with an additional overhead to your project that not only adds a certain amount of complexity but also increases the overall bundle size of your app.</p>
-    <p>That’s where the browser’s native <strong><span class="orange-text">&lt;dialog&gt;</span></strong> element comes into play. It’s everything you’ll ever want in a dialog, and now that Safari has added the support for the <strong><span class="orange-text">&lt;dialog&gt;</span></strong> element starting v15.4, there isn’t any excuse not to use them in production!</p>
-    <p>The <strong><span class="orange-text">&lt;dialog&gt;</span></strong> HTML element represents a dialog box or other interactive component, such as a dismissible alert, inspector, or subwindow.</p>
+    <p>Do you want to confirm something from the user? You present the user a dialog with selectable options. Do you
+      want to gather info from the user? You use a dialog with a submittable form input. There are numerous use cases
+      when it comes to using the dialog in your UIs.</p>
+    <p>You can use dialogs by installing JavaScript libraries in your project, and these are available in any kind of
+      framework you’re using.</p>
+    <p>Third-party libraries are great, but they do come with an additional overhead to your project that not only adds
+      a certain amount of complexity but also increases the overall bundle size of your app.</p>
+    <p>That’s where the browser’s native <strong><span class="orange-text">&lt;dialog&gt;</span></strong> element comes
+      into play. It’s everything you’ll ever want in a dialog, and now that Safari has added the support for the
+      <strong><span class="orange-text">&lt;dialog&gt;</span></strong> element starting v15.4, there isn’t any excuse
+      not to use them in production!</p>
+    <p>The <strong><span class="orange-text">&lt;dialog&gt;</span></strong> HTML element represents a dialog box or
+      other interactive component, such as a dismissible alert, inspector, or subwindow.</p>
     <h3><span class="orange-text">Small example</span></h3>
     <button onclick="showModal()" class="button">Open Modal</button>
     <dialog id="dialog" onclick="performClose()" class="dialog-example">
-       <p>Click me to close the dialog</p>
+      <p>Click me to close the dialog</p>
     </dialog>
     <h2>Accessibility considerations</h2>
-    <p>The native HTML <strong><span class="orange-text">&lt;dialog&gt;</span></strong> element should be used in creating modal dialogs as it provides usability and accessibility features that must be replicated if using other elements for a similar purpose. Use the appropriate .showModal() or .show() method to render dialogs. If creating a custom dialog implementation, ensure all expected default behaviors are supported and proper labeling recommendations are followed.</p>
-    <p>When implementing a dialog, it is important to consider the most appropriate place to set user focus. Explicitly indicating the initial focus placement by use of the autofocus attribute will help ensure initial focus is set to the element deemed the best initial focus placement for any particular dialog. When in doubt, as it may not always be known where initial focus could be set within a dialog, particularly for instances where a dialog's content is dynamically rendered when invoked, then if necessary authors may decide focusing the <strong><span class="orange-text">&lt;dialog&gt;</span></strong> element itself would provide the best initial focus placement. When using HTMLDialogElement.showModal() to open a <strong><span class="orange-text">&lt;dialog&gt;</span></strong>, focus is set on the first nested focusable element.</p>
+    <p>The native HTML <strong><span class="orange-text">&lt;dialog&gt;</span></strong> element should be used in
+      creating modal dialogs as it provides usability and accessibility features that must be replicated if using other
+      elements for a similar purpose. Use the appropriate .showModal() or .show() method to render dialogs. If creating
+      a custom dialog implementation, ensure all expected default behaviors are supported and proper labeling
+      recommendations are followed.</p>
+    <p>When implementing a dialog, it is important to consider the most appropriate place to set user focus. Explicitly
+      indicating the initial focus placement by use of the autofocus attribute will help ensure initial focus is set to
+      the element deemed the best initial focus placement for any particular dialog. When in doubt, as it may not always
+      be known where initial focus could be set within a dialog, particularly for instances where a dialog's content is
+      dynamically rendered when invoked, then if necessary authors may decide focusing the <strong><span
+          class="orange-text">&lt;dialog&gt;</span></strong> element itself would provide the best initial focus
+      placement. When using HTMLDialogElement.showModal() to open a <strong><span
+          class="orange-text">&lt;dialog&gt;</span></strong>, focus is set on the first nested focusable element.</p>
+    <h2>Browser Compability</h2>
+    <div class="browser-compability">
+      <table class="table">
+        <thead>
+          <th></th>
+          <th><strong><span class="orange-text">&lt;dialog&gt;</span></strong></th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Chrome</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td>Firefox</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td>Edge</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td>Opera</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td>Safari</td>
+            <td>Yes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <h4>References</h4>
     <ul>
-      <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog">Why you should be using the dialog element</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog">Why you should be using the dialog
+          element</a></li>
       <li><a href="https://blog.logrocket.com/using-the-dialog-element/">&lt;dialog&gt;: The Dialog element</a></li>
     </ul>
+  </div>
+  <div class="footer">
+    <p>Made by <a href="https://github.com/YeyoM/">YeyoM</a></p>
+    <div class="form">
+      <h4 class="form-title">Suscribe to the newsletter</h4>
+      <form action="">
+        <input type="email" name="email" id="email" placeholder="Your email">
+        <input type="submit" value="Suscribe" class="submit">
+      </form>
+    </div>
   </div>
 </body>
 <script>
@@ -107,4 +241,5 @@
     document.getElementById('dialog').close();
   }
 </script>
+
 </html>
