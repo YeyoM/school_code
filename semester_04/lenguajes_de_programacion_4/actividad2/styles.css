@@ -1,0 +1,154 @@
+.body {
+  background-color: #f0f0f2;
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.blog-post {
+  max-width: 600px;
+  padding: 2em;
+  align-self: center;
+}
+
+.orange-text {
+  color: #ff6600;
+  margin: 0;
+  padding: 0;
+}
+
+.button {
+  background-color: #ff6600;
+  color: #fff;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.dialog-example {
+  width: 300px;
+  padding: 1em;
+  background-color: #ff6200;
+  border-radius: 0.5em;
+  box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  color: white;
+}
+
+.dialog-text {
+  margin: 0;
+}
+
+.image-container {
+  width: 600px;
+  padding-top: 1.5rem;
+}
+
+img {
+  width: inherit;
+  border-radius: 1rem;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 80%;
+  border: 1px solid black;
+}
+
+.browser-compability {
+  display: flex;
+  justify-content: center;
+}
+
+thead {
+  background-color: #e0e0e0;
+  color: #fff;
+  border-bottom: 1px solid black;
+}
+
+tbody {
+  background-color: #efeeee;
+  color: #000;
+}
+
+th {
+  padding: 0.5em;
+  text-align: left;
+}
+
+td {
+  padding: 0.5em;
+  text-align: left;
+}
+
+p {
+  font-size: 1.1rem;
+  font-weight: semi-bold;
+  margin: 20px 0 0 0;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  font-size: 1rem;
+  font-style: italic;
+}
+
+a {
+  color: #ff6600;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  background-color: #e0e0e0;
+}
+
+.form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-title {
+  margin-right: 10px;
+}
+
+input {
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 0.5em;
+  margin-right: 10px;
+}
+
+.submit {
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 0.5em;
+  background-color: #ff6600;
+  color: #fff;
+  cursor: pointer;
+}
+
+::selection {
+  background: #ff6600;
+  color: #fff;
+}
+
+@media (max-width: 700px) {
+  .blog-post {
+    margin: 0 auto;
+    width: auto;
+  }
+}

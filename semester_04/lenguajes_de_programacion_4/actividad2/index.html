@@ -6,147 +6,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style type="text/css">
-    .body {
-      background-color: #f0f0f2;
-      margin: 0;
-      padding: 0;
-      font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .blog-post {
-      width: 600px;
-      padding: 2em;
-      align-self: center;
-    }
-
-    .orange-text {
-      color: #ff6600;
-      margin: 0;
-      padding: 0;
-    }
-
-    .button {
-      background-color: #ff6600;
-      color: #fff;
-      border: none;
-      padding: 0.5em 1em;
-      border-radius: 0.5em;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-
-    .dialog-example {
-      width: 300px;
-      padding: 1em;
-      background-color: #fff;
-      border-radius: 0.5em;
-      box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
-      cursor: pointer;
-    }
-
-    .table {
-      border-collapse: collapse;
-      width: 80%;
-      border: 1px solid black;
-    }
-
-    .browser-compability {
-      display: flex;
-      justify-content: center;
-    }
-
-    thead {
-      background-color: #e0e0e0;
-      color: #fff;
-      border-bottom: 1px solid black;
-    }
-
-    tbody {
-      background-color: #efeeee;
-      color: #000;
-    }
-
-    th {
-      padding: 0.5em;
-      text-align: left;
-    }
-
-    td {
-      padding: 0.5em;
-      text-align: left;
-    }
-
-    p {
-      font-size: 1.1rem;
-      font-weight: semi-bold;
-      margin: 20px 0 0 0;
-    }
-
-    ul {
-      list-style-type: none;
-    }
-
-    li {
-      font-size: 1rem;
-      font-style: italic;
-    }
-
-    a {
-      color: #ff6600;
-    }
-
-    .footer {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 120px;
-      background-color: #e0e0e0;
-    }
-
-    .form {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .form-title {
-      margin-right: 10px;
-    }
-
-    input {
-      padding: 0.5em;
-      border: 1px solid #ccc;
-      border-radius: 0.5em;
-      margin-right: 10px;
-    }
-
-    .submit {
-      padding: 0.5em;
-      border: 1px solid #ccc;
-      border-radius: 0.5em;
-      background-color: #ff6600;
-      color: #fff;
-      cursor: pointer;
-    }
-
-    ::selection {
-      background: #ff6600;
-      color: #fff;
-    }
-
-    @media (max-width: 700px) {
-      .blog-post {
-        margin: 0 auto;
-        width: auto;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="./styles.css">
 </head>
 
 <body class="body">
@@ -162,14 +22,18 @@
     <p>That’s where the browser’s native <strong><span class="orange-text">&lt;dialog&gt;</span></strong> element comes
       into play. It’s everything you’ll ever want in a dialog, and now that Safari has added the support for the
       <strong><span class="orange-text">&lt;dialog&gt;</span></strong> element starting v15.4, there isn’t any excuse
-      not to use them in production!</p>
+      not to use them in production!
+    </p>
     <p>The <strong><span class="orange-text">&lt;dialog&gt;</span></strong> HTML element represents a dialog box or
       other interactive component, such as a dismissible alert, inspector, or subwindow.</p>
     <h3><span class="orange-text">Small example</span></h3>
     <button onclick="showModal()" class="button">Open Modal</button>
     <dialog id="dialog" onclick="performClose()" class="dialog-example">
-      <p>Click me to close the dialog</p>
+      <p class="dialog-text">Click me to close the dialog</p>
     </dialog>
+    <div class="image-container">
+      <img src="./dialog.png" alt="code example for dialog component">
+    </div>
     <h2>Accessibility considerations</h2>
     <p>The native HTML <strong><span class="orange-text">&lt;dialog&gt;</span></strong> element should be used in
       creating modal dialogs as it provides usability and accessibility features that must be replicated if using other
