@@ -1,4 +1,4 @@
-//Librerias
+// Diego Emilio Moreno Sánchez
 #include <iostream>
 #include <stdlib.h>
 
