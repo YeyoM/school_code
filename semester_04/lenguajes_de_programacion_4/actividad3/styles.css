@@ -1,0 +1,54 @@
+.main {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.div1, .div2, .div3 {
+  height: 30%;
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+}
+
+.div1 {
+  background-color: #f1f1f1;
+}
+
+.div2 {
+  background-color: #c1dff5;
+}
+
+.div3 {
+  background-color: #f1f1f1;
+}
+
+#padre {
+  display: block;
+}
+
+#hijo1 {
+  background-color: #c1dff5;
+  width: 40%;
+  height: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem;
+  float:left
+}
+
+#hijo2 {
+  background-color: #dbffe7;
+  width: 40%;
+  height: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem;
+  float:right;
+}
