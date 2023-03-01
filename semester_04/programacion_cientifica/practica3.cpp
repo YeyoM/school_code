@@ -48,20 +48,6 @@ int main() {
       float valores_y[(b - a + 1) * 10];
       int indice = 0;
 
-      //for (int i = a; i <= b; i++) {
-      //  valores_x[indice] = pow(i, 3) + 2 * pow(i, 2) + 3 * i - 5 ;
-      //  valores_y[indice] = i;
-      //  cout << "f(" << valores_y[indice] << ") = " << valores_x[indice] << endl;
-      //  indice++;
-      //}
-//
-      //for (int i = 0; i < b - a + 1; i++) {
-      //  if (valores_x[i] * valores_x[i + 1] < 0) {
-      //    raiz = (valores_y[i] + valores_y[i + 1]) / 2;
-      //    cout << "La raiz de la funcion es: " << raiz << endl;
-      //  }
-      //}
-
       for (double i = a; i <= b; i = i + 0.1) {
         valores_x[indice] = pow(i, 3) + 2 * pow(i, 2) + 3 * i - 5 ;
         valores_y[indice] = i;
