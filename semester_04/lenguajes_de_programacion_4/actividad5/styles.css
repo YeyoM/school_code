@@ -5,6 +5,9 @@ body {
   color: black;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .navbar {
@@ -45,4 +48,115 @@ body {
   color: white;
   cursor: pointer;
   border-bottom: 3px white solid;
+}
+
+.article {
+  display: flex;
+  flex-direction: row;
+  width: 70%;
+  padding: 1rem 0rem 1rem 0rem;
+}
+
+.article-left {
+  width: 80%;
+  height: 100%;
+  padding: 0rem 0rem 0rem 0rem;
+  overflow: hidden;
+}
+
+.article-right {
+  width: 20%;
+  padding: 0rem 0rem 0rem 0rem;
+}
+
+.article-title {
+  font-size: 40px;
+  font-weight: bold;
+  margin: 0;
+  padding: 4rem 3rem 3rem 0rem;
+}
+
+.article-img {
+  max-width: 85%;
+}
+
+.author {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0rem;
+  margin-top: 2rem;
+}
+
+.author-description {
+  font-size: 14px;
+  font-weight: normal;
+  margin: 0;
+  padding: 0rem;
+  margin-top: 4px;
+}
+
+.paragraph-highlight {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0rem;
+  margin-top: 2rem;
+  width: 75%;
+}
+
+.paragraph-normal {
+  font-size: 16px;
+  font-weight: normal;
+  margin: 0;
+  padding: 0rem;
+  margin-top: 2rem;
+  width: 75%;
+}
+
+.list {
+  font-size: 16px;
+  width: 70%;
+  margin-bottom: 4rem;
+}
+
+.item {
+  margin: 0;
+  padding: 0rem;
+  margin-top: 1rem;
+}
+
+.footer {
+  background-color: #141414;
+  width: 100%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+  font-size: 32px;
+  width: 70%;
+}
+
+.footer-list {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0rem;
+  font-size: 16px;
+}
+
+.footer-item {
+  padding: 0.1rem 0.5rem 0.1rem 0.5rem;
+  color: white;
+  text-decoration: none;
+  list-style: none;
+  border-right: 1px rgb(203, 203, 203) solid;
+  align-self: center;
 }
