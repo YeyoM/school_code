@@ -53,19 +53,19 @@ body {
 .article {
   display: flex;
   flex-direction: row;
-  width: 70%;
+  width: 80%;
   padding: 1rem 0rem 1rem 0rem;
 }
 
 .article-left {
-  width: 80%;
+  width: 75%;
   height: 100%;
   padding: 0rem 0rem 0rem 0rem;
   overflow: hidden;
 }
 
 .article-right {
-  width: 20%;
+  width: 25%;
   padding: 0rem 0rem 0rem 0rem;
 }
 
@@ -126,6 +126,53 @@ body {
   margin-top: 1rem;
 }
 
+.article-right h3 {
+  font-size: 22px;
+  margin-top: 3rem;
+
+}
+
+.article-right-story {
+  background-color: #f6f6f6;
+  width: 90%;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0rem;
+}
+
+.article-right-story p {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.article-right-story p:hover {
+  text-decoration: underline;
+  color:#b80000;
+  cursor: pointer;
+}
+
+.article-right-feature {
+  width: 100%;
+  background-color: #f6f6f6;
+}
+
+.article-right-feature-img {
+  max-width: 100%;
+}
+
+.article-right-feature-p {
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.article-right-feature-p:hover {
+  text-decoration: underline;
+  color:#b80000;
+  cursor: pointer;
+}
+
+
 .footer {
   background-color: #141414;
   width: 100%;
@@ -159,4 +206,9 @@ body {
   list-style: none;
   border-right: 1px rgb(203, 203, 203) solid;
   align-self: center;
+}
+
+.footer-item:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
