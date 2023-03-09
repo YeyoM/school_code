@@ -31,6 +31,8 @@ int main() {
   cin >> a;
   cout << "Ingrese el valor de b: ";
   cin >> b;
+  cout << "Ingresa el valor inicial de x: ";
+  cin >> x_m_anterior;
   cout << "Ingrese el error (tolerancia): ";
   cin >> error;
   cout << endl;
