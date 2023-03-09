@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Actividad 6</title>
+</head>
+<body>
+  <div class="main">
+    <div class="cambiar-display" id="cambiar-display"></div>
+    <div class="cambiar-tamano" id="cambiar-tamano"></div>
+    <div class="cambiar-forma" id="cambiar-forma"></div>
+  </div>
+  <button class="btn" onclick="cambiarDisplayFunction()">Cambiar display</button>
+</body>
+<script>
+  const cambiarDisplay = document.getElementById('cambiar-display')
+  const displays = ["unset", "none"]
+  let actual = displays[0]
+  
+  const cambiarDisplayFunction = () => {
+    if (actual === displays[0]) {
+      actual = displays[1]
+    } else {
+      actual = displays[0]
+    }
+    cambiarDisplay.style.display = actual
+  }
+
+  const cambiarTamano = document.getElementById('cambiar-tamano')
+  const tamanos = ["100px", "200px"]
+  let actualTamano = tamanos[0]
+  cambiarTamano.addEventListener('click', () => {
+    if (actualTamano === tamanos[0]) {
+      actualTamano = tamanos[1]
+    } else {
+      actualTamano = tamanos[0]
+    }
+    cambiarTamano.style.width = actualTamano 
+    cambiarTamano.style.height = actualTamano 
+  })
+
+  
+
+  const cambiarForma = document.getElementById('cambiar-forma')
+  const formas = ["0px", "360px"]
+  let actualForma = formas[1]
+  cambiarForma.addEventListener('click', () => {
+    if (actualForma === formas[0]) {
+      actualForma = formas[1]
+    } else {
+      actualForma = formas[0]
+    }
+    cambiarForma.style.borderRadius = actualForma 
+  })
+</script>
+</html>
