@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="statusRevision.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">
+  <title>My Dashboard</title>
+</head>
+
+<body>
+  <div class="navbar">
+    <h1 class="navbar-title">Congreso de Ciencias Oscuras</h1>
+    <div class="navbar-content">
+      <input id="menu__toggle" type="checkbox" />
+      <label class="menu__btn" for="menu__toggle">
+        <span></span>
+      </label>
+
+      <ul class="menu__box">
+        <li><a class="menu__item" href="#">Inicio</a></li>
+        <li><a class="menu__item" href="#">Nuestro Equipo</a></li>
+        <li><a class="menu__item" href="#">Contacto</a></li>
+        <li><a class="menu__item" href="#">Cerrar Sesión</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="dashboard-page">
+    <h1 class="dashboard-title">Status Revisión de Ximena</h1>
+      <h3 class="expertise">Expertise: Magia Blanca</h3>
+      <h3>Documento: <a href="">click para ver</a></h3>
+    <div class="table-wrapper">
+      <table class="container">
+        <thead>
+          <tr>
+            <th><h1>Revisores</h1></th>
+            <th><h1>Expertise</h1></th>
+            <th><h1>Status Revisión 1</h1></th>
+            <th><h1>Status Revisión 2</h1></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>USUARIO 1</td>
+            <td>Magía Blanca</td>
+            <td>Aprobado con Cambios</td>
+            <td>Aprobado sin Cambios</td>
+          </tr>
+          <tr>
+            <td>USUARIO 2</td>
+            <td>Magía Blanca, Sigilos</td>
+            <td>Aprobado con Cambios</td>
+            <td>Aprobado sin Cambios</td>
+          </tr>
+          <tr>
+            <td>USUARIO 3</td>
+            <td>Magía Blanca, Hechizos de luna</td>
+            <td>No aprobado</td>
+            <td>Pendiente</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="cambiar-status">
+      <h3>Status Final: Pendiente</h3>
+      <select name="status" id="status">
+        <option value="aprobado">Aprobado sin cambios</option>
+        <option value="aprobadoCambios">Aprobado con cambios</option>
+        <option value="noAprobado">No Aprobado</option>
+      </select>
+      <button class="btn">Cambiar</button>
+    </div>
+  </div>
+</body>
+
+</html>

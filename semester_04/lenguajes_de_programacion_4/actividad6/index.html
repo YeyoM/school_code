@@ -4,9 +4,83 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
   <title>Actividad 6</title>
 </head>
+<style>
+  body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  background-color: #f5f5f5;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 5rem;
+}
+
+.cambiar-display {
+  position: absolute;
+  left: 4rem;
+  top: 4rem;
+  background-color: #ff6a6a;
+  height: 200px;
+  width: 200px;
+  transition: all 0.25s ease-in-out;
+  border-radius: 360px;
+}
+
+.cambiar-tamano {
+  position: absolute;
+  right: calc(50% - 100px);
+  top: 4rem;
+  background-color: rgb(103, 255, 103);
+  height: 200px;
+  width: 200px;
+  transition: all 0.25s ease-in-out;
+  border-radius: 360px;
+}
+
+.cambiar-forma {
+  position: absolute;
+  right: 4rem;
+  top: 4rem;
+  background-color: rgb(91, 227, 227);
+  height: 200px;
+  width: 200px;
+  transition: all 0.5s ease-in-out;
+  border-radius: 360px;
+}
+
+.btn {
+  position: absolute;
+  bottom: 5rem;
+  left: 5rem;
+  background-color: #ff6a6a;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .main {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .cambiar-display, .cambiar-tamano, .cambiar-forma {
+    margin-top: 8rem;
+  }
+}
+</style>
 <body>
   <div class="main">
     <div class="cambiar-display" id="cambiar-display"></div>
