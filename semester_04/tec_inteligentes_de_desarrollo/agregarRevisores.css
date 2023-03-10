@@ -108,6 +108,15 @@ body {
   padding: 1rem 2rem;
 }
 
+h3 {
+  padding: 0rem 2rem;
+}
+
+.asignar-mas-revisores {
+  margin: 0rem 2rem 1rem 2rem;
+  width: fit-content;
+}
+
 .container th h1 {
   font-weight: bold;
   font-size: 1em;
@@ -161,7 +170,7 @@ body {
   .container th:nth-child(4) { display: none; }
 }
 
-.asignar, .corregir {
+.asignar, .corregir, .asignar-mas-revisores {
   padding: 0.5rem;
   background-color: #60535C;
   color: #b5b5b5;
@@ -170,7 +179,7 @@ body {
   transition: all 0.3s ease;
 }
 
-.corregir:hover, .asignar:hover {
+.corregir:hover, .asignar:hover, .asignar-mas-revisores:hover {
   background-color: #323C50;
   cursor: pointer;
 }
