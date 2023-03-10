@@ -96,7 +96,7 @@ body {
   background-color: #CFD8DC;
 }
 
-.dashboard-page {
+.asignar-revision-page {
   display: flex;
   flex-direction: column;
   margin-top: 5rem;
@@ -104,8 +104,19 @@ body {
   color: #b5b5b5;
 }
 
-.dashboard-title {
-  padding: 1rem 2rem;
+.revision-title {
+  padding: 1rem 3rem;
+  margin-bottom: 0;
+}
+
+.datos-asignar-revision {
+  display: flex;
+  flex-direction: column;
+  padding: 0rem 3rem;
+}
+
+h4 {
+  margin-top: 0.5rem;
 }
 
 .container th h1 {
