@@ -23,6 +23,7 @@
 
       <ul class="menu__box">
         <li><a class="menu__item" href="#">Inicio</a></li>
+        <li><a class="menu__item" href="#">Explorar</a></li>
         <li><a class="menu__item" href="#">Nuestro Equipo</a></li>
         <li><a class="menu__item" href="#">Contacto</a></li>
         <li><a class="menu__item" href="#">Cerrar Sesión</a></li>
@@ -30,49 +31,93 @@
     </div>
   </div>
   <div class="dashboard-page">
-    <h1 class="dashboard-title">Bienvenido de nuevo Daniel!</h1>
-    <h3>Revisores Disponibles</h3>
-    <button class="asignar-mas-revisores">Agregar Más Revisores</button>
+    <h1 class="dashboard-title">Bienvenido de nuevo Admin!</h1>
     <div class="table-wrapper">
       <table class="container">
         <thead>
           <tr>
-            <th><h1>Usuario</h1></th>
-            <th><h1>Expertise</h1></th>
-            <th><h1>Asignar a Revisión</h1></th>
-            <th><h1>Corregir Revisión</h1></th>
+            <th>
+              <h1>Usuario</h1>
+            </th>
+            <th>
+              <h1>Expertise</h1>
+            </th>
+            <th>
+              <h1>Es Revisor</h1>
+            </th>
+            <th>
+              <h1>Asignar a Revisión</h1>
+            </th>
+            <th>
+              <h1>Corregir Revisión</h1>
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>Ximena</td>
             <td>Magía Blanca</td>
+            <td> 
+              <select name="esRevisor" id="esRevisor">
+                <option value="si" selected="selected">Si</option>
+                <option value="no">No</option>
+              </select>
+              <button class="corregir">Actualizar</button>
+            </td>
             <td><button class="asignar">Asignar</button></td>
             <td><button class="corregir">Corregir</button></td>
           </tr>
           <tr>
             <td>Dan</td>
             <td>Magia Negra, Sigilos</td>
-            <td><button class="asignar">Asignar</button></td>
+            <td> 
+              <select name="esRevisor" id="esRevisor">
+                <option value="si">Si</option>
+                <option value="no" selected="selected">No</option>
+              </select>
+              <button class="corregir">Actualizar</button>
+            </td>
+            <td><button class="asignar" disabled>Asignar</button></td>
             <td><button class="corregir">Corregir</button></td>
           </tr>
           <tr>
             <td>José</td>
             <td>Hechizos de luna</td>
+            <td> 
+              <select name="esRevisor" id="esRevisor">
+                <option value="si" selected="selected">Si</option>
+                <option value="no">No</option>
+              </select>
+              <button class="corregir">Actualizar</button>
+            </td>
             <td><button class="asignar">Asignar</button></td>
             <td><button class="corregir">Corregir</button></td>
           </tr>
           <tr>
             <td>Manolo</td>
             <td>Sigilos</td>
+            <td> 
+              <select name="esRevisor" id="esRevisor">
+                <option value="si" selected="selected">Si</option>
+                <option value="no">No</option>
+              </select>
+              <button class="corregir">Actualizar</button>
+            </td>
             <td><button class="asignar">Asignar</button></td>
             <td><button class="corregir">Corregir</button></td>
           </tr>
           <tr>
             <td>Yeyo</td>
             <td>Magia Negra</td>
-            <td><button class="asignar">Asignar</button></td>
-            <td><button class="corregir">Corregir</button></td>
+            <td> 
+              <select name="esRevisor" id="esRevisor">
+                <option value="si">Si</option>
+                <option value="no" selected="selected">No</option>
+              </select>
+              <button class="corregir">Actualizar</button>
+            </td>
+            <td><button class="asignar" disabled>Asignar</button></td>
+            <td><button class="corregir" >Corregir</button></td>
           </tr>
         </tbody>
       </table>

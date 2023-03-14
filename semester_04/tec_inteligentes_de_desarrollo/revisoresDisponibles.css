@@ -117,6 +117,20 @@ h3 {
   width: fit-content;
 }
 
+#esRevisor {
+  width: fit-content;
+  margin-right: 1rem;
+}
+
+select {
+  padding: 0.5rem;
+  background-color: #60535C;
+  color: #b5b5b5;
+  border-radius: 8px;
+  border: none;
+  transition: all 0.3s ease;
+}
+
 .container th h1 {
   font-weight: bold;
   font-size: 1em;
@@ -182,4 +196,9 @@ h3 {
 .corregir:hover, .asignar:hover, .asignar-mas-revisores:hover {
   background-color: #323C50;
   cursor: pointer;
+}
+
+.asignar:disabled {
+  cursor: not-allowed;
+  background-color: #463d44;
 }
