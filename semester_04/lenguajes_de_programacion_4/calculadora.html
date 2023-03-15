@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--  Autor: Diego Emilio Moreno Sánchez -->
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora Simple</title>
+</head>
+<style>
+  body {
+    background-color: #191919;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    align-self: center;
+  }
+
+  .parent {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+  }
+
+  button {
+    width: 100%;
+    height: 100%;
+    min-height: 50px;
+    background-color: #191919;
+    color: white;
+    font-size: 20px;
+    border: none;
+    transition: all 0.15s;
+  }
+
+  input {
+    width: 340px;
+    height: 50px;
+    font-size: 20px;
+    border: none;
+    background-color: #323232;
+    color: white;
+    padding: 10px 30px;
+    text-align: right;
+  }
+
+  button:hover {
+    cursor: pointer;
+  }
+
+  input:focus {
+    outline: none;
+    background-color: #2f2f2f;
+  }
+
+  button:hover {
+    background-color: #2f2f2f;
+  }
+
+  .div1 {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+
+  .div2 {
+    grid-area: 1 / 2 / 2 / 3;
+  }
+
+  .div3 {
+    grid-area: 1 / 3 / 2 / 4;
+  }
+
+  .div4 {
+    grid-area: 1 / 4 / 2 / 5;
+  }
+
+  .div5 {
+    grid-area: 2 / 1 / 3 / 2;
+  }
+
+  .div6 {
+    grid-area: 2 / 2 / 3 / 3;
+  }
+
+  .div7 {
+    grid-area: 2 / 3 / 3 / 4;
+  }
+
+  .div8 {
+    grid-area: 2 / 4 / 3 / 5;
+  }
+
+  .div9 {
+    grid-area: 3 / 1 / 4 / 2;
+  }
+
+  .div10 {
+    grid-area: 3 / 2 / 4 / 3;
+  }
+
+  .div11 {
+    grid-area: 3 / 3 / 4 / 4;
+  }
+
+  .div12 {
+    grid-area: 3 / 4 / 4 / 5;
+  }
+
+  .div13 {
+    grid-area: 4 / 1 / 5 / 2;
+  }
+
+  .div14 {
+    grid-area: 4 / 2 / 5 / 3;
+  }
+
+  .div15 {
+    grid-area: 4 / 3 / 5 / 4;
+  }
+
+  .div16 {
+    grid-area: 4 / 4 / 5 / 5;
+  }
+
+  .equals {
+    background-color: #a160fb;
+  }
+
+  .equals:hover {
+    background-color: #8f4ed8;
+  }
+
+  .suma, .resta, .multi, .limpiar {
+    background-color: #804cc7;
+  }
+
+  .suma:hover, .resta:hover, .multi:hover, .limpiar:hover {
+    background-color: #6a3fa0;
+  }
+
+  .error {
+    color: red;
+    font-size: 20px;
+    text-align: center;
+  }
+
+</style>
+
+<body>
+  <div class="main">
+    <input type="text" id="expresion">
+    <div class="parent">
+      <div class="div1">  <button class="noAction"> 7 </button> </div>
+      <div class="div2">  <button class="noAction"> 8 </button> </div>
+      <div class="div3">  <button class="noAction"> 9 </button> </div>
+      <div class="div4">  <button class="noAction multi"> x </button> </div>
+      <div class="div5">  <button class="noAction"> 4 </button> </div>
+      <div class="div6">  <button class="noAction"> 5 </button> </div>
+      <div class="div7">  <button class="noAction"> 6 </button> </div>
+      <div class="div8">  <button class="noAction resta"> - </button> </div>
+      <div class="div9">  <button class="noAction"> 1 </button> </div>
+      <div class="div10"> <button class="noAction"> 2 </button> </div>
+      <div class="div11"> <button class="noAction"> 3 </button> </div>
+      <div class="div12"> <button class="noAction suma"> + </button> </div>
+      <div class="div13"> <button class="limpiar" onclick="limpiar()"> C  </button> </div>
+      <div class="div14"> <button class="noAction"> 0 </button> </div>
+      <div class="div15"> <button class="noAction"> . </button> </div>
+      <div class="div16"> <button class="equals" onclick="calcularResultado()""> = </button> </div>
+    </div>
+    <p class="error" id="error"></p>
+  </div>
+</body>
+<script>
+  function calcularResultado() {
+    let expresion = document.getElementById('expresion').value
+    try {
+      let resultado = eval(expresion)
+      document.getElementById('expresion').value = resultado
+    } catch (error) {
+      document.getElementById('error').innerText = "Expresión inválida"
+      setTimeout(() => {
+        document.getElementById('error').innerText = ""
+        limpiar()
+      }, 2000)
+    }
+  }
+
+  function limpiar() {
+    let expresion = document.getElementById('expresion').value
+    expresion = ""
+    document.getElementById('expresion').value = expresion
+  }
+
+  let botones = document.querySelectorAll('button.noAction')
+  botones.forEach(boton => {
+    boton.addEventListener('click', () => {
+      let expresion = document.getElementById('expresion').value
+      if (boton.innerText === "x") {
+        expresion += "*"
+      } else {
+        expresion += boton.innerText
+      }
+      document.getElementById('expresion').value = expresion
+    })
+  })
+</script>
+
+</html>
