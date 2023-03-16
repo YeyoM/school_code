@@ -8,7 +8,7 @@ body {
 }
 
 .navbar {
-  background-color: #60535C;
+  background-image: url("bck1.png");
   position: fixed;
   top: 0;
   right: 0;
@@ -22,7 +22,7 @@ body {
   padding: 0.2rem;
   color: #b5b5b5;
   margin-left: 1rem;
-  font-size: 24px;
+  font-size: 26px;
 }
 
 #menu__toggle {
@@ -79,14 +79,15 @@ body {
   margin: 0;
   padding: 80px 0;
   list-style: none;
-  background-color: #60535C;
+  background-color: #3e3250;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
   transition-duration: .25s;
+  color: #9991ad;
 }
 .menu__item {
   display: block;
   padding: 12px 24px;
-  color: #333;
+  color: #9991ad;
   font-size: 20px;
   font-weight: 600;
   text-decoration: none;
@@ -96,7 +97,7 @@ body {
   background-color: #CFD8DC;
 }
 
-.asignar-revision-page {
+.dashboard-page {
   display: flex;
   flex-direction: column;
   margin-top: 5rem;
@@ -104,32 +105,70 @@ body {
   color: #b5b5b5;
 }
 
+.dashboard-title {
+  padding: 1rem 2rem;
+  font-family: 'Inconsolata', monospace;
+  font-size: 2.5em;
+}
+
+h3 {
+  padding: 0rem 2rem;
+}
+
+.asignar-mas-revisores {
+  margin: 0rem 2rem 1rem 2rem;
+  width: fit-content;
+}
+
+#esRevisor {
+  width: fit-content;
+  margin-right: 1rem;
+}
+
 .revision-title {
-  padding: 1rem 3rem;
+  padding: 1rem 2rem;
+  margin-top: 6rem;
+  font-family: 'Inconsolata', monospace;
+  font-size: 2.5em;
+  color: #b5b5b5;
   margin-bottom: 0;
 }
 
 .datos-asignar-revision {
+  font-family: 'Inconsolata', monospace;
   display: flex;
   flex-direction: column;
-  padding: 0rem 3rem;
+  margin: 1rem 2rem;
+  margin-top: 0;
+  color: #b5b5b5;
+  font-size: 20px;
 }
 
-h4 {
-  margin-top: 0.5rem;
+.datos-asignar-revision h4 {
+  margin: 0.5rem 0rem;
+}
+
+select {
+  padding: 0.5rem;
+  background-color: #60535C;
+  color: #b5b5b5;
+  border-radius: 8px;
+  border: none;
+  transition: all 0.3s ease;
 }
 
 .container th h1 {
   font-weight: bold;
   font-size: 1em;
   text-align: left;
-  color: #185875;
+  color: #9991ad;
 }
  
 .container td {
   font-weight: normal;
   font-size: 1em;
   box-shadow: 0 2px 2px -2px #0E1119;
+  color: #9991ad;
 }
  
 .container {
@@ -139,6 +178,8 @@ h4 {
   margin: 0 auto;
   display: table;
   padding: 0 0 8em 0;
+  font-family: 'Inconsolata', monospace;
+  font-size: 1.2em;
 }
  
 .container td, .container th {
@@ -148,15 +189,15 @@ h4 {
 }
  
 .container tr:nth-child(odd) {
-  background-color: #323C50;
+  background-color: #3e3250;
 }
  
 .container tr:nth-child(even) {
-  background-color: #2C3446;
+  background-color: #382c46;
 }
  
 .container th {
-  background-color: #1F2739;
+  background-color: #2f1f39;
 }
  
 .container td:first-child { 
@@ -164,7 +205,7 @@ h4 {
 }
  
 .container tr:hover {
-  background-color: #464A52;
+  background-color: #56455b;
 }
  
 @media (max-width: 800px) {
@@ -172,16 +213,22 @@ h4 {
   .container th:nth-child(4) { display: none; }
 }
 
-.asignar, .corregir {
+.asignar, .corregir, .asignar-mas-revisores {
   padding: 0.5rem;
   background-color: #60535C;
   color: #b5b5b5;
   border-radius: 8px;
   border: none;
   transition: all 0.3s ease;
+  font-family: 'Inconsolata', monospace;
 }
 
-.corregir:hover, .asignar:hover {
-  background-color: #323C50;
+.corregir:hover, .asignar:hover, .asignar-mas-revisores:hover {
+  background-color: #463250;
   cursor: pointer;
+}
+
+.asignar:disabled {
+  cursor: not-allowed;
+  background-color: #463d44;
 }
