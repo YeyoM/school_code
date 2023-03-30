@@ -4,66 +4,33 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
   <title>Actividad JQuery</title>
 </head>
 <body>
-  <form action="">
-    <!--  General -->
-    <div class="form-group">
-      <h2 class="heading">Booking & contact</h2>
-      <div class="controls">
-        <input type="text" id="name" class="floatLabel" name="name">
-        <label for="name">Name</label>
+  <div class="field">
+    <fieldset>
+      <legend>Renta un Carro</legend>
+      <div class="controlgroup-vertical">
+        <select id="car-type">
+          <option>Compacto</option>
+          <option>Sedan</option>
+          <option>SUV</option>
+          <option>Camioneta de Carga</option>
+          <option>Van</option>
+        </select>
+        <label for="transmission-standard">Estándar</label>
+        <input type="radio" name="transmission" id="transmission-standard">
+        <label for="transmission-automatic">Automático</label>
+        <input type="radio" name="transmission" id="transmission-automatic">
+        <label for="insurance">Seguro</label>
+        <input type="checkbox" name="insurance" id="insurance">
+        <input type="text" id="datepicker" placeholder="Fecha de Inicio">
+        <input type="text" id="datepicker-2" placeholder="Fecha de Fin">
+        <button>Book Now!</button>
       </div>
-      <div class="controls">
-        <input type="text" id="email" class="floatLabel" name="email">
-        <label for="email">Email</label>
-      </div>       
-      <div class="controls">
-        <input type="tel" id="phone" class="floatLabel" name="phone">
-        <label for="phone">Phone</label>
-      </div>
-        
-         
-        
-    
-    <div class="form-group">
-      <h2 class="heading">Details</h2>
-      <div class="grid">
-      
-      <div class="col-1-4 col-1-4-sm">
-        <div class="controls">
-          <input type="date" id="depart" class="floatLabel" name="depart" value="<?php echo date('Y-m-d'); ?>" />
-          <label for="depart" class="label-date"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Date</label>
-        </div>      
-      </div>
-        </div>
-        <div class="grid">
-      <div class="col-1-3 col-1-3-sm">
-        <div class="controls">
-          <i class="fa fa-sort"></i>
-          <select class="floatLabel">
-            <option value="blank"></option>
-            <option value="1">1</option>
-            <option value="2" selected>2</option>
-            <option value="3">3</option>
-        <option value="3">4</option>
-        <option value="3">5</option>
-        <option value="3">6</option>
-        <option value="3">7</option>
-        <option value="3">8</option>
-        <option value="3">9</option>
-        <option value="3">10</option>
-          </select>
-          <label for="fruit"><i class="fa fa-male"></i>&nbsp;&nbsp;People</label>
-        </div>      
-      </div>
-      
-    <div >
-      <button type="submit">Book</button>
-    </div>	
-    </div> <!-- /.form-group -->
-  </form>
+    </fieldset>
+  </div>
 </body>
 <link rel="stylesheet" href="../jquery/jquery-ui-1.13.2.custom/jquery-ui-1.13.2.custom/jquery-ui.min.css">
 <script src="../jquery/jquery-ui-1.13.2.custom/jquery-ui-1.13.2.custom/external/jquery/jquery.js"></script>
