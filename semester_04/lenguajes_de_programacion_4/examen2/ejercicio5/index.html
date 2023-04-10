@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animación</title>
+</head>
+<style>
+  .rectangulo {
+    position: absolute;
+    left: 4rem;
+    top: 4rem;
+    background-color: #6ac3ff;
+    height: 200px;
+    width: 200px;
+    transition: all 0.25s ease-in-out;
+  }
+</style>
+<body>
+  <div class="rectangulo" id="rectangulo"></div>
+</body>
+<script>
+  let rectangulo = document.getElementById("rectangulo")
+  let cuenta = 0
+  rectangulo.addEventListener("click", () => {
+    cuenta += 90
+    rectangulo.style.transform = `rotate(${cuenta}deg)`
+  })
+</script>
+</html>

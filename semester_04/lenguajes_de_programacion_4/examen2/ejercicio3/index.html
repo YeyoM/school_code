@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desaparecer y Aparecer</title>
+</head>
+<!--Desarrollar un código para que, al presionar sobre la figura dibujada, se desvanezca y reaparezca-->
+<style>
+  .dibujo {
+    position: absolute;
+    left: 4rem;
+    top: 4rem;
+    background-color: #6ac3ff;
+    height: 200px;
+    width: 300px;
+    transition: all 0.25s ease-in-out;
+  }
+</style>
+<body>
+  <div class="dibujo"></div>
+</body>
+<script>
+  let dibujo = document.querySelector(".dibujo")
+  dibujo.addEventListener("click", () => {
+    setTimeout(() => {
+      dibujo.style.opacity = 0
+    }, 0)
+    setTimeout(() => {
+      dibujo.style.opacity = 1
+    }, 1000)
+  })
+</script>
+</html>
