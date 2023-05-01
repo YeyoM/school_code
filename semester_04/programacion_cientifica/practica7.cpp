@@ -1,6 +1,6 @@
 // Universidad Autonoma de Aguascalientes
 // Centro de Ciencias Basicas
-// Departamento de Ciencaas de la Computacion
+// Departamento de Ciencias de la Computacion
 // Programacion Cientifica
 // Diego Emilio Moreno Sánchez
 // Profesor: Dr. en C. Luis Fernando Gutiérrez Marfileño
@@ -21,14 +21,6 @@ de ecuaciones lineales.
  2x1 – x2 + 6x3 = 77
 -3x1 + 4x2 - 5x3 = -30
 8x1 – 7x2 – 9x3 = -133
-
-Se debe desplegar un menú para ejecutar el método y una opción
-para salir del sistema.
-
-Al seleccionar ejecutar el método el usuario debe proporcionar :
-la dimensión del sistema y los coeficientes necesarios del sistema
-Una vez realizada cualquier operación  debe regresar al menú principal.
-Al salir debe detener el programa y luego regresar el control al sistema inicial.
 */
 
 #include <iostream>
