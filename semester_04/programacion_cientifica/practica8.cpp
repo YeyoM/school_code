@@ -14,7 +14,7 @@
 // Salidas: b (vector solucion) luego de aplicar Gauss-Jordan
 
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
 using namespace std;
 
