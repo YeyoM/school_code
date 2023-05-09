@@ -1,0 +1,306 @@
+=== Raices de Ecuaciones ===
+
+    - Las raices de una ecuacion son las soluciones que satisfagan f(x) = ax^k + ... para una función dada.
+    - Las ecuaciones pueden ser algebraicas (x^2 + 5x - 4 = 0) o trascendentes (e^-x, sen(x), ln(x), etc).
+    - No existe un método universal de solución de sistemas de ecuaciones no lineales.
+    - En casos simples, se resuelven con sus coeficientes, para el resto, se utilizan metodos aproximados.
+    - Los metodos tienen 2 pasos:
+        1. Determinar el intervalo de búsqueda.
+        2. Selección y aplicacion de un metodo numerico
+    - Los metodos se dividen en 2 categorias:
+        1. Metodos cerrados: Usan intervalos, siempre convergen pero lentamente.
+        2. Metodos abiertos: Solo necesitan un punto o dos, no necesariamente encerrando la raiz.
+                            La convergencia es más rápida, pero pueden diverger.
+
+    == Metodos Cerrados ==
+
+    - Metodo Grafico:
+        - Se requiere: 
+            - Definir un intervalo de valores [a,b] para x
+            - Calcular el valor de la función f(x) para cada punto del intervalo
+            - Graficar para verificar que f(x) toma, dentro de este intervalo, valores de signo opuesto (Teorema de Bolzano),
+            lo que confirma la existencia de al menos una raiz.
+
+    - Método de bisección:
+    (Bisecciones sucecivas, Corte binario, Partición en dos intervalos iguales, busqueda binaria o Bolzano)
+        - Basado en:
+            - Teorema de valor intermedio: Si F pertenece al intervalo y K es un numero entre f(a) y f(b)
+            entonces existe un punto c en el intervalo (a,b) tal que f(c) = k
+            - Teorme a de Bolzano: Sea F una función continua en el intervalo con f(a)*f(b) < 0, entonces
+            existe al menos un punto c dentro del intervalo tal que f(c) = 0.
+
+        Si se tiene una funcion f(x) continua en el intervalo [xi, xs], con f(xi) y f(xs) de signos opuestos,
+        entonces existe un valor x* incluido en el intervalo tal que f(x*) = 0.
+
+        Divide el intervalo a la mitad y el metodo localiza la mitad que contiene la raiz, se aproximan hasta llegar al resultado.
+        
+        - Si f(xM) = 0, entonces la raiz es igual a xM.
+        - Si f(xi) * f(xs) < 0, entonces la raiz está en el primer subintervalo [xi, xM]
+        - Si f(xi) * f(xs) > 0, entonces la raiz está en el primer subintervalo [xM, xs]
+
+        Caracteristicas:
+            - Siempre es convergente.
+            - Es lento
+            - Solo encuentra 1 raiz.
+
+    - Método de Falsa Posición.
+        Similar al de la biseccion, en vez de tomar el punto medio de los rangos iterativos, se crea una
+        posición falsa creando una nueva hipotenusa (???).
+
+        xM = xS - f(xS)((xS - xI) / (f(xS) - f(xI))
+        - Si f(xM) = 0, el proceso termina.
+        - Si f(xM) tiene el mismo signo de f(xI), entonces xI = xM y xS = xS
+        - Si f(xM) tiene el mismo signo de f(xS), entonces xI = xI y xS = xM
+
+        Caracteristicas:
+            - Siempre es convergente
+            - Mas rapido que bisección
+            - Solo encuentra 1 raiz
+
+    == Metodos Abiertos ==
+
+    - Metodo de Newton-Raphson.
+        Creados en 1669, Inglaterra, por Issac Newton, mediante una carta a Barrow y Collins 
+        Se resuelven ecuaciones dadas la manera f(x) = 0.
+        Se basa en el metodo de falsa posicion, trazando una tangente.
+
+        xN = xN-1 - (f(xN-1) / f'(xN-1))
+
+        Caracteristicas:
+            - Rapida convergencia.
+            - NO siempre converge.
+            - No conviene si existen varias raices.
+            - Puede alejarse de la raiz si la pendiente es cercana a cero.
+
+    == Condiciones de Convergencia ==
+
+    1. Existe una raiz.
+    2. (Unicidad) Dentro del intervalo de trabajo [a,b], la derivada de la función != 0.
+    3. (Concavidad) La grafica dentro del intervalo debe de ser concava para arriba o para abajo.
+        f''(x) <= 0 ó f''(x) >= 0 para toda x en [a,b]
+    4. (Interseccion de la Tangente en el intervalo)
+        La tangente de la curva en el extremo del intervalo de f'(x) sea minima, intersectando al eje x.
+        (osease, que si se traza una linea pase MINIMAMENTE por los valores de la curva.)
+
+=== Matrices ===
+
+    - Tabla o arreglo cuadrado o rectangular de numeros, donde se le denominan /elementos de la matriz/ a esos numeros.
+    Fue introducido por James Joseph Sylvester en el año 1850.
+    Lineas: Horizontales = filas, Verticales = columnas.
+    Una matriz (m x n), siendo /m/ (filas) y /n/ (columnas) sus dimensiones.
+    - Se escribe A := a[i,j](m x n) para definir todos los elementos de la matriz como a[i,j].
+    - Una matriz de una sola columna o fila se le conoce como vector.
+    - La diagonal principal de una matriz es la diagonal que va desde el elemento a[0,0] hasta el elemento a[m,n].
+    Esto solo ocurre en matrices donde m = n.
+
+    == Tipos de matrices ==
+
+    - Vector fila (1 x n): Consisten de una fila y n columnas
+        {1, 2, 3, 4, ..., n}
+
+    - Vector columna (m x 1): Consisten de m filas y 1 columna.
+        {
+            {1},
+            {2},
+            {3},
+            {4}
+        }
+
+    - Matriz cuadrada (m x m):
+        {
+            {1, 2, 3},
+            {5, 6, 7},
+            {8, 9, 10}
+        }
+
+    - Matriz rectangular (m x n): Donde m != n.
+        {
+            {1, 2, 3},
+            {4, 5, 6}
+        }
+
+    - Matrices llenas pero no muy grandes (metodos directos): 
+        "llenas": Pocos elementos nulos.
+        "no muy grandes": Numero de ecuaciones es de unos pocos miles a lo sumo.
+        Aparecen en problemas estadisticos, matematicos, fisicos e ingenieria.
+
+    - Matrices vacias y muy grandes (metodos indirectos):
+        "vacias": Tienen pocos elementos NO nulos, situados con cierta regularidad.
+        "muy grandes": Numero de ecuaciones es de miles a millones.
+        Comunes en ecuaciones diferenciales de ingenieria.
+
+    - Matriz nula: Todos los elementos de la matriz es 0.
+        {
+            {0, 0},
+            {0, 0}
+        }
+
+    - Matriz escalonada: Matriz donde, se van creando escalones de 0s en la parte inferior de la matriz.
+    Filas:
+        {1, 2, 3} 
+        {0, 1, 2}
+        {0, 0, 3}
+    Columnas:
+        {3, 0, 0}
+        {2, 0, 0}
+        {4, 1, 0}
+        {-6, 4, -3}
+
+    - Matriz triangular superior: Matriz cuadrada donde los elementos debajo de la diagonal principal son nulos.
+        {1, 2, 3}
+        {0, 1, 2}
+        {0, 0, 3}
+
+    - Matriz triangular inferior:
+        {1, 0, 0}
+        {1, 2, 0}
+        {1, 2, 3}
+
+    - Matriz diagonal: Matriz donde todos los elementos que no están en la diagonal principal son nulos
+        {1, 0, 0}
+        {0, 2, 0}
+        {0, 0, 3}
+
+    - Matriz escalar: Matriz diagonal donde la diagonal principal tiene el mismo elemento.
+        {3, 0, 0}
+        {0, 3, 0}
+        {0, 0, 3}
+
+    - Matriz identidad: Matriz escalar donde el escalar es 1.
+        {1, 0, 0}
+        {0, 1, 0}
+        {0, 0, 1}
+
+    == Determinantes ==
+    - El termino de determinantes fué introducido por Carl Friedrich Gauss en (1801)/Disquisitiones arithmeticae/, pero no es el mismo signficiado
+    de la actualidad.
+    Carl Gustav Jacob Jacobi lo introdujo en tres tratados en 1841.
+    Takakazu Seki fue el primero en estudiar los factores de determinantes en 1683. Leibniz lo hizo 10 años mas tarde.
+    - Los determinantes son funciones que aceptan como entrada una matriz cuadrada cuya salida puede ser un
+    numero real, cero o numero complejo, llamado determinante.
+    - Se suman los terminos en todas las permutaciones, y su signo es positivo si la permutación es par, y negativo si es impar.
+    - Reglas conocidas: - (2x2) Formula de Leibniz
+                        - (3x3) Regla de Sarrus
+                        - (4x4) Regla de Laplace
+
+    = Propiedades de determinantes =
+
+    - Si una matriz tiene una fila o columna con valores nulos, el determinante es 0.
+    - Si una matriz tiene dos filas iguales o proporcionales, el determinante es NULO.
+    - Si se permutan dos líneas paralelas de una matriz cuadrada su determinante cambia de signo.
+        (osease, si se intercambia dos filas o columnas de posición)
+    - Si se multiplican todos los elementos del determinante por un escalar, el determinante queda multiplicado por ese número.
+    - Si a una línea de una matriz se le suma otra línea multiplicada por un número, el determinante no cambia.
+    - El determinante de una matriz es igual al de su transpuesta.
+    - Si A tiene matriz inversa(A^-1), se verifica que: det(A^-1) = 1 / det(A)
+
+    == Cofactores (regla de Laplace) ==
+    NO LO VIMOS pero basicamente es el proceso donde, agarrando un elemento de la matriz,
+    la columna y fila de donde está ese elemento desaparecen, creando el restante como un nuevo determinante y
+    multiplicando el valor que te pidan dependiendo de la coordenada.
+
+    Se aplica la regla de Laplace (los signos de cada casilla), ej:
+    Matriz 3x3
+    {+, -, +}
+    {-, +, -}
+    {+, -, +}
+
+    EJ: Cofactor de a(1,1)
+
+    {1, 0, 3}       {-, -, -}      (+1) | -1, 2 |
+    {4, -1, 2} -->  {-, -1, 2} -->      | -2, 1 | --> (+1) ((-1 * 1) - (2 * -2))  
+    {0, -2, 1}      {-, -2, 1}                        = (+1) (-1 - (-4))
+                                                      = (+1) (-1 + 4)
+                                                      = 3
+                                                      (ESTO ES EL COFACTOR!!!!!!!)
+    Sacas el 1
+    y le pones
+    el signo
+    de Laplace
+
+    == Matriz Inversa ==
+    La matriz inversa hace la verificación de las matrices posible.
+    Se puede demostrar que si una matriz es multiplicada por su inversa, 
+    su resultado será esa misma matriz.
+
+    A * I = A
+
+    Dada una matriz A, es posible encontrar una matriz B tal que:
+    A * B = I?
+
+    Propiedades:
+        - Si existe, es unica.
+        - (A * B)^-1 = A^-1 * B^-1
+        - (A^T)^-1 = A(-1)^T 
+        A^T es una matriz transpuesta.
+        - (A^-1)^-1 = 1
+        La inversa de una matriz inversa es 1.
+        - Una matriz puede ser inversa si su determinante es distinto de 0.
+        - A^-1 = 1/det(A) * adj(A^T).
+        
+    == Soluciones de Matrices / Sistemas de ecuaciones ==
+    
+    Metodos directos: 
+        - Dan soluciones exactas
+        - No dan errores por truncamiento.
+        - Se usan cuando la mayor parte de elementos son distintos de 0 y las matrices no son
+        grandes.
+        - Es algo complicado de implementar.
+
+    Metodos indirectos:
+        - Encuentra una solución dado por el límite de una secuencia de soluciones aproximadas.
+        - Tienen errores de truncamiento.
+        - Se usan para matrices grandes, y gran parte de los elementos son 0.
+        - Son sencillos de implementar.
+        - Requieren aproximación inicial.
+        - Se puede interrumpir las iteraciones y tener una aproximación.
+
+    Al agregarle los terminos independientes de un sistema de ecuaciones a la ultima columna 
+    de una matriz, se le llama matriz ampliada del sistema.
+    
+    Si tiene solución, es un sistema compatible.
+    Si no tiene, es incompatible.
+
+    Un sistema compatible puede ser determinado si su solución es única, o indeterminado si
+    la solución no es única.
+
+    Operaciones elementales:
+        - Intercambio de dos filas o renglones.
+        - Multiplicación de una fila por un escalar no nulo.
+        - Suma a una fila de una combinación lineal no nula de otro renglón.
+
+        -- Regla de Cramer -- (directo)
+        En este se usan determinantes. Es determinado si y solo si det(A) != 0.
+        Los terminos independientes se forman en una columna, y dependiendo de la dimension de la
+        matriz, se reemplaza cada columna con esta columna de terminos independientes, después de
+        hace la formula de:
+
+        xN = det(An) / det(A)
+
+        Siendo N la columna que reemplazaste, y la solución de esa misma X.
+
+        -- Gauss & Gauss Jordan no los voy a escribir pq ya me los sé, perdón. --
+
+=== Ajuste de Curvas ===
+
+    El ajuste de curvas es la evaluación de F en algún punto x en el conjunto de datos tabulados.
+
+    Tipos de ajuste:
+    - Aproximación: Se aproxima a lo observado
+        Se da confianza fuera del rango de la muestra y es robusto al ruido (irregularidad aleatoria)
+    - Interpolación: Se da exactamente lo observado.
+        Se da confianza dentro del rango de la muestra y no es robusto al ruido.
+
+    == Metodo de Minimos Cuadrados ==
+
+    f(x) = a0 + a1(x)
+    
+    a1 = Pendiente de la recta.
+    a0 = Punto de intersección sobre la ordenada.
+
+    Si a1 > 0 tiene una relación lineal positiva, si no, es negativa.
+
+    Para calcular la pendiente (a1) tenemos:
+    a1 = n * sum(xy) - sum(x)sum(y) / n * sum(x^2) - (sum(x))^2
+    Para calular la interescción (a0) tenemos:
+    a0 = sum(y) - a1(sum(x)) / n
