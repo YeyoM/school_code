@@ -88,12 +88,6 @@ int main() {
 
   int opcion = 0;
 
-  float x[4] = {-2, -1, 2, 3};
-  float y[4] = {4, 1, 4, 9};
-
-  float valor = 4;
-  float acum = 0;
-
   do {
 
     menu();
@@ -104,12 +98,19 @@ int main() {
       float edades[n] = {2, 3, 5, 7, 8};
       float pesos[n] = {14, 20, 32, 42, 44};
 
+      cout << "Edad\tPeso" << endl;
+      for (int i = 0; i < n; i++) {
+        cout << edades[i] << "\t" << pesos[i] << endl;
+      }
+
       float sum_x = 0,
         sum_y = 0,
         sum_xy = 0,
         sum_x2 = 0;
 
-      while (int i = 0 <= n) {
+      int i = 0;
+
+      while (i <= n) {
         sum_x += edades[i];
         sum_y += pesos[i];
         sum_xy += edades[i] * pesos[i];
@@ -122,14 +123,24 @@ int main() {
       
       cout << "La ecuacion de la recta de regresion es: " << endl;
       cout << "y = " << a0 << " + " << a1 << "x" << endl;
-      
+
       float x = 6;
+
+      cout << "Ingrese el valor a estimar: " << endl;
+      cin >> x;
+      
       float y = a0 + a1 * x;
       
-      cout << "El peso aproximado de un nino de 6 anios es: " << y << endl;
+      cout << "El peso aproximado de un nino de " << x << " anios es: " << y << endl;
+
     } else if (opcion == 2) {
       float x[3] = {10, 20, 30};
       float y[3] = {0.1763, 0.3640, 0.5774};
+
+      cout << "x\tf(x)" << endl;
+      for (int i = 0; i < 3; i++) {
+        cout << x[i] << "\t" << y[i] << endl;
+      }
     
       float dependientes[3][3] = {
         {1, x[0], x[0] * x[0]},
@@ -146,21 +157,34 @@ int main() {
       cout << resultado[1] << "x + ";
       cout << resultado[2] << "x^2" << endl;
 
-      cout << "El valor de P(21) es: " << evaluarPolinomio(resultado, 21) << endl;
+      float valor = 0;
+      cout << "Ingrese el valor a estimar: " << endl;
+      cin >> valor;
+
+      cout << "El valor de P("<< valor << ") es: " << evaluarPolinomio(resultado, valor) << endl;
 
     } else if (opcion == 3) {
       float x[3] = {-6, 6, -1};
       float y[3] = {8, -16, -2};
 
+      cout << "x\tf(x)" << endl;
+      for (int i = 0; i < 3; i++) {
+        cout << x[i] << "\t" << y[i] << endl;
+      }
+
       float L, acum;
       int i = 0, j = 0;
+
+      float valor = 0;
+      cout << "Ingrese el valor a estimar: " << endl;
+      cin >> valor;
 
       while (i < 3) {
         L = y[i];
         j = 0;
         while (j < 3) {
           if (i != j) {
-            L = L * ((-4 - x[j]) / (x[i] - x[j]));
+            L = L * ((valor - x[j]) / (x[i] - x[j]));
           }
           j++;
         }
@@ -168,8 +192,27 @@ int main() {
         i++;
       }
 
-      cout << "El valor de la interpolacion es: " << acum << endl;
+      cout << "El valor de la estimación es: " << acum << endl;
+
     } else if (opcion == 4) {
+
+      float x[4] = {-2, -1, 2, 3};
+      float y[4] = {4, 1, 4, 9};
+
+      // Imprimir la tabla
+      cout << "x\tf(x)" << endl;
+      for (int i = 0; i < 4; i++) {
+        cout << x[i] << "\t" << y[i] << endl;
+      }
+
+
+      float valor = 4;
+
+      cout << "Ingrese el valor a estimar: " << endl;
+      cin >> valor;
+
+      float acum = 0;
+
       for (int i = 0; i < 4 - 1; i++) {
         for (int j = 4 - 1; j > i; j--) {
           y[j] = (y[j] - y[j - 1]) / (x[j] - x[j - i - 1]);
