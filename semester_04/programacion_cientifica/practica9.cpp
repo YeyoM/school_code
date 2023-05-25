@@ -39,8 +39,8 @@ using namespace std;
 void menu() {
   cout << "1. Calcular la ecuacion de la recta de regresion y resolver el problema 1" << endl;
   cout << "2. Encontrar el polinomio de interpolacion unico problema 2" << endl;
-  cout << "3. Encontrar el polinomio de interpolaión de Lagrange" << endl;
-  cout << "4. Encontrar el polinomio de interpolación de Newton" << endl;
+  cout << "3. Encontrar el polinomio de interpolaion de Lagrange" << endl;
+  cout << "4. Encontrar el polinomio de interpolacion de Newton" << endl;
   cout << "5. Salir" << endl;
   cout << "Opcion: ";
 }  
@@ -192,7 +192,7 @@ int main() {
         i++;
       }
 
-      cout << "El valor de la estimación es: " << acum << endl;
+      cout << "El valor de la estimacion es: " << acum << endl;
 
     } else if (opcion == 4) {
 
@@ -236,7 +236,7 @@ int main() {
       cout << "Opcion invalida" << endl;
     }
 
-  } while (opcion != 2);
+  } while (opcion != 5);
 
   return 0;
 }
