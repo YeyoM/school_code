@@ -68,52 +68,22 @@ int main() {
       cout << "Ingrese el valor de maximo de iteraciones: ";
       cin >> max_iteraciones;
 
-      float error = tolerancia + 1;
-
       float h = (b - a) / n;
-      float m = (a + b) / 2;
+      float sum_p = 0;      
+      float sum_i = 0;
 
-      float i_0 = (h / 3) * (f(a) + (4 * f(m)) + f(b));
-      float i_1 = 0;
-
-      int contador = 0;
-
-      while (error > tolerancia || contador < max_iteraciones) {
-        h = (b - a) / n;
-        float sum_p = 0;
-        float sum_i = 0;
-
-        for (int i = 1; i <= n - 1; i++) {
-          if (i % 2 == 0){
-            sum_p += f(a + (i * h));
-          }
-          else {
-            sum_i += f(a + (i * h));
-          }
+      for (int i = 1; i <= n - 1; i++) {
+        if (i % 2 == 0){
+          sum_p += f(a + (i * h));
         }
-
-        i_1 = (h / 3) * (f(a) + 4 * sum_i + 2 * sum_p + f(b));
-        error = abs(i_1 - i_0);
-        i_0 = i_1;
-        n *= 2;
-
-        cout << "Iteracion " << contador << ": " << i_1 << endl;
-        cout << "i_1: " << i_1 << endl;
-
-
-        if (contador == max_iteraciones) {
-          cout << "Se alcanzo el maximo de iteraciones" << endl;
-          break;
+        else {
+          sum_i += f(a + (i * h));
         }
-
-        if (error < tolerancia) {
-          cout << "El valor de la integral es: " << i_1 << endl;
-          break;
-        }
-
-        contador++;
       }
 
+      float i_1 = (h / 3) * (f(a) + 4 * sum_i + 2 * sum_p + f(b));
+
+      cout << "El valor de la integral es: " << i_1 << endl;
       cout << "El error es: " << f_error(a, b, tolerancia) << endl;
 
     } else if (opcion == 2) {

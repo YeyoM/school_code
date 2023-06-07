@@ -37,6 +37,7 @@
     "*.ejs": "html",
     "iostream": "cpp",
     "ostream": "cpp",
-    "cmath": "cpp"
+    "cmath": "cpp",
+    "random": "cpp"
   }
 }
