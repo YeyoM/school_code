@@ -42,7 +42,7 @@ double interpolacionNewton(int n, double x[], double y[], double xint) {
 
     // p3(x) = A0+A1(x−x0)+A2(x−x0)(x−x1)+A3(x−x0)(x−x1)(x−x2)
     // A0, A1, A2, A3 = y0, T[0][0], T[1][1], T[2][2]
-    // f(xint) = y0 + T[0][0](xint - x0) + T[1][1](xint - x0)(xint - x1) + T[2][2](xint - x0)(xint - x1)(xint - x2)
+    // f(xint) = y0 + T[0][0](x - x0) + T[1][1](x - x0)(x - x1) + T[2][2](x - x0)(x - x1)(x - x2)
 
     return f_xint;
 }
