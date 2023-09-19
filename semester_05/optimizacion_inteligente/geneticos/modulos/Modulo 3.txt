@@ -1,0 +1,11 @@
+•Lunes
+•Martes
+•Miércoles
+•Jueves
+
+
+
+Pensando que las sesiones son de mínimo 4 horas a la semana y máximo dos horas seguidas al día.
+Esto quiere decir que no podrá ser un día inicial el viernes.
+
+Colocamos este bloque en la posicion 5 por lo acordado con el grupo

@@ -1,0 +1,5 @@
+Modulo 7 - Tipo de aula
+
+Aula de clases -> Ac
+Laboratorio -> Lab
+Auditorio ->Aud
