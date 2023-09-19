@@ -44,3 +44,7 @@
 /semester_03/Lenguajes de Computacion 3/miniMaple/nbproject/private/
 /semester_03/Lenguajes de Computacion 3/miniMaple/build/
 /semester_03/Lenguajes de Computacion 3/miniMaple/dist/
+__pycache__
+*.pyc
+.env
+/semester_05/optimizacion_inteligente/geneticos/python3-virtualenv
