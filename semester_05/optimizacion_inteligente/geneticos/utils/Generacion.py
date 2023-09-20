@@ -41,7 +41,7 @@ def Generacion(Modulo1, Modulo2, Modulo3, Modulo4, Modulo5, Modulo6, Modulo7, Mo
 
     Individuo = [
         np.random.choice(Modulo1[Grado]), 
-        Materia, 
+        Modulo2[Grado], 
         Modulo3[Dia_Inicio],
         Modulo4[Hora_Inicio],
         Modulo5[Dia_Fin], 
