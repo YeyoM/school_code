@@ -3,20 +3,6 @@ https://taytzehao.medium.com/classroom-scheduling-using-heuristics-and-genetic-a
 https://github.com/mcychan/GASchedule.py
 https://www.codeproject.com/Articles/23111/Making-a-Class-Schedule-Using-a-Genetic-Algorithm
 
-# Cuando podemos tener un choque?
-
-1. Dos clases diferentes en el mismo salon a la misma hora (afecta al horario del salon)
-2. Una misma clase a la misma hora en salones diferentes (afecta al horario del grupo)
-
-# Como calcular choques?
-
-Recordar que existen dos entidades que poseen horarios (schedules)
-
-1. Los grupos
-2. Los salones
-
-Podemos crear una matriz o un hashmap para cada grupo y para cada salon que represente su horario para que de esta forma para cada nuevo individuo podamos ir calculando los choques
-
 # Como se conforma un individuo?
 
 Un individuo se conforma por 10 modulos
@@ -32,7 +18,33 @@ Un individuo se conforma por 10 modulos
 * Modulo 9. Numero de cromosomas del individuo
 * Modulo 10. Numero de choques
 
+## Restricciones a la hora de generar un individuo
 
+1. RESTRICCIONES DE MATERIAS Y SEMESTRES
+    Un alumno solo puede cursar materias de su semestre
 
+2. RESTRICCIONES DE HORARIOS
+    El horario de inicio debe ser menor al horario de fin 
+   
+3. RESTRICCIONES DE TIPOS DE AULAS Y AULAS
+    El aula tiene que corresponder con el tipo que es
 
+4. RESTRICCIONES DE CUMPLIMIENTO DE HORAS
+    El alumno debe cumplir con las horas de clase que le corresponden
+    Para esto podemos usar un diccionario/hashmap con todas las materias como llaves
+    y las horas (que lleva registradas) como valores (modulos/horas.py)
 
+# Cuando podemos tener un choque?
+
+1. Dos clases diferentes en el mismo salon a la misma hora (afecta al horario del salon)
+2. Una misma clase a la misma hora en salones diferentes (afecta al horario del grupo)
+3. 
+
+# Como calcular choques?
+
+Recordar que existen dos entidades que poseen horarios (schedules)
+
+1. Los grupos
+2. Los salones
+
+Podemos crear una matriz o un hashmap para cada grupo y para cada salon que represente su horario para que de esta forma para cada nuevo individuo podamos ir calculando los choques

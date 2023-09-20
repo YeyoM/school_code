@@ -39,36 +39,3 @@ Modulo8 = np.array([
 
 # Modulo9 => ID del individuo
 Modulo9 = 0
-
-# Creamos un array vacio donde se guardaran los individuos
-Poblacion = np.array([])
-
-# Aqui generamos los individuos, Agregando a Individuo el valor de cada modulo que generamos aleatoriamente
-# @Modulo9 es un contador que nos ayuda a saber cuantos individuos se han generado
-# @Choques es una funcion que nos ayuda a saber si el individuo tiene choques de horario
-def Generacion():
-    global Modulo9
-    Individuo = [np.random.choice(Modulo1), np.random.choice(Modulo2), np.random.choice(Modulo3),
-                np.random.choice(Modulo4), np.random.choice(Modulo5), np.random.choice(Modulo6),
-                np.random.choice(Modulo7), np.random.choice(Modulo8), Modulo9]
-
-    Poblacion.append(Individuo)
-    Modulo9 = Modulo9 + 1
-    Individuo.append(Choques(Individuo))
-    return Individuo
-
-#Aqui se evalua si el individuo tiene choques de horario
-#Creamos un contador que nos ayudara a saber cuantos choques de horario tiene el individuo
-def Choques(Individuo):
-    Choques = 0
-    HorarioEntrada = Individuo[3]
-    HorarioSalida = Individuo[5]
-    if HorarioEntrada > HorarioSalida:
-        Choques = Choques + 1
-    return Choques
-
-
-print("Materia  - Grupo  -  Día  -  Hora  -  Día  -  Hora  -  Tipo  -  Aula - No. Individuo")
-for i in range(10):
-    Generacion()
-    print(Poblacion[i])
