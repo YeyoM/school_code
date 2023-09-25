@@ -20,9 +20,10 @@ def main():
     Poblacion = []
 
     print("Materia  - Grupo  -  Día  -  Hora  -  Día  -  Hora  -  Tipo  -  Aula - No. Individuo")
-    for i in range(30):
+    for i in range(10000):
         Generacion(Modulo1, Modulo2, Modulo3, Modulo4, Modulo5, Modulo6, Modulo7, Modulo8, Modulo9, Poblacion)
         print(Poblacion[i])
+        Modulo9 += 1
 
 
 if __name__ == "__main__":
