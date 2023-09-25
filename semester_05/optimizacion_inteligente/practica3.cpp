@@ -27,11 +27,13 @@
 // 8. Repetir desde el paso 3 hasta que se cumpla una condicion de paro
 
 #include <iostream>
+#include <algorithm>
+
 using namespace std;
 
 
 // Funcion para generar numeros aleatorias
-void generarPoblacionInicial (int generacion[8][50]) {
+void generarPoblacionInicial (int generacion[50][8]) {
   // Generar numeros aleatorios entre 0 y 7
   for (int i = 0; i < 50; i++) {
     for (int j = 0; j < 8; j++) {
@@ -41,7 +43,7 @@ void generarPoblacionInicial (int generacion[8][50]) {
 }
   
 // Funcion para mostrar la poblacion
-void mostrarGeneracion(int generacion[8][50]) {
+void mostrarGeneracion(int generacion[50][8]) {
   for (int i = 0; i < 50; i++) {
     for (int j = 0; j < 8; j++) {
       cout << generacion[i][j] << " ";
@@ -136,7 +138,48 @@ int calcularFitness(int individuo[8]) {
   //   cout << endl;
   // }
 
+  // mostrar individuo
+  for (int i = 0; i < 8; i++) {
+    cout << individuo[i] << " ";
+  }
+
   return fitness;
+}
+
+
+void seleccionarPadres(int generacion[50][8], int fitness[50]) {
+  // Seleccionar los mejores 30 padres en base a su fitness
+  // En este caso un mejor fitness es aquel con menor puntaje
+
+  // Tomamos los 30 padres de menor fitness
+  // Ordenar los arrays
+  int temp_[8];
+
+  for (int i = 0; i < 50; i++) {
+    for (int j = 0; j < 50; j++) {
+      if (fitness[j] > fitness[i]) {
+        int temp = fitness[i];
+        fitness[i] = fitness[j];
+        fitness[j] = temp;
+
+        // for (int k = 0; k < 0; k++) {
+        //   temp_[k] = generacion[i][k];
+        // }
+        // for (int k = 0; k < 0; k++) {
+        //   generacion[i][k] = generacion[j][k];
+        // }
+        // for (int k = 0; k < 0; k++) {
+        //   generacion[j][k] = temp_[k];
+        // }
+      } 
+    }
+  }
+
+  for (int i = 0; i < 50; i++) {
+    cout << fitness[i] << endl;
+  }
+
+  mostrarGeneracion(generacion);
 }
 
 void menu() {
@@ -155,7 +198,8 @@ int main() {
   if (opcion == 1) {
 
     // Ejecutar algoritmo genetico
-    int generacion[8][50]; // -> 50 individuos de 8 genes cada uno
+    int generacion[50][8]; // -> 50 individuos de 8 genes cada uno
+    int fitness[50];
 
     // 1. Generar poblacion inicial
     generarPoblacionInicial(generacion);
@@ -173,11 +217,19 @@ int main() {
     // scout << "Fitness 2: " << fitness_2 << endl;    
 
     // 2. Calcular fitness de cada individuo
-    int fitness;
+    int padres[30];
+    int max_indiv = 0; // -> Guardar el fitness mas grande de todos los elementos
     for (int i = 0; i < 50; i++) {
-      fitness = calcularFitness(generacion[i]);
-      cout << i << " - " << fitness << endl;
+      cout << generacion[i] << " ";
+      fitness[i] = calcularFitness(generacion[i]);
+      cout << i << " - " << fitness[i] << endl;
     }
+
+    // 3. Seleccionar a los padres
+    // Se deben seleccionar los 25 individuos con un menor fitness
+    seleccionarPadres(generacion, fitness);
+
+    mostrarGeneracion(generacion);
 
   }
 
