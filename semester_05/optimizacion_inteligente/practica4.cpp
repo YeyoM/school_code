@@ -166,7 +166,7 @@ int main() {
       generarPoblacionInicial(poblacionInicial, num);
       mostrarSolucion(poblacionInicial);
 
-      for (int i = 0; i < 2000; i++) {
+      for (int i = 0; i < 20; i++) {
 
         cout << "Iteracion: " << i << " ///////////////////////////////////// " << endl;
         cout << "Temperatura actual: " << t0 << endl;
