@@ -271,6 +271,9 @@ int main() {
       for (int i = 0; i < 50; i++) {
         fitness[i] = calcularFitness(generacion[i]);
         fitness_acum += fitness[i];
+        if (fitness[i] == 8) {
+          break;
+        }
       }
       cout << "Puntuacion generacion: " << fitness_acum << endl;
     }

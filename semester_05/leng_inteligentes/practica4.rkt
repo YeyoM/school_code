@@ -1,0 +1,11 @@
+#lang racket
+(define (mvector x y)
+  (cons x y))
+(define (suma v1 v2)
+  (cons (+ (car v1) (car v2))(+ (cdr v1) (cdr v1))))
+(define (producto-escalar k v)
+  (cons (* k (car v))(* k (cdr v))))
+(define (producto-punto v1 v2)
+  (+ (* (car v1) (car v2)) (* (cdr v1) (cdr v2))))
+(define v1 (mvector 1 7))
+(define v2 (mvector 2 9))
