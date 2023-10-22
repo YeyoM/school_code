@@ -7,3 +7,9 @@
 (string-append "Ho" "la")
 (string-length "Hola mundo")
 (substring "Apple" 3)
+
+# generar una funcion que calcule el area de un triangulo
+(define (area-triangulo base altura)
+  (if (or (<= base 0) (<= altura 0))
+      (error "Los parametros deben ser positivos")
+      (* 1/2 base altura)))

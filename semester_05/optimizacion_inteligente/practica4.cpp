@@ -38,7 +38,7 @@ void menu() {
  * @return la distancia entre dos ciudades.
  */
 int calcularDistancia(int ciudad1x, int ciudad1y, int ciudad2x, int ciudad2y) {
-  return sqrt(pow((ciudad1x - ciudad2x), 2) + pow((ciudad1y - ciudad2y), 2));
+  return sqrt(pow((abs(ciudad1x - ciudad2x)), 2) + pow((abs(ciudad1y - ciudad2y)), 2));
 }
 
 /**
