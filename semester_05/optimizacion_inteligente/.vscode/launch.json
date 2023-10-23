@@ -7,9 +7,9 @@
       "request": "launch",
       "args": [],
       "stopAtEntry": false,
-      "externalConsole": true,
-      "cwd": "c:/Users/Usuario/code/school_code/semester_05/optimizacion_inteligente",
-      "program": "c:/Users/Usuario/code/school_code/semester_05/optimizacion_inteligente/build/Debug/outDebug",
+      "externalConsole": false,
+      "cwd": "/home/yeyo/code/school_code/semester_05/optimizacion_inteligente",
+      "program": "/home/yeyo/code/school_code/semester_05/optimizacion_inteligente/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
