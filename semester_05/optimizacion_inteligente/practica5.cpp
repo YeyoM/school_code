@@ -164,7 +164,7 @@ void calcularSolucionMaquina(vector<Nodo> &grafo, vector<Nodo> &solucion, int ma
   Nodo nodo_actual = grafo[0];
   Nodo nodo_sig = grafo[0];
   while (trabajos_realizados != maxTrabajos) {
-    cout << "Nodo actual: " << nodo_actual.id << endl;
+    // cout << "Nodo actual: " << nodo_actual.id << endl;
     // recorremos el grafo
     // recorremos los siguientes del nodo actual
     for (int i = 0; i < nodo_actual.siguientes.size(); i++) {
@@ -175,12 +175,176 @@ void calcularSolucionMaquina(vector<Nodo> &grafo, vector<Nodo> &solucion, int ma
         break;
       }
     } 
-    cout << nodo_sig.id << endl;
+    // cout << nodo_sig.id << endl;
     nodo_actual = nodo_sig;    
     if (nodo_actual.id == 10 || nodo_actual.siguientes.size() == 0) {
       break;
     }
   }
+}
+
+void mostrarTrabajosRealizados(vector<vector<int>> &trabajosRealizados) {
+  cout << "Trabajos realizados: " << endl;
+  for (int i = 0; i < trabajosRealizados.size(); i++) {
+    for (int j = 0; j < trabajosRealizados[i].size(); j++) {
+      cout << trabajosRealizados[i][j] << " ";
+    }
+    cout << endl;
+  }
+}
+
+int calcularMakespan(vector<vector<Nodo>> &solucion, vector<vector<int>> &trabajosRealizados, vector<vector<int>> &schedule) {
+  int makespan = 0;
+
+  int time_trabajo_1 = 0;
+  int time_trabajo_2 = 0;
+  int time_trabajo_3 = 0;
+
+  int time_maquina_1 = 0;
+  int time_maquina_2 = 0;
+  int time_maquina_3 = 0;
+  
+  // El total de trabajos a realizar es igual a 9, 
+  // por lo que hasta no completar los 9 trabajos no 
+  // se termina la ejecucion de esta funcion
+  int trabajos_realizados = 0;
+
+  // recorremos las soluciones
+  while (trabajos_realizados != 9) {
+    // recorremos las maquinas
+    for (int i = 0; i < solucion.size(); i++) {
+      // recorremos los trabajos de la maquina
+      for (int j = 0; j < solucion[i].size(); j++) {
+        Nodo nodo_actual = solucion[i][j];
+        // verificamos que el trabajo no se haya realizado
+        if (trabajosRealizados[nodo_actual.x][nodo_actual.y] == 0) {
+          // verificar que el trabajo ya se haya realizado por las maquinas anteriores (en caso de que las haya)
+          // esto quiere decir que el trabajo ya se puede agregar al schedule
+          bool trabajo_permitido = true;
+          for (int k = 0; k < nodo_actual.y; k++) {
+            if (trabajosRealizados[nodo_actual.x][k] == 0) {
+              trabajo_permitido = false;
+              break;
+            }
+          }
+          // si el trabajo ya se puede agregar al schedule
+          if (trabajo_permitido == true) {
+            // marcar el trabajo como realizado
+            trabajosRealizados[nodo_actual.x][nodo_actual.y] = 1;
+            trabajos_realizados++;  
+            mostrarTrabajosRealizados(trabajosRealizados); 
+            switch (nodo_actual.trabajo) {
+              case 1:
+                switch (nodo_actual.maquina) {
+                  case 1:
+                    if (time_maquina_1 > time_trabajo_1) {
+                      time_trabajo_1 = time_maquina_1;
+                    } else if (time_maquina_1 < time_trabajo_1) {
+                      time_maquina_1 = time_trabajo_1;
+                    }
+                    time_trabajo_1 += nodo_actual.tiempo;
+                    time_maquina_1 += nodo_actual.tiempo;
+                    break;
+                  case 2:
+                    if (time_maquina_2 > time_trabajo_1) {
+                      time_trabajo_1 = time_maquina_2;
+                    } else if (time_maquina_2 < time_trabajo_1) {
+                      time_maquina_2 = time_trabajo_1;
+                    }
+                    time_trabajo_1 += nodo_actual.tiempo;
+                    time_maquina_2 += nodo_actual.tiempo;
+                    break;
+                  case 3:
+                    if (time_maquina_3 > time_trabajo_1) {
+                      time_trabajo_1 = time_maquina_3;
+                    } else if (time_maquina_3 < time_trabajo_1) {
+                      time_maquina_3 = time_trabajo_1;
+                    }
+                    time_trabajo_1 += nodo_actual.tiempo;
+                    time_maquina_3 += nodo_actual.tiempo;
+                    break;
+                }
+                break;
+              case 2:
+              switch (nodo_actual.maquina) {
+                  case 1:
+                    if (time_maquina_1 > time_trabajo_2) {
+                      time_trabajo_2 = time_maquina_1;
+                    } else if (time_maquina_1 < time_trabajo_2) {
+                      time_maquina_1 = time_trabajo_2;
+                    }
+                    time_trabajo_2 += nodo_actual.tiempo;
+                    time_maquina_1 += nodo_actual.tiempo;
+                    break;
+                  case 2:
+                    if (time_maquina_2 > time_trabajo_2) {
+                      time_trabajo_2 = time_maquina_2;
+                    } else if (time_maquina_2 < time_trabajo_2) {
+                      time_maquina_2 = time_trabajo_2;
+                    }
+                    time_trabajo_2 += nodo_actual.tiempo;
+                    time_maquina_2 += nodo_actual.tiempo;
+                    break;
+                  case 3:
+                    if (time_maquina_3 > time_trabajo_2) {
+                      time_trabajo_2 = time_maquina_3;
+                    } else if (time_maquina_3 < time_trabajo_2) {
+                      time_maquina_3 = time_trabajo_2;
+                    }
+                    time_trabajo_2 += nodo_actual.tiempo;
+                    time_maquina_3 += nodo_actual.tiempo;
+                    break;
+                }
+                break;
+              case 3:
+              switch (nodo_actual.maquina) {
+                  case 1:
+                    if (time_maquina_1 > time_trabajo_3) {
+                      time_trabajo_3 = time_maquina_1;
+                    } else if (time_maquina_1 < time_trabajo_3) {
+                      time_maquina_1 = time_trabajo_3;
+                    }
+                    time_trabajo_3 += nodo_actual.tiempo;
+                    time_maquina_1 += nodo_actual.tiempo;
+                    break;
+                  case 2:
+                    if (time_maquina_2 > time_trabajo_3) {
+                      time_trabajo_3 = time_maquina_2;
+                    } else if (time_maquina_2 < time_trabajo_3) {
+                      time_maquina_2 = time_trabajo_3;
+                    }
+                    time_trabajo_3 += nodo_actual.tiempo;
+                    time_maquina_2 += nodo_actual.tiempo;
+                    break;
+                  case 3:
+                    if (time_maquina_3 > time_trabajo_3) {
+                      time_trabajo_3 = time_maquina_3;
+                    } else if (time_maquina_3 < time_trabajo_3) {
+                      time_maquina_3 = time_trabajo_3;
+                    }
+                    time_trabajo_3 += nodo_actual.tiempo;
+                    time_maquina_3 += nodo_actual.tiempo;
+                    break;
+                }
+                break;
+            }
+
+          }
+        }
+      }
+    }
+  }
+
+  // El makespan es el tiempo de la maquina que mas tiempo tardo en realizar el ultimo trabajo
+  if (time_maquina_1 > time_maquina_2 && time_maquina_1 > time_maquina_3) {
+    makespan = time_maquina_1;
+  } else if (time_maquina_2 > time_maquina_1 && time_maquina_2 > time_maquina_3) {
+    makespan = time_maquina_2;
+  } else if (time_maquina_3 > time_maquina_1 && time_maquina_3 > time_maquina_2) {
+    makespan = time_maquina_3;
+  }
+
+  return makespan;
 }
 
 int main() {
@@ -386,6 +550,25 @@ int main() {
 
       vector<Nodo> solucion3;
       calcularSolucionMaquina(grafo, solucion3, 3, 3);
+
+      vector<vector<Nodo>> soluciones;
+      soluciones.push_back(solucion1);
+      soluciones.push_back(solucion2);
+      soluciones.push_back(solucion3);
+
+      // recorremos las soluciones
+      for (int i = 0; i < soluciones.size(); i++) {
+        cout << "Solucion maquina " << i + 1 << endl;
+        for (int j = 0; j < soluciones[i].size(); j++) {
+          cout << "Nodo " << soluciones[i][j].id << endl;
+          cout << "Trabajo " << soluciones[i][j].trabajo << endl;
+          cout << endl;
+        }
+      }
+
+      // calculamos el makespan
+      int makespan = calcularMakespan(soluciones, trabajosRealizados, schedule);
+      cout << "Makespan: " << makespan << endl;
     }
 
     else if (opcion == 2) {
