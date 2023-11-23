@@ -113,6 +113,7 @@
 
 #include <iostream>
 #include <vector>
+#include <math.h>
 
 using namespace std;
 
@@ -160,25 +161,110 @@ void recorrerGrafo(vector<Nodo> &grafo) {
 void calcularSolucionMaquina(vector<Nodo> &grafo, vector<Nodo> &solucion, int maxTrabajos, int maquina) {
   // recorremos el grafo
   // la maquina 1 solo tiene que realizar 4 trabajos
-  int trabajos_realizados = 0;
-  Nodo nodo_actual = grafo[0];
-  Nodo nodo_sig = grafo[0];
+  int trabajos_realizados = 1;
+  Nodo nodo_actual;
+  Nodo nodo_sig;
+
+  if (maquina == 1) {
+    nodo_actual = grafo[1];
+    nodo_sig = grafo[1];
+    solucion.push_back(nodo_actual);
+  }
+
+  else if (maquina == 3) {
+    nodo_actual = grafo[4];
+    nodo_sig = grafo[4];
+    solucion.push_back(nodo_actual);
+  }
+
+  else if (maquina == 2) {
+    nodo_actual = grafo[7];
+    nodo_sig = grafo[7];
+    solucion.push_back(nodo_actual);
+  }
+
+  else {
+    nodo_actual = grafo[0];
+    nodo_sig = grafo[0];
+    solucion.push_back(nodo_actual);
+  }
+
+  // cout << "Nodo actual: " << nodo_actual.id << endl;
+  // cout << "Nodo siguiente: " << nodo_sig.id << endl;
+
   while (trabajos_realizados != maxTrabajos) {
-    // cout << "Nodo actual: " << nodo_actual.id << endl;
     // recorremos el grafo
     // recorremos los siguientes del nodo actual
+
+    // creamos un vetor con todos los posibles siguientes nodos
+    // y seleccionamos uno de acuerdo a una probabilidad
+    vector<Nodo> nodos_posibles;
+
+    // creamos un vector con todas las posibilidades de nodos siguientes
+    vector<double> probabilidades;
+    double suma_probabilidades = 0;
     for (int i = 0; i < nodo_actual.siguientes.size(); i++) {
+      cout << nodo_actual.siguientes[i].id << endl;
+      cout << nodo_actual.siguientes[i].maquina << endl;
+      cout << maquina << endl;
+      cout << endl;
       if (nodo_actual.siguientes[i].maquina == maquina) {
-        nodo_sig = grafo[nodo_actual.siguientes[i].id];
-        solucion.push_back(nodo_sig);
-        trabajos_realizados++;
-        break;
+        // cout << "aaa" << endl;
+        double probabilidad = nodo_actual.siguientes[i].feromona * sqrt(pow((nodo_actual.x - nodo_actual.siguientes[i].x), 2) + pow((nodo_actual.y - nodo_actual.siguientes[i].y), 2));
+        suma_probabilidades += probabilidad;
+        nodos_posibles.push_back(nodo_actual.siguientes[i]);
+        probabilidades.push_back(probabilidad);
       }
     } 
-    // cout << nodo_sig.id << endl;
+
+    cout << "Nodo actual: " << nodo_actual.id << endl;
+    cout << "Nodos posibles: " << endl;
+    cout << "Num nodos posibles: " << nodos_posibles.size() << endl;
+    for (int i = 0; i < nodos_posibles.size(); i++) {
+      cout << "Nodo " << nodos_posibles[i].id << endl;
+      cout << "Maquina " << nodos_posibles[i].maquina << endl;
+      cout << "Trabajo " << nodos_posibles[i].trabajo << endl;
+      cout << "Probabilidad " << probabilidades[i] << endl;
+      cout << endl;
+    }
+
+
+    // Si solo hay un nodo posible siguiente lo seleccionamos
+    if (nodos_posibles.size() == 1) {
+      nodo_sig = nodos_posibles[0];
+      solucion.push_back(nodo_sig);
+      trabajos_realizados++;
+    } else if (nodos_posibles.size() > 1) {
+      // seleccionamos un nodo de acuerdo a una probabilidad dentro de los nodos posibles
+      bool selected = false;
+      for (int i = 0; i < nodos_posibles.size(); i++) {
+        double probabilidad = probabilidades[i] / suma_probabilidades;
+        // aleatorio de 0 a 1
+        double aleatorio = (double) rand() / RAND_MAX;
+        if (aleatorio <= probabilidad) {
+          nodo_sig = nodos_posibles[i];
+          solucion.push_back(nodo_sig);
+          trabajos_realizados++;
+          selected = true;
+
+          // borrar el nodo posible ya que se eligio
+
+          break;
+        }
+
+        if (selected == false && i == nodos_posibles.size() - 1) {
+          nodo_sig = nodos_posibles[0];
+          solucion.push_back(nodo_sig);
+          trabajos_realizados++;
+        }
+      }
+    }
+
     nodo_actual = nodo_sig;    
     if (nodo_actual.id == 10 || nodo_actual.siguientes.size() == 0) {
-      break;
+      // reiniciar el recorrido
+      nodo_actual = grafo[0];
+      nodo_sig = grafo[0];
     }
   }
 }
@@ -193,7 +279,7 @@ void mostrarTrabajosRealizados(vector<vector<int>> &trabajosRealizados) {
   }
 }
 
-int calcularMakespan(vector<vector<Nodo>> &solucion, vector<vector<int>> &trabajosRealizados, vector<vector<int>> &schedule) {
+int calcularMakespan(vector<vector<Nodo>> &solucion, vector<vector<int>> &trabajosRealizados) {
   int makespan = 0;
 
   int time_trabajo_1 = 0;
@@ -219,7 +305,6 @@ int calcularMakespan(vector<vector<Nodo>> &solucion, vector<vector<int>> &trabaj
         // verificamos que el trabajo no se haya realizado
         if (trabajosRealizados[nodo_actual.x][nodo_actual.y] == 0) {
           // verificar que el trabajo ya se haya realizado por las maquinas anteriores (en caso de que las haya)
-          // esto quiere decir que el trabajo ya se puede agregar al schedule
           bool trabajo_permitido = true;
           for (int k = 0; k < nodo_actual.y; k++) {
             if (trabajosRealizados[nodo_actual.x][k] == 0) {
@@ -232,7 +317,7 @@ int calcularMakespan(vector<vector<Nodo>> &solucion, vector<vector<int>> &trabaj
             // marcar el trabajo como realizado
             trabajosRealizados[nodo_actual.x][nodo_actual.y] = 1;
             trabajos_realizados++;  
-            mostrarTrabajosRealizados(trabajosRealizados); 
+            // mostrarTrabajosRealizados(trabajosRealizados); 
             switch (nodo_actual.trabajo) {
               case 1:
                 switch (nodo_actual.maquina) {
@@ -517,16 +602,6 @@ int main() {
     trabajosRealizados.push_back(fila);
   }
 
-  // generamos el schedule de las maquinas, inicialmente todas las maquinas estan libres (0)
-  vector<vector<int>> schedule;
-  for (int i = 0; i < 3; i++) {
-    vector<int> fila;
-    for (int j = 0; j < 26; j++) {
-      fila.push_back(0);
-    }
-    schedule.push_back(fila);
-  }
-
   // Initializacion de variables
   double alfa = 1;  //Influencia en el rastro de feromonas
   double beta = 2;  //Influencia en la heuristica
@@ -542,11 +617,28 @@ int main() {
       cout << "Ejecutando programa..." << endl;
       // recorrerGrafo(grafo);
 
+      // Soluciones iniciales
       vector<Nodo> solucion1;
       calcularSolucionMaquina(grafo, solucion1, 2, 1);
+      // cout << "Solucion maquina 1: " << endl;
+      // for (int i = 0; i < solucion1.size(); i++) {
+      //   cout << "Nodo " << solucion1[i].id << endl;
+      //   cout << "Maquina " << solucion1[i].maquina << endl;
+      //   cout << "Trabajo " << solucion1[i].trabajo << endl;
+      //   cout << endl;
+      // }
+
+      cout << "################################################" << endl; 
 
       vector<Nodo> solucion2;
       calcularSolucionMaquina(grafo, solucion2, 4, 2);
+      cout << "Solucion maquina 2: " << endl;
+      for (int i = 0; i < solucion2.size(); i++) {
+        cout << "Nodo " << solucion2[i].id << endl;
+        cout << "Maquina " << solucion2[i].maquina << endl;
+        cout << "Trabajo " << solucion2[i].trabajo << endl;
+        cout << endl;
+      }
 
       vector<Nodo> solucion3;
       calcularSolucionMaquina(grafo, solucion3, 3, 3);
@@ -557,18 +649,72 @@ int main() {
       soluciones.push_back(solucion3);
 
       // recorremos las soluciones
-      for (int i = 0; i < soluciones.size(); i++) {
-        cout << "Solucion maquina " << i + 1 << endl;
-        for (int j = 0; j < soluciones[i].size(); j++) {
-          cout << "Nodo " << soluciones[i][j].id << endl;
-          cout << "Trabajo " << soluciones[i][j].trabajo << endl;
-          cout << endl;
+      // for (int i = 0; i < soluciones.size(); i++) {
+      //   cout << "Solucion maquina " << i + 1 << endl;
+      //   for (int j = 0; j < soluciones[i].size(); j++) {
+      //     cout << "Nodo " << soluciones[i][j].id << endl;
+      //     cout << "Trabajo " << soluciones[i][j].trabajo << endl;
+      //     cout << endl;
+      //   }
+      // }
+
+      // calculamos el makespan de la solucion
+      int makespan = calcularMakespan(soluciones, trabajosRealizados);
+      cout << "Makespan: " << makespan << endl;
+
+      // Ciclo principal
+      for (int i = 0; i < numAnts; i++){
+
+        // Actualizamos las feromonas
+        double delta = q / makespan;
+        for (int j = 0; j < grafo.size(); j++) {
+          grafo[j].feromona = (1 - rho) * grafo[j].feromona + delta;
         }
+
+        // Devolver los trabajos realizados a su estado inicial
+        for (int j = 0; j < trabajosRealizados.size(); j++) {
+          for (int k = 0; k < trabajosRealizados[j].size(); k++) {
+            trabajosRealizados[j][k] = 0;
+          }
+        }
+
+        // Calculamos una nueva solucion
+        vector<Nodo> solucion1_nueva;
+        calcularSolucionMaquina(grafo, solucion1_nueva, 2, 1);
+
+        vector<Nodo> solucion2_nueva;
+        calcularSolucionMaquina(grafo, solucion2_nueva, 4, 2);
+
+        vector<Nodo> solucion3_nueva;
+        calcularSolucionMaquina(grafo, solucion3_nueva, 3, 3);
+
+        vector<vector<Nodo>> soluciones_nuevas;
+        soluciones_nuevas.push_back(solucion1_nueva);
+        soluciones_nuevas.push_back(solucion2_nueva);
+        soluciones_nuevas.push_back(solucion3_nueva);
+
+        // recorremos las soluciones
+        for (int i = 0; i < soluciones_nuevas.size(); i++) {
+          cout << "Solucion maquina " << i + 1 << endl;
+          for (int j = 0; j < soluciones_nuevas[i].size(); j++) {
+            cout << "Nodo " << soluciones_nuevas[i][j].id << endl;
+            cout << "Trabajo " << soluciones_nuevas[i][j].trabajo << endl;
+            cout << endl;
+          }
+        }
+
+        // calculamos el makespan de la nueva solucion
+        int makespan_nuevo = calcularMakespan(soluciones_nuevas, trabajosRealizados);
+        cout << "Makespan nuevo: " << makespan_nuevo << endl;
+
+        // si el makespan de la nueva solucion es menor que el makespan de la solucion actual
+        // entonces la nueva solucion pasa a ser la solucion actual
+        if (makespan_nuevo < makespan) {
+          soluciones = soluciones_nuevas;
+        }
+
       }
 
-      // calculamos el makespan
-      int makespan = calcularMakespan(soluciones, trabajosRealizados, schedule);
-      cout << "Makespan: " << makespan << endl;
     }
 
     else if (opcion == 2) {
