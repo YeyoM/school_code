@@ -37,6 +37,33 @@ int CalcularHoras(string hora_inicio, string dia_inicio, string hora_fin, string
   return diferencia_horas * diferencia_dias;
 }
 
+/**
+ * The function "GenerarIndividuo" generates an individual schedule based on various constraints and
+ * random selection of modules and parameters.
+ * 
+ * @param Modulo1 A vector of vectors of strings representing the different modules for each grade.
+ * Each inner vector contains the available subjects for a specific grade.
+ * @param Modulo2 The Modulo2 parameter is a vector of strings representing the modules for a specific
+ * grade.
+ * @param Modulo3 The Modulo3 parameter is a vector of strings representing the days of the week.
+ * @param Modulo4 The parameter Modulo4 is a vector of strings representing the possible starting times
+ * for a class.
+ * @param Modulo5 The parameter Modulo5 is a vector of strings representing the available days for
+ * scheduling classes. Each string in the vector represents a day of the week, such as "Monday",
+ * "Tuesday", etc.
+ * @param Modulo6 The parameter Modulo6 is a vector of strings representing the available time slots
+ * for a class. Each string in the vector represents a specific time slot, such as "8:00-9:30" or
+ * "10:00-11:30".
+ * @param Modulo7 The parameter Modulo7 is a vector of strings representing the different types of
+ * classrooms available.
+ * @param Modulo8 The parameter Modulo8 is a vector of vectors of strings. It represents the different
+ * options for a specific module or subject. Each inner vector represents a different option for that
+ * module.
+ * @param Modulo9 An integer representing the value of Modulo9.
+ * 
+ * @return a vector of strings, which represents an individual generated based on the given input
+ * parameters and certain restrictions.
+ */
 vector<string> GenerarIndividuo(const vector<vector<string>> &Modulo1, const vector<string> &Modulo2,
                                 const vector<string> &Modulo3, const vector<string> &Modulo4,
                                 const vector<string> &Modulo5, const vector<string> &Modulo6,
@@ -46,7 +73,6 @@ vector<string> GenerarIndividuo(const vector<vector<string>> &Modulo1, const vec
 
   // RESTRICCIONES DE MATERIAS Y SEMESTRES
   int Grado = rand() % 5;
-  cout << "aaaa" << rand() % 5 << endl;
   string Materia = Modulo1[Grado][rand() % Modulo1[Grado].size()];
 
   // RESTRICCIONES DE HORARIOS
@@ -85,29 +111,409 @@ vector<string> GenerarIndividuo(const vector<vector<string>> &Modulo1, const vec
     Tipo_Aula = 2;
   }
 
-
   vector<string> Individuo = {
-      Modulo1[Grado][rand() % Modulo1[Grado].size()],
-      Modulo2[Grado],
-      Modulo3[Dia_Inicio],
-      Modulo4[Hora_Inicio],
-      Modulo5[Dia_Fin],
-      Modulo6[Hora_Fin],
-      Modulo7[Tipo_Aula],
-      Modulo8[Tipo_Aula][rand() % Modulo8[Tipo_Aula].size()],
-      to_string(Modulo9)};
-
-  // if (!Choques(Poblacion, Individuo)) {
-  //   Poblacion.push_back(Individuo);
-  //   Modulo9++;
-  //   Individuo.push_back("0");
-  //   return Individuo;
-  // } else {
-  //   // Retry if there are schedule conflicts
-  //   return Generacion(Modulo1, Modulo2, Modulo3, Modulo4, Modulo5, Modulo6, Modulo7, Modulo8, Modulo9, Poblacion);
-  // }
+    Modulo1[Grado][rand() % Modulo1[Grado].size()],
+    Modulo2[Grado],
+    Modulo3[Dia_Inicio],
+    Modulo4[Hora_Inicio],
+    Modulo5[Dia_Fin],
+    Modulo6[Hora_Fin],
+    Modulo7[Tipo_Aula],
+    Modulo8[Tipo_Aula][rand() % Modulo8[Tipo_Aula].size()],
+    to_string(Modulo9)
+  };
 
   return Individuo;
+}
+
+void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vector<string>> &PoblacionInicial, unordered_map<string, int> &horas_registradas,
+                            unordered_map<string, unordered_map<string, int>> &horario_aula_54_a, unordered_map<string, unordered_map<string, int>> &horario_aula_54_c,
+                            unordered_map<string, unordered_map<string, int>> &horario_aula_54_f, unordered_map<string, unordered_map<string, int>> &horario_aula_54_g,
+                            unordered_map<string, unordered_map<string, int>> &horario_aula_54_h, unordered_map<string, unordered_map<string, int>> &horario_aula_61_lab,
+                            unordered_map<string, unordered_map<string, int>> &horario_aula_203_lab, unordered_map<string, unordered_map<string, int>> &horario_aula_204_lab,
+                            unordered_map<string, unordered_map<string, int>> &horario_aula_1_aud, bool &solucion_encontrada)
+{
+  for (int i = 0; i < PoblacionInicial.size(); i++)
+  {
+
+    // Tomamos el individuo actual
+    vector<string> Individuo = PoblacionInicial[i];
+
+    // Vamos a hacer las validaciones de horario
+    string Materia = Individuo[0];
+    string Grupo = Individuo[1];
+    string Dia_Inicio = Individuo[2];
+    string Hora_Inicio = Individuo[3];
+    string Dia_Fin = Individuo[4];
+    string Hora_Fin = Individuo[5];
+    string Tipo_Aula = Individuo[6];
+    string Aula = Individuo[7];
+    string ID_Individuo = Individuo[8];
+
+    // Calculamos las horas que se van a registrar
+    int Horas = CalcularHoras(Hora_Inicio, Dia_Inicio, Hora_Fin, Dia_Fin);
+
+    // Validamos que no se exceda el limite de horas por materia
+    if (Horas > 5) continue;
+
+    // Comparar con las horas registradas
+    if (horas_registradas[Materia] + Horas > 5) continue;
+    
+    cout << "Materia: " << Materia << endl;
+    cout << "Horas actuales: " << horas_registradas[Materia] << endl;
+    cout << "Horas a registrar: " << Horas << endl;
+
+
+    // Obtener los dias que se van a registrar
+    vector<string> DiasSemana = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes"};
+    vector<string> Dias;
+    int Dia_Inicio_Index = distance(DiasSemana.begin(), find(DiasSemana.begin(), DiasSemana.end(), Dia_Inicio));
+    int Dia_Fin_Index = distance(DiasSemana.begin(), find(DiasSemana.begin(), DiasSemana.end(), Dia_Fin));
+    for (int i = Dia_Inicio_Index; i <= Dia_Fin_Index; i++)
+    {
+      Dias.push_back(DiasSemana[i]);
+    }
+
+    // Obtener las horas que se van a registrar
+    vector<string> HorasDia = {"7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00"};
+    vector<string> HorasARegistrar;
+    int Hora_Inicio_Index = distance(HorasDia.begin(), find(HorasDia.begin(), HorasDia.end(), Hora_Inicio));
+    int Hora_Fin_Index = distance(HorasDia.begin(), find(HorasDia.begin(), HorasDia.end(), Hora_Fin));
+    for (int i = Hora_Inicio_Index; i <= Hora_Fin_Index; i++)
+    {
+      HorasARegistrar.push_back(HorasDia[i]);
+    }
+
+    bool aula_disponible = false;
+
+    // Validar que el aula este disponible
+    if (Aula == "54 A") 
+    {
+      // verificar con las horas y dias
+      for (int i = 0; i < Dias.size(); i++)
+      {
+        for (int j = 0; j < HorasARegistrar.size(); j++)
+        {
+          if (horario_aula_54_a[Dias[i]][HorasARegistrar[j]] == 0)
+          {
+            aula_disponible = true;
+          }
+          else
+          {
+            // si no esta disponible, no registrar las horas
+            break;
+          }
+        }
+      }  
+      if (aula_disponible)
+      {
+        // registrar las horas
+        for (int i = 0; i < Dias.size(); i++)
+        {
+          for (int j = 0; j < HorasARegistrar.size(); j++)
+          {
+            horario_aula_54_a[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
+          }
+        }
+        // registrar las horas en el mapa de horas registradas
+        horas_registradas[Materia] += Horas;
+      }
+    }
+
+    if (Aula == "54 C") 
+    {
+      // verificar con las horas y dias
+      for (int i = 0; i < Dias.size(); i++)
+      {
+        for (int j = 0; j < HorasARegistrar.size(); j++)
+        {
+          if (horario_aula_54_c[Dias[i]][HorasARegistrar[j]] == 0)
+          {
+            aula_disponible = true;
+          }
+          else
+          {
+            // si no esta disponible, no registrar las horas
+            break;
+          }
+        }
+      }  
+      if (aula_disponible)
+      {
+        // registrar las horas
+        for (int i = 0; i < Dias.size(); i++)
+        {
+          for (int j = 0; j < HorasARegistrar.size(); j++)
+          {
+            horario_aula_54_c[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
+          }
+        }
+        // registrar las horas en el mapa de horas registradas
+        horas_registradas[Materia] += Horas;
+      }
+    }
+
+    if (Aula == "54 F") 
+    {
+      // verificar con las horas y dias
+      for (int i = 0; i < Dias.size(); i++)
+      {
+        for (int j = 0; j < HorasARegistrar.size(); j++)
+        {
+          if (horario_aula_54_f[Dias[i]][HorasARegistrar[j]] == 0)
+          {
+            aula_disponible = true;
+          }
+          else
+          {
+            // si no esta disponible, no registrar las horas
+            break;
+          }
+        }
+      }  
+      if (aula_disponible)
+      {
+        // registrar las horas
+        for (int i = 0; i < Dias.size(); i++)
+        {
+          for (int j = 0; j < HorasARegistrar.size(); j++)
+          {
+            horario_aula_54_f[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
+          }
+        }
+        // registrar las horas en el mapa de horas registradas
+        horas_registradas[Materia] += Horas;
+      }
+    }
+
+    if (Aula == "54 G") 
+    {
+      // verificar con las horas y dias
+      for (int i = 0; i < Dias.size(); i++)
+      {
+        for (int j = 0; j < HorasARegistrar.size(); j++)
+        {
+          if (horario_aula_54_g[Dias[i]][HorasARegistrar[j]] == 0)
+          {
+            aula_disponible = true;
+          }
+          else
+          {
+            // si no esta disponible, no registrar las horas
+            break;
+          }
+        }
+      }  
+      if (aula_disponible)
+      {
+        // registrar las horas
+        for (int i = 0; i < Dias.size(); i++)
+        {
+          for (int j = 0; j < HorasARegistrar.size(); j++)
+          {
+            horario_aula_54_g[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
+          }
+        }
+        // registrar las horas en el mapa de horas registradas
+        horas_registradas[Materia] += Horas;
+      }
+    }
+
+    if (Aula == "54 H") 
+    {
+      // verificar con las horas y dias
+      for (int i = 0; i < Dias.size(); i++)
+      {
+        for (int j = 0; j < HorasARegistrar.size(); j++)
+        {
+          if (horario_aula_54_h[Dias[i]][HorasARegistrar[j]] == 0)
+          {
+            aula_disponible = true;
+          }
+          else
+          {
+            // si no esta disponible, no registrar las horas
+            break;
+          }
+        }
+      }  
+      if (aula_disponible)
+      {
+        // registrar las horas
+        for (int i = 0; i < Dias.size(); i++)
+        {
+          for (int j = 0; j < HorasARegistrar.size(); j++)
+          {
+            horario_aula_54_h[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
+          }
+        }
+        // registrar las horas en el mapa de horas registradas
+        horas_registradas[Materia] += Horas;
+      }
+    }
+
+    if (Aula == "61 LAB") 
+    {
+      // verificar con las horas y dias
+      for (int i = 0; i < Dias.size(); i++)
+      {
+        for (int j = 0; j < HorasARegistrar.size(); j++)
+        {
+          if (horario_aula_61_lab[Dias[i]][HorasARegistrar[j]] == 0)
+          {
+            aula_disponible = true;
+          }
+          else
+          {
+            // si no esta disponible, no registrar las horas
+            break;
+          }
+        }
+      }  
+      if (aula_disponible)
+      {
+        // registrar las horas
+        for (int i = 0; i < Dias.size(); i++)
+        {
+          for (int j = 0; j < HorasARegistrar.size(); j++)
+          {
+            horario_aula_61_lab[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
+          }
+        }
+        // registrar las horas en el mapa de horas registradas
+        horas_registradas[Materia] += Horas;
+      }
+    }
+
+    if (Aula == "203 LAB") 
+    {
+      // verificar con las horas y dias
+      for (int i = 0; i < Dias.size(); i++)
+      {
+        for (int j = 0; j < HorasARegistrar.size(); j++)
+        {
+          if (horario_aula_203_lab[Dias[i]][HorasARegistrar[j]] == 0)
+          {
+            aula_disponible = true;
+          }
+          else
+          {
+            // si no esta disponible, no registrar las horas
+            break;
+          }
+        }
+      }  
+      if (aula_disponible)
+      {
+        // registrar las horas
+        for (int i = 0; i < Dias.size(); i++)
+        {
+          for (int j = 0; j < HorasARegistrar.size(); j++)
+          {
+            horario_aula_203_lab[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
+          }
+        }
+        // registrar las horas en el mapa de horas registradas
+        horas_registradas[Materia] += Horas;
+      }
+    }
+
+    if (Aula == "204 LAB") 
+    {
+      // verificar con las horas y dias
+      for (int i = 0; i < Dias.size(); i++)
+      {
+        for (int j = 0; j < HorasARegistrar.size(); j++)
+        { 
+          if (horario_aula_204_lab[Dias[i]][HorasARegistrar[j]] == 0)
+          {
+            aula_disponible = true;
+          }
+          else
+          {
+            // si no esta disponible, no registrar las horas
+            break;
+          }
+        }
+      }
+      if (aula_disponible)
+      {
+        // registrar las horas
+        for (int i = 0; i < Dias.size(); i++)
+        { 
+          for (int j = 0; j < HorasARegistrar.size(); j++)
+          {
+            horario_aula_204_lab[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
+          }
+        }
+        // registrar las horas en el mapa de horas registradas
+        horas_registradas[Materia] += Horas; 
+      }
+    }
+
+    if (Aula == "1 AUD") 
+    {
+      // verificar con las horas y dias
+      for (int i = 0; i < Dias.size(); i++)
+      { 
+        for (int j = 0; j < HorasARegistrar.size(); j++)
+        {
+          if (horario_aula_1_aud[Dias[i]][HorasARegistrar[j]] == 0)
+          { 
+            aula_disponible = true;
+          }
+          else
+          { 
+            // si no esta disponible, no registrar las horas
+            break;
+          }
+        }
+      }
+      if (aula_disponible)
+      { 
+        // registrar las horas
+        for (int i = 0; i < Dias.size(); i++)
+        { 
+          for (int j = 0; j < HorasARegistrar.size(); j++)
+          {
+            horario_aula_1_aud[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
+          }
+        }
+        // registrar las horas en el mapa de horas registradas
+        horas_registradas[Materia] += Horas; 
+      }
+    }
+
+    // Si el aula no esta disponible, no registrar el individuo
+    if (!aula_disponible) 
+    {
+      //! IMPORTANTE: Si el aula no esta disponible, no registrar el individuo
+      //! EN CASO DE QUE EL INDIVIDUO SE REGISTRE, SE DEBE AGREGA A LA SIGUIENTE
+      //! POBLACION, EN CASO DE QUE NO SE REGISTRE, SE DEBE GENERAR UN NUEVO
+      //! INDIVIDUO A PARTIR DE MUTAR ESE INDIVIDUO
+      cout << "Aula no disponible" << endl;
+      continue;
+    }
+  
+  }
+
+  // Mostrar las horas registradas por materia
+  for (auto const &x : horas_registradas)
+  {
+    cout << x.first << " => " << x.second << endl;
+  }
+
+  // Recorrer las horas registradas por materia
+  for (auto const &x : horas_registradas)
+  {
+    if (x.second < 5)
+    {
+      solucion_encontrada = false;
+      break;
+    }
+  }
+
+  
 }
 
 void menu()
@@ -303,14 +709,13 @@ int main()
     {
 
       // Generamos la poblacion inicial
-      for (int i = 0; i < 10; i++)
+      for (int i = 0; i < 400; i++)
       {
         PoblacionInicial.push_back(GenerarIndividuo(Modulo1, Modulo2, Modulo3, Modulo4, Modulo5, Modulo6, Modulo7, Modulo8, Modulo9));
         Modulo9++;
       }
 
-      // Imprimimos la poblacion inicial
-      cout << "POBLACION INICIAL" << endl;
+      // Mostramos la poblacion inicial
       for (int i = 0; i < PoblacionInicial.size(); i++)
       {
         cout << "Individuo " << i + 1 << ": ";
@@ -320,6 +725,27 @@ int main()
         }
         cout << endl;
       }
+
+      int max_iteraciones = 100;
+      bool solucion_encontrada = false;
+      vector<vector<string>> PosibleHorario;
+
+      // for (int i = 0; i < max_iteraciones; i++)
+      // {
+
+        // Calcular posible horario (AQUI MISMO SE MUTAN LOS INDIVIDUOS Y SE GENERA LA NUEVA POBLACION) 
+        calcularPosibleHorario(PosibleHorario, PoblacionInicial, horas_registradas, horario_aula_54_a, horario_aula_54_c, horario_aula_54_f, horario_aula_54_g, horario_aula_54_h, horario_aula_61_lab, horario_aula_203_lab, horario_aula_204_lab, horario_aula_1_aud, solucion_encontrada);
+
+        if (solucion_encontrada) 
+        {
+          cout << "Solucion encontrada" << endl;
+        }
+        else
+        {
+          cout << "Solucion no encontrada" << endl;
+        }
+
+      // }
 
       break;
     }
