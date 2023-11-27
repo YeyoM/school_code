@@ -1,5 +1,3 @@
-import numpy as np
-
 # Aqui agarramos los datos de los modulos
 import modulos.modulos as modulos
 Modulo1 = modulos.Modulo1

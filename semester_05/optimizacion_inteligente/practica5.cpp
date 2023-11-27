@@ -239,16 +239,13 @@ void calcularSolucionMaquina(vector<Nodo> &grafo, vector<Nodo> &solucion, int ma
       bool selected = false;
       for (int i = 0; i < nodos_posibles.size(); i++) {
         double probabilidad = probabilidades[i] / suma_probabilidades;
-        // aleatorio de 0 a 1
-        double aleatorio = (double) rand() / RAND_MAX;
+        // aleatorio de 0 a suma_probabilidades
+        double aleatorio = rand() % (int) suma_probabilidades + 1;
         if (aleatorio <= probabilidad) {
           nodo_sig = nodos_posibles[i];
           solucion.push_back(nodo_sig);
           trabajos_realizados++;
           selected = true;
-
-          // borrar el nodo posible ya que se eligio
-
           break;
         }
 
