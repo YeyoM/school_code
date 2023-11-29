@@ -654,14 +654,17 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
 
   random_shuffle(SiguintePoblacion.begin(), SiguintePoblacion.end());
 
-  // mutamos un elemento de la siguiente poblacion
-  int indice_a_mutar = rand() % SiguintePoblacion.size();
-  mutarIndividuo(SiguintePoblacion[indice_a_mutar], Modulo1, Modulo2, Modulo3, Modulo4, Modulo5, Modulo6, Modulo7, Modulo8, Modulo9);
+  // mutamos 5 individuos de la siguiente poblacion
+  for (int i = 0; i < 50; i++)
+  {
+    int index = rand() % SiguintePoblacion.size();
+    mutarIndividuo(SiguintePoblacion[index], Modulo1, Modulo2, Modulo3, Modulo4, Modulo5, Modulo6, Modulo7, Modulo8, Modulo9);
+  }
 
   // Mostrar las horas registradas por materia y calcular las horas totales
   for (auto const &x : horas_registradas)
   {
-    cout << x.first << " => " << x.second << endl;
+    // cout << x.first << " => " << x.second << endl;
     horas_totales += x.second;
   }
 
@@ -763,7 +766,7 @@ int main()
         Modulo9++;
       }
 
-      int max_iteraciones = 50;
+      int max_iteraciones = 150;
       bool solucion_encontrada = false;
       vector<vector<string>> PosibleHorario;
       int horas_totales = 0;
