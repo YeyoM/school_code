@@ -126,13 +126,90 @@ vector<string> GenerarIndividuo(const vector<vector<string>> &Modulo1, const vec
   return Individuo;
 }
 
+void mutarIndividuo(vector<string> &Individuo, const vector<vector<string>> &Modulo1, const vector<string> &Modulo2,
+                    const vector<string> &Modulo3, const vector<string> &Modulo4,
+                    const vector<string> &Modulo5, const vector<string> &Modulo6,
+                    const vector<string> &Modulo7, const vector<vector<string>> &Modulo8,
+                    int &Modulo9)
+{
+  // Seleccionamos de manera aleatoria el modulo que se va a mutar
+  int ModuloAMutar = rand() % 7;
+
+  // Si el modulo a mutar es el 0, entonces mutamos la materia (tambien modificamos el grado)
+  if (ModuloAMutar == 0 || ModuloAMutar == 1)
+  {
+    int Grado = rand() % 5;
+    string Materia = Modulo1[Grado][rand() % Modulo1[Grado].size()];
+    Individuo[0] = Materia;
+    Individuo[1] = Modulo2[Grado];
+  }
+
+  // Si el modulo a mutar es el 2, entonces mutamos el dia de inicio, el dia de fin, la hora de inicio y la hora de fin, tal que en total no se excedan las 5 horas
+  if (ModuloAMutar > 2 && ModuloAMutar < 5)
+  {
+     // RESTRICCIONES DE HORARIOS
+    int Hora_Inicio = rand() % 7;
+    int Hora_Fin = rand() % (7 - Hora_Inicio) + Hora_Inicio;
+
+    // RESTRICCIONES DE HORAS CUMPLIDAS (max 5hrs por materia)
+    int Dia_Inicio = rand() % 3;
+    int Dia_Fin = rand() % 2;
+
+    int Horas = CalcularHoras(Modulo4[Hora_Inicio], Modulo3[Dia_Inicio], Modulo6[Hora_Fin], Modulo5[Dia_Fin]);
+
+    while (Horas > 5)
+    {
+      Hora_Inicio = rand() % 7;
+      Hora_Fin = rand() % (7 - Hora_Inicio) + Hora_Inicio;
+      Dia_Inicio = rand() % 3;
+      Dia_Fin = rand() % 2;
+      Horas = CalcularHoras(Modulo4[Hora_Inicio], Modulo3[Dia_Inicio], Modulo6[Hora_Fin], Modulo5[Dia_Fin]);
+    }
+
+    Individuo[2] = Modulo3[Dia_Inicio];
+    Individuo[3] = Modulo4[Hora_Inicio];
+    Individuo[4] = Modulo5[Dia_Fin];
+    Individuo[5] = Modulo6[Hora_Fin];
+  }
+
+  // Si el modulo a mutar es el 6, entonces mutamos el tipo de aula (tambien modificamos el aula)
+  if (ModuloAMutar == 6 || ModuloAMutar == 7)
+  {
+    // dar prioridad a aulas normales, luego labs y luego auditorios
+    int Tipo_Aula = rand() % 10;
+
+    if (Tipo_Aula < 6)
+    {
+      Tipo_Aula = 0;
+    }
+    else if (Tipo_Aula < 9)
+    {
+      Tipo_Aula = 1;
+    }
+    else
+    {
+      Tipo_Aula = 2;
+    }
+
+    Individuo[6] = Modulo7[Tipo_Aula];
+    Individuo[7] = Modulo8[Tipo_Aula][rand() % Modulo8[Tipo_Aula].size()];
+  }
+
+}
+
 void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vector<string>> &PoblacionInicial, unordered_map<string, int> &horas_registradas,
                             unordered_map<string, unordered_map<string, int>> &horario_aula_54_a, unordered_map<string, unordered_map<string, int>> &horario_aula_54_c,
                             unordered_map<string, unordered_map<string, int>> &horario_aula_54_f, unordered_map<string, unordered_map<string, int>> &horario_aula_54_g,
                             unordered_map<string, unordered_map<string, int>> &horario_aula_54_h, unordered_map<string, unordered_map<string, int>> &horario_aula_61_lab,
                             unordered_map<string, unordered_map<string, int>> &horario_aula_203_lab, unordered_map<string, unordered_map<string, int>> &horario_aula_204_lab,
-                            unordered_map<string, unordered_map<string, int>> &horario_aula_1_aud, bool &solucion_encontrada)
+                            unordered_map<string, unordered_map<string, int>> &horario_aula_1_aud, bool &solucion_encontrada, vector<vector<string>> &SiguintePoblacion, const vector<vector<string>> &Modulo1,
+                            const vector<string> &Modulo2, const vector<string> &Modulo3, const vector<string> &Modulo4, const vector<string> &Modulo5, const vector<string> &Modulo6,
+                            const vector<string> &Modulo7, const vector<vector<string>> &Modulo8, int &Modulo9, int &horas_totales)
 {
+
+  vector<vector<string>> IndividuosNoRegistrados;
+  vector<vector<string>> IndividuosRegistrados;
+  
   for (int i = 0; i < PoblacionInicial.size(); i++)
   {
 
@@ -157,11 +234,16 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
     if (Horas > 5) continue;
 
     // Comparar con las horas registradas
-    if (horas_registradas[Materia] + Horas > 5) continue;
-    
-    cout << "Materia: " << Materia << endl;
-    cout << "Horas actuales: " << horas_registradas[Materia] << endl;
-    cout << "Horas a registrar: " << Horas << endl;
+    if (horas_registradas[Materia] + Horas > 5)
+    {
+      // Mutar al individuo 
+      mutarIndividuo(Individuo, Modulo1, Modulo2, Modulo3, Modulo4, Modulo5, Modulo6, Modulo7, Modulo8, Modulo9);
+
+      // agregar el individuo mutado a la siguiente poblacion
+      IndividuosNoRegistrados.push_back(Individuo);
+
+      continue;
+    }
 
 
     // Obtener los dias que se van a registrar
@@ -201,6 +283,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
           else
           {
             // si no esta disponible, no registrar las horas
+            aula_disponible = false;
             break;
           }
         }
@@ -234,6 +317,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
           else
           {
             // si no esta disponible, no registrar las horas
+            aula_disponible = false;
             break;
           }
         }
@@ -267,6 +351,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
           else
           {
             // si no esta disponible, no registrar las horas
+            aula_disponible = false;
             break;
           }
         }
@@ -300,6 +385,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
           else
           {
             // si no esta disponible, no registrar las horas
+            aula_disponible = false;
             break;
           }
         }
@@ -333,6 +419,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
           else
           {
             // si no esta disponible, no registrar las horas
+            aula_disponible = false;
             break;
           }
         }
@@ -366,6 +453,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
           else
           {
             // si no esta disponible, no registrar las horas
+            aula_disponible = false;
             break;
           }
         }
@@ -399,6 +487,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
           else
           {
             // si no esta disponible, no registrar las horas
+            aula_disponible = false;
             break;
           }
         }
@@ -432,6 +521,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
           else
           {
             // si no esta disponible, no registrar las horas
+            aula_disponible = false;
             break;
           }
         }
@@ -465,6 +555,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
           else
           { 
             // si no esta disponible, no registrar las horas
+            aula_disponible = false;
             break;
           }
         }
@@ -484,6 +575,14 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
       }
     }
 
+
+    if (aula_disponible)
+    {
+      // registrar el individuo
+      PosibleHorario.push_back(Individuo);
+      IndividuosRegistrados.push_back(Individuo);
+    }
+
     // Si el aula no esta disponible, no registrar el individuo
     if (!aula_disponible) 
     {
@@ -491,17 +590,46 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
       //! EN CASO DE QUE EL INDIVIDUO SE REGISTRE, SE DEBE AGREGA A LA SIGUIENTE
       //! POBLACION, EN CASO DE QUE NO SE REGISTRE, SE DEBE GENERAR UN NUEVO
       //! INDIVIDUO A PARTIR DE MUTAR ESE INDIVIDUO
-      cout << "Aula no disponible" << endl;
-      continue;
+
+        vector<string> IndividuoMutado = Individuo;
+        mutarIndividuo(IndividuoMutado, Modulo1, Modulo2, Modulo3, Modulo4, Modulo5, Modulo6, Modulo7, Modulo8, Modulo9);
+
+        // agregar el individuo mutado a la siguiente poblacion
+        IndividuosNoRegistrados.push_back(IndividuoMutado);
+
     }
   
   }
 
-  // Mostrar las horas registradas por materia
+  // cout << "Individuos registrados: " << IndividuosRegistrados.size() << endl;
+  // cout << "Individuos no registrados: " << IndividuosNoRegistrados.size() << endl;
+
+  // Agregar los individuos registrados a la siguiente poblacion
+  for (int i = 0; i < IndividuosRegistrados.size(); i++)
+  {
+    SiguintePoblacion.push_back(IndividuosRegistrados[i]);
+  }
+
+    // Agregar los individuos no registrados a la siguiente poblacion
+  for (int i = 0; i < IndividuosNoRegistrados.size(); i++)
+  {
+    SiguintePoblacion.push_back(IndividuosNoRegistrados[i]);
+  }
+
+  random_shuffle(SiguintePoblacion.begin(), SiguintePoblacion.end());
+
+  // mutamos un elemento de la siguiente poblacion
+  int indice_a_mutar = rand() % SiguintePoblacion.size();
+  mutarIndividuo(SiguintePoblacion[indice_a_mutar], Modulo1, Modulo2, Modulo3, Modulo4, Modulo5, Modulo6, Modulo7, Modulo8, Modulo9);
+
+  // Mostrar las horas registradas por materia y calcular las horas totales
   for (auto const &x : horas_registradas)
   {
-    cout << x.first << " => " << x.second << endl;
+    // cout << x.first << " => " << x.second << endl;
+    horas_totales += x.second;
   }
+
+  cout << "Horas totales: " << horas_totales << endl;
 
   // Recorrer las horas registradas por materia
   for (auto const &x : horas_registradas)
@@ -567,130 +695,10 @@ int main()
 
   /////////////////////////////////////////////////////////////////////////////
 
-  // HORAS REGISTRADAS POR MATERIA ///////////////////////////////////////////
-
-  unordered_map<string, int> horas_registradas = {
-      {"LC1-1", 0},
-      {"FEC-2", 0},
-      {"CD-3", 0},
-      {"AS-4", 0},
-      {"CB-5", 0},
-      {"LC3-6", 0},
-      {"ECA-7", 0},
-      {"IA-8", 0},
-      {"AL-9", 0},
-      {"EDP-10", 0},
-      {"RB-11", 0},
-      {"OI-12", 0},
-      {"AU-13", 0},
-      {"AID-14", 0},
-      {"LI-15", 0},
-      {"ED-16", 0},
-      {"BD-17", 0},
-      {"AU2-18", 0},
-      {"DMD-19", 0},
-      {"MH-20", 0},
-      {"ESI-21", 0},
-      {"PI-22", 0},
-      {"LE-23", 0},
-      {"RE1-24", 0},
-      {"TSI-25", 0},
-      {"SI1-26", 0},
-      {"SW-27", 0},
-      {"PA-28", 0},
-      {"SIS-29", 0},
-      {"MD-30", 0}};
-
-  /////////////////////////////////////////////////////////////////////////////
-
-  // HORARIOS REGISTRADOS POR SALON //////////////////////////////////////////
-
-  // HORARIO DE AULA 54 A
-
-  unordered_map<string, unordered_map<string, int>> horario_aula_54_a = {
-      {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
-
-  // HORARIO DE AULA 54 C
-
-  unordered_map<string, unordered_map<string, int>> horario_aula_54_c = {
-      {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
-
-  // HORARIO DE AULA 54 F
-
-  unordered_map<string, unordered_map<string, int>> horario_aula_54_f = {
-      {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
-
-  // HORARIO DE AULA 54 G
-
-  unordered_map<string, unordered_map<string, int>> horario_aula_54_g = {
-      {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
-
-  // HORARIO DE AULA 54 H 
-
-  unordered_map<string, unordered_map<string, int>> horario_aula_54_h = {
-      {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
-
-  // HORARIO DE AULA 61 LAB
-
-  unordered_map<string, unordered_map<string, int>> horario_aula_61_lab = {
-      {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
-
-  // HORARIO DE AULA 203 LAB
-
-  unordered_map<string, unordered_map<string, int>> horario_aula_203_lab = {
-      {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
-
-  // HORARIO DE AULA 204 LAB
-
-  unordered_map<string, unordered_map<string, int>> horario_aula_204_lab = {
-      {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
-
-  // HORARIO DE AULA 1 AUD
-
-  unordered_map<string, unordered_map<string, int>> horario_aula_1_aud = {
-      {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
-      {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
-
-  /////////////////////////////////////////////////////////////////////////////
-
   // POBLACION INICIAL ////////////////////////////////////////////////////////
 
   vector<vector<string>> PoblacionInicial;
+  vector<vector<string>> SiguintePoblacion;
 
   /////////////////////////////////////////////////////////////////////////////
 
@@ -715,37 +723,161 @@ int main()
         Modulo9++;
       }
 
-      // Mostramos la poblacion inicial
-      for (int i = 0; i < PoblacionInicial.size(); i++)
-      {
-        cout << "Individuo " << i + 1 << ": ";
-        for (int j = 0; j < PoblacionInicial[i].size(); j++)
-        {
-          cout << PoblacionInicial[i][j] << " ";
-        }
-        cout << endl;
-      }
-
-      int max_iteraciones = 100;
+      int max_iteraciones = 50;
       bool solucion_encontrada = false;
       vector<vector<string>> PosibleHorario;
+      int horas_totales = 0;
+      int horas_totales_anterior = 0;
 
-      // for (int i = 0; i < max_iteraciones; i++)
-      // {
+      for (int i = 0; i < max_iteraciones; i++)
+      {
+
+        // HORAS REGISTRADAS POR MATERIA ///////////////////////////////////////////
+
+        unordered_map<string, int> horas_registradas = {
+            {"LC1-1", 0},
+            {"FEC-2", 0},
+            {"CD-3", 0},
+            {"AS-4", 0},
+            {"CB-5", 0},
+            {"LC3-6", 0},
+            {"ECA-7", 0},
+            {"IA-8", 0},
+            {"AL-9", 0},
+            {"EDP-10", 0},
+            {"RB-11", 0},
+            {"OI-12", 0},
+            {"AU-13", 0},
+            {"AID-14", 0},
+            {"LI-15", 0},
+            {"ED-16", 0},
+            {"BD-17", 0},
+            {"AU2-18", 0},
+            {"DMD-19", 0},
+            {"MH-20", 0},
+            {"ESI-21", 0},
+            {"PI-22", 0},
+            {"LE-23", 0},
+            {"RE1-24", 0},
+            {"TSI-25", 0},
+            {"SI1-26", 0},
+            {"SW-27", 0},
+            {"PA-28", 0},
+            {"SIS-29", 0},
+            {"MD-30", 0}};
+
+        /////////////////////////////////////////////////////////////////////////////
+
+        // HORARIOS REGISTRADOS POR SALON //////////////////////////////////////////
+
+        // HORARIO DE AULA 54 A
+
+        unordered_map<string, unordered_map<string, int>> horario_aula_54_a = {
+            {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
+
+        // HORARIO DE AULA 54 C
+
+        unordered_map<string, unordered_map<string, int>> horario_aula_54_c = {
+            {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
+
+        // HORARIO DE AULA 54 F
+
+        unordered_map<string, unordered_map<string, int>> horario_aula_54_f = {
+            {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
+
+        // HORARIO DE AULA 54 G
+
+        unordered_map<string, unordered_map<string, int>> horario_aula_54_g = {
+            {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
+
+        // HORARIO DE AULA 54 H 
+
+        unordered_map<string, unordered_map<string, int>> horario_aula_54_h = {
+            {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
+
+        // HORARIO DE AULA 61 LAB
+
+        unordered_map<string, unordered_map<string, int>> horario_aula_61_lab = {
+            {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
+
+        // HORARIO DE AULA 203 LAB
+
+        unordered_map<string, unordered_map<string, int>> horario_aula_203_lab = {
+            {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
+
+        // HORARIO DE AULA 204 LAB
+
+        unordered_map<string, unordered_map<string, int>> horario_aula_204_lab = {
+            {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
+
+        // HORARIO DE AULA 1 AUD
+
+        unordered_map<string, unordered_map<string, int>> horario_aula_1_aud = {
+            {"Lunes",     {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Martes",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Miércoles", {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Jueves",    {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}},
+            {"Viernes",   {{"7:00", 0}, {"8:00", 0}, {"9:00", 0}, {"10:00", 0}, {"11:00", 0}, {"12:00", 0}, {"13:00", 0}}}};
+
+        /////////////////////////////////////////////////////////////////////////////
+
+        cout << "Iteracion " << i + 1 << endl;
 
         // Calcular posible horario (AQUI MISMO SE MUTAN LOS INDIVIDUOS Y SE GENERA LA NUEVA POBLACION) 
-        calcularPosibleHorario(PosibleHorario, PoblacionInicial, horas_registradas, horario_aula_54_a, horario_aula_54_c, horario_aula_54_f, horario_aula_54_g, horario_aula_54_h, horario_aula_61_lab, horario_aula_203_lab, horario_aula_204_lab, horario_aula_1_aud, solucion_encontrada);
+        calcularPosibleHorario(PosibleHorario, PoblacionInicial, horas_registradas, horario_aula_54_a, horario_aula_54_c, horario_aula_54_f, horario_aula_54_g, horario_aula_54_h, horario_aula_61_lab, horario_aula_203_lab, horario_aula_204_lab, horario_aula_1_aud, solucion_encontrada, SiguintePoblacion, Modulo1, Modulo2, Modulo3, Modulo4, Modulo5, Modulo6, Modulo7, Modulo8, Modulo9, horas_totales);
 
         if (solucion_encontrada) 
         {
           cout << "Solucion encontrada" << endl;
         }
-        else
+
+        // en caso de que se encuentre una mejor solucion (horas_totales > horas_totales_anterior), se debe actualizar la poblacion inicial
+        if (horas_totales > horas_totales_anterior)
         {
-          cout << "Solucion no encontrada" << endl;
+          // actualizar la poblacion inicial
+          PoblacionInicial = SiguintePoblacion;
         }
 
-      // }
+        horas_totales_anterior = horas_totales;
+        horas_totales = 0;
+
+        // Limpiar la siguiente poblacion
+        SiguintePoblacion.clear();
+        cout << endl;
+
+      }
 
       break;
     }
