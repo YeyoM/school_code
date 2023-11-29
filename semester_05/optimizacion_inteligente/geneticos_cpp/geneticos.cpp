@@ -608,14 +608,14 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
 
       if (IndividuosRegistrados.size() > 0)
       {
-        // Tomamos el ultimo elemento de los elementos registrados y lo cruzamos con el individuo actual, 
+        // Tomamos un elemento al azar de los elementos registrados y lo cruzamos con el individuo actual, 
         // luego mutamos el individuo resultante y lo agregamos al vector de individuos no registrados
-        vector<string> IndividuoCruzado = IndividuosRegistrados[IndividuosRegistrados.size() - 1];
+
+        int index_individuo_cruzado = rand() % IndividuosRegistrados.size();
+
+        vector<string> IndividuoCruzado = IndividuosRegistrados[index_individuo_cruzado];
         IndividuoCruzado[0] = Individuo[0];
         IndividuoCruzado[1] = Individuo[1];
-        IndividuoCruzado[2] = Individuo[2];
-        IndividuoCruzado[3] = Individuo[3];
-        IndividuoCruzado[4] = Individuo[4];
 
         // mutar el individuo cruzado
         mutarIndividuo(IndividuoCruzado, Modulo1, Modulo2, Modulo3, Modulo4, Modulo5, Modulo6, Modulo7, Modulo8, Modulo9);
@@ -652,14 +652,14 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
     SiguintePoblacion.push_back(IndividuosNoRegistrados[i]);
   }
 
-  random_shuffle(SiguintePoblacion.begin(), SiguintePoblacion.end());
-
   // mutamos 5 individuos de la siguiente poblacion
   for (int i = 0; i < 50; i++)
   {
     int index = rand() % SiguintePoblacion.size();
     mutarIndividuo(SiguintePoblacion[index], Modulo1, Modulo2, Modulo3, Modulo4, Modulo5, Modulo6, Modulo7, Modulo8, Modulo9);
   }
+
+  random_shuffle(SiguintePoblacion.begin(), SiguintePoblacion.end());
 
   // Mostrar las horas registradas por materia y calcular las horas totales
   for (auto const &x : horas_registradas)
@@ -908,7 +908,7 @@ int main()
         }
 
         // en caso de que se encuentre una mejor solucion (horas_totales > horas_totales_anterior), se debe actualizar la poblacion inicial
-        if (horas_totales > horas_totales_anterior)
+        if (horas_totales > horas_totales_anterior - 5)
         {
           // actualizar la poblacion inicial
           PoblacionInicial = SiguintePoblacion;
