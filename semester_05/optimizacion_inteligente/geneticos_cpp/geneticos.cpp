@@ -91,15 +91,20 @@ vector<string> GenerarIndividuo(const vector<vector<string>> &Modulo1, const vec
     Dia_Fin = rand() % 5;
   }
 
-
   int Horas = CalcularHoras(Modulo4[Hora_Inicio], Modulo3[Dia_Inicio], Modulo6[Hora_Fin], Modulo5[Dia_Fin]);
 
   while (Horas > 5)
   {
     Hora_Inicio = rand() % 7;
     Hora_Fin = rand() % (7 - Hora_Inicio) + Hora_Inicio;
-    Dia_Inicio = rand() % 3;
-    Dia_Fin = rand() % 2;
+    // El dia de inicio tiene que ser menor o igual al dia de fin
+    Dia_Inicio = rand() % 5;
+    Dia_Fin = rand() % 5;
+    while (Dia_Inicio > Dia_Fin)
+    {
+      Dia_Inicio = rand() % 5;
+      Dia_Fin = rand() % 5;
+    }
     Horas = CalcularHoras(Modulo4[Hora_Inicio], Modulo3[Dia_Inicio], Modulo6[Hora_Fin], Modulo5[Dia_Fin]);
   }
 
@@ -176,8 +181,13 @@ void mutarIndividuo(vector<string> &Individuo, const vector<vector<string>> &Mod
     {
       Hora_Inicio = rand() % 7;
       Hora_Fin = rand() % (7 - Hora_Inicio) + Hora_Inicio;
-      Dia_Inicio = rand() % 3;
-      Dia_Fin = rand() % 2;
+      Dia_Inicio = rand() % 5;
+      Dia_Fin = rand() % 5;
+      while (Dia_Inicio > Dia_Fin)
+      {
+        Dia_Inicio = rand() % 5;
+        Dia_Fin = rand() % 5;
+      }
       Horas = CalcularHoras(Modulo4[Hora_Inicio], Modulo3[Dia_Inicio], Modulo6[Hora_Fin], Modulo5[Dia_Fin]);
     }
 
@@ -289,7 +299,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
       // verificar con las horas y dias
       for (int i = 0; i < Dias.size(); i++)
       {
-        for (int j = 0; j < HorasARegistrar.size(); j++)
+        for (int j = 0; j < HorasARegistrar.size() - 1; j++)
         {
           if (horario_aula_54_a[Dias[i]][HorasARegistrar[j]] == 0)
           {
@@ -308,7 +318,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
         // registrar las horas
         for (int i = 0; i < Dias.size(); i++)
         {
-          for (int j = 0; j < HorasARegistrar.size(); j++)
+          for (int j = 0; j < HorasARegistrar.size() - 1; j++)
           {
             horario_aula_54_a[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
           }
@@ -323,7 +333,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
       // verificar con las horas y dias
       for (int i = 0; i < Dias.size(); i++)
       {
-        for (int j = 0; j < HorasARegistrar.size(); j++)
+        for (int j = 0; j < HorasARegistrar.size() - 1; j++)
         {
           if (horario_aula_54_c[Dias[i]][HorasARegistrar[j]] == 0)
           {
@@ -342,7 +352,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
         // registrar las horas
         for (int i = 0; i < Dias.size(); i++)
         {
-          for (int j = 0; j < HorasARegistrar.size(); j++)
+          for (int j = 0; j < HorasARegistrar.size() - 1; j++)
           {
             horario_aula_54_c[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
           }
@@ -357,7 +367,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
       // verificar con las horas y dias
       for (int i = 0; i < Dias.size(); i++)
       {
-        for (int j = 0; j < HorasARegistrar.size(); j++)
+        for (int j = 0; j < HorasARegistrar.size() - 1; j++)
         {
           if (horario_aula_54_f[Dias[i]][HorasARegistrar[j]] == 0)
           {
@@ -376,7 +386,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
         // registrar las horas
         for (int i = 0; i < Dias.size(); i++)
         {
-          for (int j = 0; j < HorasARegistrar.size(); j++)
+          for (int j = 0; j < HorasARegistrar.size() - 1; j++)
           {
             horario_aula_54_f[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
           }
@@ -391,7 +401,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
       // verificar con las horas y dias
       for (int i = 0; i < Dias.size(); i++)
       {
-        for (int j = 0; j < HorasARegistrar.size(); j++)
+        for (int j = 0; j < HorasARegistrar.size() - 1; j++)
         {
           if (horario_aula_54_g[Dias[i]][HorasARegistrar[j]] == 0)
           {
@@ -410,7 +420,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
         // registrar las horas
         for (int i = 0; i < Dias.size(); i++)
         {
-          for (int j = 0; j < HorasARegistrar.size(); j++)
+          for (int j = 0; j < HorasARegistrar.size() - 1; j++)
           {
             horario_aula_54_g[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
           }
@@ -425,7 +435,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
       // verificar con las horas y dias
       for (int i = 0; i < Dias.size(); i++)
       {
-        for (int j = 0; j < HorasARegistrar.size(); j++)
+        for (int j = 0; j < HorasARegistrar.size() - 1; j++)
         {
           if (horario_aula_54_h[Dias[i]][HorasARegistrar[j]] == 0)
           {
@@ -444,7 +454,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
         // registrar las horas
         for (int i = 0; i < Dias.size(); i++)
         {
-          for (int j = 0; j < HorasARegistrar.size(); j++)
+          for (int j = 0; j < HorasARegistrar.size() - 1; j++)
           {
             horario_aula_54_h[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
           }
@@ -459,7 +469,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
       // verificar con las horas y dias
       for (int i = 0; i < Dias.size(); i++)
       {
-        for (int j = 0; j < HorasARegistrar.size(); j++)
+        for (int j = 0; j < HorasARegistrar.size() - 1; j++)
         {
           if (horario_aula_61_lab[Dias[i]][HorasARegistrar[j]] == 0)
           {
@@ -478,7 +488,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
         // registrar las horas
         for (int i = 0; i < Dias.size(); i++)
         {
-          for (int j = 0; j < HorasARegistrar.size(); j++)
+          for (int j = 0; j < HorasARegistrar.size() - 1; j++)
           {
             horario_aula_61_lab[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
           }
@@ -493,7 +503,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
       // verificar con las horas y dias
       for (int i = 0; i < Dias.size(); i++)
       {
-        for (int j = 0; j < HorasARegistrar.size(); j++)
+        for (int j = 0; j < HorasARegistrar.size() - 1; j++)
         {
           if (horario_aula_203_lab[Dias[i]][HorasARegistrar[j]] == 0)
           {
@@ -512,7 +522,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
         // registrar las horas
         for (int i = 0; i < Dias.size(); i++)
         {
-          for (int j = 0; j < HorasARegistrar.size(); j++)
+          for (int j = 0; j < HorasARegistrar.size() - 1; j++)
           {
             horario_aula_203_lab[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
           }
@@ -527,7 +537,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
       // verificar con las horas y dias
       for (int i = 0; i < Dias.size(); i++)
       {
-        for (int j = 0; j < HorasARegistrar.size(); j++)
+        for (int j = 0; j < HorasARegistrar.size() - 1; j++)
         { 
           if (horario_aula_204_lab[Dias[i]][HorasARegistrar[j]] == 0)
           {
@@ -546,7 +556,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
         // registrar las horas
         for (int i = 0; i < Dias.size(); i++)
         { 
-          for (int j = 0; j < HorasARegistrar.size(); j++)
+          for (int j = 0; j < HorasARegistrar.size() - 1; j++)
           {
             horario_aula_204_lab[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
           }
@@ -561,7 +571,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
       // verificar con las horas y dias
       for (int i = 0; i < Dias.size(); i++)
       { 
-        for (int j = 0; j < HorasARegistrar.size(); j++)
+        for (int j = 0; j < HorasARegistrar.size() - 1; j++)
         {
           if (horario_aula_1_aud[Dias[i]][HorasARegistrar[j]] == 0)
           { 
@@ -580,7 +590,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
         // registrar las horas
         for (int i = 0; i < Dias.size(); i++)
         { 
-          for (int j = 0; j < HorasARegistrar.size(); j++)
+          for (int j = 0; j < HorasARegistrar.size() - 1; j++)
           {
             horario_aula_1_aud[Dias[i]][HorasARegistrar[j]] = stoi(ID_Individuo);
           }
@@ -760,7 +770,7 @@ int main()
     {
 
       // Generamos la poblacion inicial
-      for (int i = 0; i < 600; i++)
+      for (int i = 0; i < 450; i++)
       {
         PoblacionInicial.push_back(GenerarIndividuo(Modulo1, Modulo2, Modulo3, Modulo4, Modulo5, Modulo6, Modulo7, Modulo8, Modulo9));
         Modulo9++;
@@ -903,7 +913,189 @@ int main()
 
         if (solucion_encontrada) 
         {
-          cout << "Solucion encontrada" << endl;
+          cout << endl;
+          cout << "Solucion encontrada!!!" << endl;
+          cout << endl;
+
+          // Mostrar un Menu al usuario para insertar la solucion en la base de datos (horarios de aulas)
+          // y mostrar el horario de clases
+          int opcion_ = 0;
+
+          do {
+            
+            cout << "Inspeccionar horarios (digite la opcion que desee)" << endl;
+            cout << "1. Mostrar los horarios de todas las materias" << endl;
+            cout << "2. Mostrar los horarios del aula 54 A" << endl;
+            cout << "3. Mostrar los horarios del aula 54 C" << endl;
+            cout << "4. Mostrar los horarios del aula 54 F" << endl;
+            cout << "5. Mostrar los horarios del aula 54 G" << endl;
+            cout << "6. Mostrar los horarios del aula 54 H" << endl;
+            cout << "7. Mostrar los horarios del aula 61 LAB" << endl;
+            cout << "8. Mostrar los horarios del aula 203 LAB" << endl;
+            cout << "9. Mostrar los horarios del aula 204 LAB" << endl;
+            cout << "10. Mostrar los horarios del aula 1 AUD" << endl;
+            cout << "11. Limpiar la pantalla" << endl;
+            cout << "12. Salir" << endl;
+
+            cin >> opcion_;
+
+            switch (opcion_)
+            {
+            case 1:
+            {
+              // Mostrar los horarios de todas las materias
+              for (int i = 0; i < PosibleHorario.size(); i++)
+              {
+                cout << "ID: " << PosibleHorario[i][0] << " Grupo: " << PosibleHorario[i][1] << " Materia: " << PosibleHorario[i][2] << " Dia: " << PosibleHorario[i][3] << " Hora: " << PosibleHorario[i][4] << " Aula: " << PosibleHorario[i][5] << endl;
+              }
+              break;
+            }
+            case 2:
+            {
+              // Mostrar los horarios del aula 54 A
+              for (auto const &x : horario_aula_54_a)
+              {
+                cout << x.first << " => ";
+                for (auto const &y : x.second)
+                {
+                  cout << y.first << " => " << y.second << " ";
+                }
+                cout << endl;
+              }
+              break;
+            }
+            case 3:
+            {
+              // Mostrar los horarios del aula 54 C
+              for (auto const &x : horario_aula_54_c)
+              {
+                cout << x.first << " => ";
+                for (auto const &y : x.second)
+                {
+                  cout << y.first << " => " << y.second << " ";
+                }
+                cout << endl;
+              }
+              break;
+            }
+            case 4:
+            {
+              // Mostrar los horarios del aula 54 F
+              for (auto const &x : horario_aula_54_f)
+              {
+                cout << x.first << " => ";
+                for (auto const &y : x.second)
+                {
+                  cout << y.first << " => " << y.second << " ";
+                }
+                cout << endl;
+              }
+              break;
+            }
+            case 5:
+            {
+              // Mostrar los horarios del aula 54 G
+              for (auto const &x : horario_aula_54_g)
+              {
+                cout << x.first << " => ";
+                for (auto const &y : x.second)
+                {
+                  cout << y.first << " => " << y.second << " ";
+                }
+                cout << endl;
+              }
+              break;
+            }
+            case 6:
+            {
+              // Mostrar los horarios del aula 54 H
+              for (auto const &x : horario_aula_54_h)
+              {
+                cout << x.first << " => ";
+                for (auto const &y : x.second)
+                {
+                  cout << y.first << " => " << y.second << " ";
+                }
+                cout << endl;
+              }
+              break;
+            }
+            case 7:
+            {
+              // Mostrar los horarios del aula 61 LAB
+              for (auto const &x : horario_aula_61_lab)
+              {
+                cout << x.first << " => ";
+                for (auto const &y : x.second)
+                {
+                  cout << y.first << " => " << y.second << " ";
+                }
+                cout << endl;
+              }
+              break;
+            }
+            case 8:
+            {
+              // Mostrar los horarios del aula 203 LAB
+              for (auto const &x : horario_aula_203_lab)
+              {
+                cout << x.first << " => ";
+                for (auto const &y : x.second)
+                {
+                  cout << y.first << " => " << y.second << " ";
+                }
+                cout << endl;
+              }
+              break;
+            }
+            case 9:
+            {
+              // Mostrar los horarios del aula 204 LAB
+              for (auto const &x : horario_aula_204_lab)
+              {
+                cout << x.first << " => ";
+                for (auto const &y : x.second)
+                {
+                  cout << y.first << " => " << y.second << " ";
+                }
+                cout << endl;
+              }
+              break;
+            }
+            case 10:
+            {
+              // Mostrar los horarios del aula 1 AUD
+              for (auto const &x : horario_aula_1_aud)
+              {
+                cout << x.first << " => ";
+                for (auto const &y : x.second)
+                {
+                  cout << y.first << " => " << y.second << " ";
+                }
+                cout << endl;
+              }
+              break;
+            }
+            case 11:
+            {
+              // Limpiar la pantalla
+              system("clear");
+              break;
+            }
+            case 12:
+            {
+              // Salir
+              break;
+            }
+            default:
+            {
+              cout << "Opcion invalida" << endl;
+              break;
+            }
+            }
+
+          } while (opcion_ != 12);
+
           break;
         }
 
