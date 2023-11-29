@@ -80,8 +80,17 @@ vector<string> GenerarIndividuo(const vector<vector<string>> &Modulo1, const vec
   int Hora_Fin = rand() % (7 - Hora_Inicio) + Hora_Inicio;
 
   // RESTRICCIONES DE HORAS CUMPLIDAS (max 5hrs por materia)
-  int Dia_Inicio = rand() % 3;
-  int Dia_Fin = rand() % 2;
+
+  // El dia de inicio tiene que ser menor o igual al dia de fin
+  int Dia_Inicio = rand() % 5;
+  int Dia_Fin = rand() % 5;
+
+  while (Dia_Inicio > Dia_Fin)
+  {
+    Dia_Inicio = rand() % 5;
+    Dia_Fin = rand() % 5;
+  }
+
 
   int Horas = CalcularHoras(Modulo4[Hora_Inicio], Modulo3[Dia_Inicio], Modulo6[Hora_Fin], Modulo5[Dia_Fin]);
 
@@ -152,12 +161,18 @@ void mutarIndividuo(vector<string> &Individuo, const vector<vector<string>> &Mod
     int Hora_Fin = rand() % (7 - Hora_Inicio) + Hora_Inicio;
 
     // RESTRICCIONES DE HORAS CUMPLIDAS (max 5hrs por materia)
-    int Dia_Inicio = rand() % 3;
-    int Dia_Fin = rand() % 2;
+    int Dia_Inicio = rand() % 5;
+    int Dia_Fin = rand() % 5;
+
+    while (Dia_Inicio > Dia_Fin)
+    {
+      Dia_Inicio = rand() % 5;
+      Dia_Fin = rand() % 5;
+    }
 
     int Horas = CalcularHoras(Modulo4[Hora_Inicio], Modulo3[Dia_Inicio], Modulo6[Hora_Fin], Modulo5[Dia_Fin]);
 
-    while (Horas > 5)
+    while (Horas > 4)
     {
       Hora_Inicio = rand() % 7;
       Hora_Fin = rand() % (7 - Hora_Inicio) + Hora_Inicio;
@@ -591,11 +606,32 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
       //! POBLACION, EN CASO DE QUE NO SE REGISTRE, SE DEBE GENERAR UN NUEVO
       //! INDIVIDUO A PARTIR DE MUTAR ESE INDIVIDUO
 
-        vector<string> IndividuoMutado = Individuo;
-        mutarIndividuo(IndividuoMutado, Modulo1, Modulo2, Modulo3, Modulo4, Modulo5, Modulo6, Modulo7, Modulo8, Modulo9);
+      if (IndividuosRegistrados.size() > 0)
+      {
+        // Tomamos el ultimo elemento de los elementos registrados y lo cruzamos con el individuo actual, 
+        // luego mutamos el individuo resultante y lo agregamos al vector de individuos no registrados
+        vector<string> IndividuoCruzado = IndividuosRegistrados[IndividuosRegistrados.size() - 1];
+        IndividuoCruzado[0] = Individuo[0];
+        IndividuoCruzado[1] = Individuo[1];
+        IndividuoCruzado[2] = Individuo[2];
+        IndividuoCruzado[3] = Individuo[3];
+        IndividuoCruzado[4] = Individuo[4];
+
+        // mutar el individuo cruzado
+        mutarIndividuo(IndividuoCruzado, Modulo1, Modulo2, Modulo3, Modulo4, Modulo5, Modulo6, Modulo7, Modulo8, Modulo9);
 
         // agregar el individuo mutado a la siguiente poblacion
-        IndividuosNoRegistrados.push_back(IndividuoMutado);
+        IndividuosNoRegistrados.push_back(IndividuoCruzado);
+      }
+
+      else 
+      {
+        // mutar el individuo
+        mutarIndividuo(Individuo, Modulo1, Modulo2, Modulo3, Modulo4, Modulo5, Modulo6, Modulo7, Modulo8, Modulo9);
+
+        // agregar el individuo mutado a la siguiente poblacion
+        IndividuosNoRegistrados.push_back(Individuo);
+      }
 
     }
   
@@ -625,7 +661,7 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
   // Mostrar las horas registradas por materia y calcular las horas totales
   for (auto const &x : horas_registradas)
   {
-    // cout << x.first << " => " << x.second << endl;
+    cout << x.first << " => " << x.second << endl;
     horas_totales += x.second;
   }
 
@@ -641,6 +677,10 @@ void calcularPosibleHorario(vector<vector<string>> &PosibleHorario, vector<vecto
     }
   }
 
+  if (horas_totales == 150)
+  {
+    solucion_encontrada = true;
+  }
   
 }
 
@@ -662,7 +702,7 @@ int main()
   vector<vector<string>> Modulo1 = {
       {"LC1-1", "FEC-2", "CD-3", "AS-4", "CB-5"},
       {"LC3-6", "ECA-7", "IA-8", "AL-9", "EDP-10", "RB-11"},
-      {"OI-12", "AU-13", "AID-14", "LI-15", "BD-17"},
+      {"OI-12", "AU-13", "AID-14", "LI-15", "ED-16", "BD-17"},
       {"AU2-18", "DMD-19", "MH-20", "ESI-21", "PI-22", "LE-23", "RE1-24"},
       {"TSI-25", "SI1-26", "SW-27", "PA-28", "SIS-29", "MD-30"}};
 
@@ -670,13 +710,13 @@ int main()
   vector<string> Modulo2 = {"1a", "3a", "5a", "7a", "9a"};
 
   // Modulo3 => Dia de inicio del curso
-  vector<string> Modulo3 = {"Lunes", "Martes", "Miércoles"};
+  vector<string> Modulo3 = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes"};
 
   // Modulo4 => Hora de inicio del curso
   vector<string> Modulo4 = {"7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00"};
 
   // Modulo5 => Dia de fin del curso
-  vector<string> Modulo5 = {"Jueves", "Viernes"};
+  vector<string> Modulo5 = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes"};
 
   // Modulo6 => Hora de fin del curso
   vector<string> Modulo6 = {"8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00"};
@@ -717,7 +757,7 @@ int main()
     {
 
       // Generamos la poblacion inicial
-      for (int i = 0; i < 400; i++)
+      for (int i = 0; i < 600; i++)
       {
         PoblacionInicial.push_back(GenerarIndividuo(Modulo1, Modulo2, Modulo3, Modulo4, Modulo5, Modulo6, Modulo7, Modulo8, Modulo9));
         Modulo9++;
@@ -861,6 +901,7 @@ int main()
         if (solucion_encontrada) 
         {
           cout << "Solucion encontrada" << endl;
+          break;
         }
 
         // en caso de que se encuentre una mejor solucion (horas_totales > horas_totales_anterior), se debe actualizar la poblacion inicial
