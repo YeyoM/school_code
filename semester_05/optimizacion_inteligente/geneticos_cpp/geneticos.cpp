@@ -1,3 +1,82 @@
+/**
+* Universidad Autonoma de Aguascalientes
+* Centro de Ciencias Basicas
+* Departamento de Ciencias de la Computacion
+* Programacion Cientifica	
+* Diego Alberto Aranda Gonzalez (ID 262021)
+* Diego Emilio Moreno Sánchez (ID 264776)
+* Profesor: Dr. en C. Luis Fernando Gutiérrez Marfileño
+*/
+
+/**
+ * Programa que implementa un algoritmo genético para generar horarios de clases
+ * para varios semestres de la carrera de ICI.
+ * 
+ * El programa genera horarios de clases para 5 semestres de la carrera de ICI.
+ * 
+ * El procedimiento del progrma es de la siguiente manera:
+ * 
+ * 1. Se crea una poblacion inicial de 450 individuos (horarios de clases).
+ *    Cada individuo es un vector de cadenas que contiene la siguiente informacion:
+ *    - ID del curso/materia
+ *    - Grupo
+ *    - Dia de inicio del curso
+ *    - Hora de inicio del curso
+ *    - Dia de fin del curso
+ *    - Hora de fin del curso
+ *    - Tipo de aula
+ *    - ID del aula
+ *    - ID del individuo
+ * 
+ * 2. Se calcula el horario de cada individuo, teniendo en cuenta las restricciones
+ *    de horarios, horas por materia, etc. Las restricciones son las siguientes:
+ *     a. RESTRICCIONES DE MATERIAS Y SEMESTRES
+ *        Un alumno solo puede cursar materias de su semestre
+ *     b. RESTRICCIONES DE HORARIOS
+ *        El horario de inicio debe ser menor al horario de fin
+ *     c. RESTRICCIONES DE TIPOS DE AULAS Y AULAS
+ *        El aula tiene que corresponder con el tipo que es
+ *     d. RESTRICCIONES DE CUMPLIMIENTO DE HORAS
+ *        El alumno debe cumplir con las horas de clase que le corresponden
+ *        Para esto podemos usar un diccionario/hashmap con todas las materias como llaves
+ *        y las horas (que lleva registradas) como valores (modulos/horas.py)
+ * 
+ * 3. Se calcula la aptitud de cada individuo, teniendo en cuenta las horas totales
+ *    de cada individuo.
+ * 
+ * 4. Se seleccionan los mejores individuos para la siguiente generacion. Aqui mismo, se
+ *    intenta generar una solucion al problema. Para esto, se itera dentro de la poblacion 
+ *    inicial y se verifica si el individuo cumple con las horas totales requeridas. Si
+ *    el individuo cumple con las horas totales y ademas no tiene conflictos de horarios con
+ *    otros individuos ya seleccionados para la siguiente generacion, entonces se agrega a la
+ *    siguiente generacion.
+ * 
+ *    - Cuando podemos tener un choque?
+ *       a. Dos clases diferentes en el mismo salon a la misma hora (afecta al horario del salon)
+ *       b. Una misma clase a la misma hora en salones diferentes (afecta al horario del grupo)
+ *
+ *     - Como calcular choques?
+ *       Recordar que existen dos entidades que poseen horarios (schedules)
+ *       a. Los grupos
+ *       b. Los salones
+ *       Podemos crear una matriz o un hashmap para cada grupo y para cada salon que represente 
+ *       su horario para que de esta forma para cada nuevo individuo podamos ir calculando los 
+ *       choques.
+ * 
+ * 5. Se mutan los individuos seleccionados. La mutacion se realiza de la siguiente
+ *    manera:
+ *    - Se selecciona un individuo de manera aleatoria.
+ *    - Se selecciona un modulo de manera aleatoria.
+ *    - Se muta el modulo seleccionado.
+ * 
+ * 6. Se repite el proceso desde el paso 2 hasta que se encuentre una solucion
+ *    o se llegue a un numero maximo de iteraciones. La soulcion se encuentra en el paso 4.
+ *    La solucion es un horario de clases que cumple con las horas totales requeridas (5 a la semana p/materia)
+ *    no tiene conflictos de horarios con otros individuos.
+ * 
+ * 7. Se muestra la solucion al usuario.
+*/
+
 #include <iostream>
 #include <vector>
 #include <unordered_map>
