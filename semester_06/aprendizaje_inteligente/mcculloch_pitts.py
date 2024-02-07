@@ -1,7 +1,11 @@
 """
 Universidad Autonoma de Aguascalientes
 Centro de Ciencias Basicas
-
+Departamento de Ciencias de la Computacion
+Carrera: Ingenieria en Computacion Inteligente
+Materia: Machine Learning
+Profesor: Dr. Francisco Javier Luna Rosas
+Alumno: Diego Emilio Moreno Sanchez
 """
 
 """
@@ -17,16 +21,16 @@ import numpy as np
 # Datos de entrada (edad y ahorro)
 personas = np.array(
     [
-        [0.3, 0.4],  # Edad 30, ahorro 40,000
-        [0.2, 0.3],
-        [0.35, 0.5],
-        [0.40, 0.6],
-        [0.45, 0.7],
-        [0.50, 0.8],
-        [0.55, 0.9],
-        [0.60, 1.0],
-        [0.65, 1.1],
-        [0.70, 1.2],
+        [0.3, 0.4],
+        [0.4, 0.3],
+        [0.3, 0.2],
+        [0.4, 0.1],
+        [0.5, 0.4],
+        [0.4, 0.8],
+        [0.6, 0.8],
+        [0.5, 0.6],
+        [0.7, 0.6],
+        [0.8, 0.5],
     ]
 )
 
@@ -68,3 +72,8 @@ for epoca in range(epocas):
         pesos[1] += tasa_aprendizaje * error * personas[i][1]
         b += tasa_aprendizaje * error
     print(f"Epoca: {epoca}, Error: {errores}")
+
+# Evaluación
+print("Pesos finales:", pesos)
+print("Sesgo final:", b)
+print("Salida:", activacion(pesos, [0.8, 0.5], b))
