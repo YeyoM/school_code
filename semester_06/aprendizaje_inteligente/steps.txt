@@ -36,3 +36,27 @@ jupyter lab
 p2j filename.py
 ```
 
+### R
+
+R was installed in ubuntu using the following commands:
+
+```
+sudo apt-get update
+sudo apt-get install r-base
+```
+
+Once R is installed, you can install the IRkernel by running the following command in R:
+
+launch R by typing `R` in terminal and then run the following command in R:
+```R
+install.packages('IRkernel')
+IRkernel::installspec()
+```
+
+After installing the IRkernel, you can run the following command in terminal to open a jupyter notebook with R kernel:
+```
+jupyter notebook
+```
+
+Once in the notebook, you can create a new notebook with the R kernel by clicking on the "New" button and selecting "R" from the dropdown menu.
+
