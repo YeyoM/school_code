@@ -54,3 +54,58 @@ VADeaths
 barplot(VADeaths, beside = TRUE, ylim = c(0, 90), ylab = "Muertes por cada 1000", main = "Tasas de Mortalidad en Virginia")
 
 dotchart(VADeaths, xlim = c(0, 75) ,xlab = "Muertes por cada 1000", main = "Tasas de Mortalidad en Virginia")
+
+grupos <- c(18, 30, 32, 10, 10)
+etiquetas <- c("A", "B", "C", "D", "E")
+pie(grupos, etiquetas, col = c("red", "blue", "green", "yellow", "orange"))
+
+#Histograma
+x <- rnorm(100)
+hist(x, col = "blue")
+
+#Diagrama de caja
+boxplot(Sepal.Length ~ Species,
+        data = iris, ylab = "Largo Sepalo (cm)",
+        main = "Medidas en la Tabla Iris", boxwex = 0.5, col = "red")
+
+iris
+head(iris)
+tail(iris)
+
+library(ellipse)
+correlation <- cor(iris[, -5])
+plotcorr(correlation, col = "red")
+correlation
+
+install.packages("corrplot")
+library(corrplot)
+corrplot(correlation)
+
+col <- colorRampPalette(c("#BB4444",
+                          "#EE9988",
+                          "#FFFFFF",
+                          "#77AADD",
+                          "#4477AA"))
+
+corrplot(correlation, method = "shade", shade.col = NA,
+         tl.col = "black", tl.srt = 45, col = col(200),
+         addCoef.col = "black", order = "AOE")
+
+hist(iris$Sepal.Length)
+hist(iris$Sepal.Length, col = 3)
+
+plot(density(iris$Sepal.Length))
+pie(table(iris$Species))
+
+#Graficos de barras
+barplot(table(iris$Species), col = "blue")
+boxplot(iris$Sepal.Length ~ Species,
+        data = iris,
+        col = c("red", "blue", "green"))
+
+#Longitud de petalo
+with(iris, plot(Sepal.Length, Sepal.Width,
+                col = Species, pch = as.numeric(Species)))
+pairs(iris)
+pairs(iris[1:4], main = "Datos de Iris",
+      pch = 21, bg = c("red", "blue", "green")[unclass(iris$Species)])
