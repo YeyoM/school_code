@@ -35,8 +35,10 @@ func gradientDescent(eta float64, iterations int) (float64, float64) {
   // Initialize x and y randomly
   // Initialize x and y randomly within the interval [-10, 10]
   rand.Seed(time.Now().UnixNano())
-  x := -10 + rand.Float64()*(10-(-10))
-  y := -10 + rand.Float64()*(10-(-10))
+  //x := -10 + rand.Float64()*(10-(-10))
+  //y := -10 + rand.Float64()*(10-(-10))
+  x := -10.0
+  y := 10.0
   z := f(x, y)
 
   // storing all the values of x, so in case the optimization is not converging or it stuck in local minima
@@ -79,7 +81,10 @@ func plotFunction(xValues []float64) {
   p.Y.Label.Text = "Y"
   
   // Plot the function f(x) = 2x^2 * cos(x) - 5x
-  fPlotter := plotter.NewFunction(func(x float64) float64 { return 2*math.Pow(x, 2)*math.Cos(x) - 5*x })
+  fPlotter := plotter.NewFunction(func(x float64, y float64) float64 { 
+    return math.Pow(x, 2) + 3*y
+  })
+
   fPlotter.Color = color.RGBA{B: 255, A: 255}
 
   // Plot the gradient descent path using xValues
@@ -115,8 +120,8 @@ func plotFunction(xValues []float64) {
 }
 
 func main() {
-  learningRate := 0.01   // Eta
-  iterations := 1000     // Number of iterations
+  learningRate := 0.1   // Eta
+  iterations := 100     // Number of iterations
 
   // Run gradient descent
   minimumx, minimumy := gradientDescent(learningRate, iterations)
