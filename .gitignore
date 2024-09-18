@@ -1,4 +1,8 @@
 *.exe
+*.gz
+*.csv
+semester_07/metaheuristicas/reviews.json
+semester_07/metaheuristicas/proyecto/reviews.json
 /semester_03/Lenguajes de Computacion 3/exampleProject/target/
 /semester_03/Lenguajes de Computacion 3/Capitalizer/nbproject/private/
 /semester_03/Lenguajes de Computacion 3/Random Number/nbproject/private/
