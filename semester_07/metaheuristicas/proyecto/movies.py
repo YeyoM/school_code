@@ -1,9 +1,8 @@
 import nltk
 import time
 import json
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
 import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Si lo corres por primera vez descomenta las siguientes líneas
 nltk.download("punkt")
@@ -32,29 +31,35 @@ def texto_a_vector():
     # Process only the first CANTIDAD rows
     texto = texto.head(CANTIDAD)
 
-    stopwords_ingles = set(stopwords.words("english"))
     processed_reviews = []
-
+    stopwords_ingles = set(nltk.corpus.stopwords.words("english")).union(PROHIBIDAS)
     total_time = 0
 
-    for review in texto["review"]:
-        start_time = time.time()  # Start timing
-        palabras = word_tokenize(review)  # Tokenize each review
-        palabras_filtradas = [
-            palabra.lower()
-            for palabra in palabras
-            if palabra.isalpha()
-            and palabra.lower() not in stopwords_ingles
-            and palabra.lower() not in PROHIBIDAS
-        ]
-        palabras_filtradas = list(set(palabras_filtradas))  # Avoid duplicates
+    # Vectorizer to convert text to numeric values
+    vectorizer = TfidfVectorizer(
+        max_features=1000,  # limit the number of features
+        stop_words=list(stopwords_ingles),  # Convert the set to a list
+        lowercase=True,
+    )
 
-        end_time = time.time()  # End timing
-        processing_time = end_time - start_time  # Calculate processing time
+    # Fit the vectorizer on the reviews and transform them into numeric form
+    start_time = time.time()
+    tfidf_matrix = vectorizer.fit_transform(texto["review"])
+    end_time = time.time()
 
-        # Save the original review, processed tokens, and time taken for this review
+    # Get the feature names (tokens)
+    feature_names = vectorizer.get_feature_names_out()
+
+    for i, review in enumerate(texto["review"]):
+        processing_time = (
+            end_time - start_time
+        )  # Use the vectorization time for all reviews
+
+        # Get the numeric vector for each review
+        vector = tfidf_matrix[i].toarray().flatten().tolist()
+
         processed_reviews.append(
-            {"review": review, "tokens": palabras_filtradas, "time": processing_time}
+            {"review": review, "tokens": vector, "time": processing_time}
         )
 
         total_time += processing_time
@@ -63,11 +68,7 @@ def texto_a_vector():
 
 
 def procesar_texto():
-    # Process each review individually and track the total time
     palabras_por_review, total_time = texto_a_vector()
-
-    # Duplicate the list of reviews (palabras_por_review)
-    palabras_por_review = palabras_por_review * 2
 
     # Save to JSON
     with open(OUTPUT_JSON, "w") as json_file:
@@ -79,16 +80,7 @@ def procesar_texto():
 def main():
     palabras_por_review, total_time = procesar_texto()
 
-    # Print each review's tokens and time taken
-    # for idx, review_data in enumerate(palabras_por_review, start=1):
-    #    print(f"Review {idx}:")
-    #    print(f"Original: {review_data['review']}")
-    #    print(f"Tokens: {review_data['tokens']}")
-    #    print(f"Time to process: {review_data['time']:.4f} seconds")
-    #    print()
-
-    # Print total time taken for all reviews
-    print(f"Total processing time: {total_time * 2:.4f} seconds")
+    print(f"Total processing time: {total_time:.4f} seconds")
 
 
 if __name__ == "__main__":
