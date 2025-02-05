@@ -69,6 +69,7 @@ def selection(population: List[Individual]) -> List[Individual]:
     parents = []
     fitness_list = []
     relative_fitness = []
+    comulative_fitness = []
     total_fitness = 0
 
     # TOTAL FITNESS
@@ -80,10 +81,21 @@ def selection(population: List[Individual]) -> List[Individual]:
     # RELATIVE FITNESS
     for i in range(len(fitness_list)):
       ind_fitness = fitness_list[i] / total_fitness
+      relative_fitness.append(ind_fitness)
 
     # COMULATIVE FITNESS
-
-
+    comulative_fitness.append(relative_fitness[0])
+    for i in range(1, len(relative_fitness)):
+      comulative_fitness.append(comulative_fitness[i-1]+relative_fitness[i])
+    
+    #SELECCION RULETA
+    for i in range(len(population)):
+        r=random.random()
+        for i, cum_fit in enumerate (comulative_fitness):
+            if r<= cum_fit:
+                parents.append(population[i])
+                break
+    
     return parents
 
 ### Remplazar a un punto de corte
