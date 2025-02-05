@@ -12,27 +12,21 @@ class Item:
 class Individual:
     def __init__(self, bits: List[int]):
         self.bits = bits
-    
+
     def __str__(self):
         return repr(self.bits)
 
     def __hash__(self):
         return hash(str(self.bits))
-    
-    def fitness(self) -> float:
-        total_value = sum([
-            bit * item.value
-            for item, bit in zip(items, self.bits)
-        ])
 
-        total_weight = sum([
-            bit * item.weight
-            for item, bit in zip(items, self.bits)
-        ])
+    def fitness(self) -> float:
+        total_value = sum([bit * item.value for item, bit in zip(items, self.bits)])
+
+        total_weight = sum([bit * item.weight for item, bit in zip(items, self.bits)])
 
         if total_weight <= MAX_KNAPSACK_WEIGHT:
             return total_value
-        
+
         return 0
 
 
@@ -41,12 +35,7 @@ CROSSOVER_RATE = 0.53
 MUTATION_RATE = 0.013
 REPRODUCTION_RATE = 0.15
 
-items = [
-    Item("A", 7, 5),
-    Item("B", 2, 4),
-    Item("C", 1, 7),
-    Item("D", 9, 2)
-]
+items = [Item("A", 7, 5), Item("B", 2, 4), Item("C", 1, 7), Item("D", 9, 2)]
 
 
 def generate_initial_population(count=6) -> List[Individual]:
@@ -54,15 +43,13 @@ def generate_initial_population(count=6) -> List[Individual]:
 
     # generate initial population having `count` individuals
     while len(population) != count:
-        # pick random bits one for each item and 
-        # create an individual 
-        bits = [
-            random.choice([0, 1])
-            for _ in items
-        ]
+        # pick random bits one for each item and
+        # create an individual
+        bits = [random.choice([0, 1]) for _ in items]
         population.add(Individual(bits))
 
     return list(population)
+
 
 ### Cambiar a seleccion por ruleta
 def selection(population: List[Individual]) -> List[Individual]:
@@ -74,36 +61,37 @@ def selection(population: List[Individual]) -> List[Individual]:
 
     # TOTAL FITNESS
     for i in range(len(population)):
-      ind_fitness = population[i].fitness()
-      total_fitness += ind_fitness 
-      fitness_list.append(ind_fitness)
+        ind_fitness = population[i].fitness()
+        total_fitness += ind_fitness
+        fitness_list.append(ind_fitness)
 
     # RELATIVE FITNESS
     for i in range(len(fitness_list)):
-      ind_fitness = fitness_list[i] / total_fitness
-      relative_fitness.append(ind_fitness)
+        ind_fitness = fitness_list[i] / total_fitness
+        relative_fitness.append(ind_fitness)
 
     # COMULATIVE FITNESS
     comulative_fitness.append(relative_fitness[0])
     for i in range(1, len(relative_fitness)):
-      comulative_fitness.append(comulative_fitness[i-1]+relative_fitness[i])
-    
-    #SELECCION RULETA
+        comulative_fitness.append(comulative_fitness[i - 1] + relative_fitness[i])
+
+    # SELECCION RULETA
     for i in range(len(population)):
-        r=random.random()
-        for i, cum_fit in enumerate (comulative_fitness):
-            if r<= cum_fit:
+        r = random.random()
+        for i, cum_fit in enumerate(comulative_fitness):
+            if r <= cum_fit:
                 parents.append(population[i])
                 break
-    
+
     return parents
+
 
 ### Remplazar a un punto de corte
 def crossover(parents: List[Individual]) -> List[Individual]:
     N = len(items)
 
-    child1 = parents[0].bits[:N//2] + parents[1].bits[N//2:]
-    child2 = parents[0].bits[N//2:] + parents[1].bits[:N//2]
+    child1 = parents[0].bits[: N // 2] + parents[1].bits[N // 2 :]
+    child2 = parents[0].bits[N // 2 :] + parents[1].bits[: N // 2]
 
     return [Individual(child1), Individual(child2)]
 
@@ -131,21 +119,21 @@ def next_generation(population: List[Individual]) -> List[Individual]:
             # crossover
             if random.random() < CROSSOVER_RATE:
                 children = crossover(parents)
-            
+
             # mutation
             if random.random() < MUTATION_RATE:
                 mutate(children)
 
         next_gen.extend(children)
 
-    return next_gen[:len(population)]
+    return next_gen[: len(population)]
 
 
 def print_generation(population: List[Individual]):
     for individual in population:
         print(individual.bits, individual.fitness())
     print()
-    print("Average fitness", sum([x.fitness() for x in population])/len(population))
+    print("Average fitness", sum([x.fitness() for x in population]) / len(population))
     print("-" * 32)
 
 
@@ -161,11 +149,13 @@ def solve_knapsack() -> Individual:
     for _ in range(500):
         avg_fitnesses.append(average_fitness(population))
         population = next_generation(population)
+        print_generation(population)
 
     population = sorted(population, key=lambda i: i.fitness(), reverse=True)
     return population[0]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     solution = solve_knapsack()
     print(solution, solution.fitness())
+
