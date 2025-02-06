@@ -19,6 +19,10 @@ class Individual:
     def __hash__(self):
         return hash(str(self.bits))
 
+    def total_weight(self) -> int:
+        weight = sum([bit * item.weight for item, bit in zip(items, self.bits)])
+        return weight
+
     def fitness(self) -> float:
         total_value = sum([bit * item.value for item, bit in zip(items, self.bits)])
 
@@ -31,7 +35,7 @@ class Individual:
 
 
 MAX_KNAPSACK_WEIGHT = 15
-CROSSOVER_RATE = 0.53
+CROSSOVER_RATE = 0.33
 MUTATION_RATE = 0.013
 REPRODUCTION_RATE = 0.15
 
@@ -86,14 +90,15 @@ def selection(population: List[Individual]) -> List[Individual]:
     return parents
 
 
-### Remplazar a un punto de corte
+# Remplazar a un punto de corte
 def crossover(parents: List[Individual]) -> List[Individual]:
-    N = len(items)
+    PC=random.randint(0, len(items))
 
-    child1 = parents[0].bits[: N // 2] + parents[1].bits[N // 2 :]
-    child2 = parents[0].bits[N // 2 :] + parents[1].bits[: N // 2]
+    child1 = parents[0].bits[:PC] + parents[1].bits[PC:]
+    child2 = parents[1].bits[PC:] + parents[0].bits[:PC]
 
     return [Individual(child1), Individual(child2)]
+
 
 
 def mutate(individuals: List[Individual]) -> List[Individual]:
@@ -149,7 +154,7 @@ def solve_knapsack() -> Individual:
     for _ in range(500):
         avg_fitnesses.append(average_fitness(population))
         population = next_generation(population)
-        print_generation(population)
+        #print_generation(population)
 
     population = sorted(population, key=lambda i: i.fitness(), reverse=True)
     return population[0]
@@ -157,5 +162,7 @@ def solve_knapsack() -> Individual:
 
 if __name__ == "__main__":
     solution = solve_knapsack()
-    print(solution, solution.fitness())
+    print("Solution: ", solution)
+    print("Valor: ", solution.fitness())
+    print("Peso: ", solution.total_weight())
 
