@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">AProy17 LayoutInflater</string>
+    <string name="action_ok">OK</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_alert_dialog">Custom View for Alert
+Dialog</string>
+    <string name="action_attach_to_root_true">Attach to root
+true</string>
+    <string name="action_attach_to_root_false">Attach To Root
+false</string>
+    <string name="button1">button!</string>
+    <string name="button2">button2</string>
+    <string name="button3">button3</string>
+    <string name="button4">button4</string>
+    <string name="button5">button5</string>
+    <string name="switch1">Switch :</string>
+</resources>
