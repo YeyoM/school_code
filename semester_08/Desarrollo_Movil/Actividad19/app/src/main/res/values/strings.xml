@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Actividad19</string>
+    <string name="fragment_one">Hello fragment One</string>
+    <string name="fragment_two">Hello fragment Two</string>
+    <string name="fragment_three">Hello fragment Three</string>
+</resources>

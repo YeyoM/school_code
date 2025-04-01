@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- menu_main.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_fragment_one"
+        android:title="Fragment One"/>
+    <item
+        android:id="@+id/menu_fragment_two"
+        android:title="Fragment Two"/>
+    <item
+        android:id="@+id/menu_fragment_three"
+        android:title="Fragment Three"/>
+</menu>
