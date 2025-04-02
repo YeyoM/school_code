@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Air B&amp;B</string>
+    <string name="imagen_del_destino">Imagen del destino</string>
+    <string name="reservar">Book</string>
+    <string name="playas">Beaches</string>
+    <string name="monta_as">Mountains</string>
+    <string name="ciudades">Cities</string>
+    <string name="ofertas">Sales</string>
+</resources>

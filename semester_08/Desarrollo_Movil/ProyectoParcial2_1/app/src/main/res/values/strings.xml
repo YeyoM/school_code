@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ProyectoParcial2_1</string>
+    <string name="imagen_del_plato">Imagen del plato</string>
+    <string name="entradas">Appetizers</string>
+    <string name="platos">Main Courses</string>
+    <string name="postres">Desserts</string>
+    <string name="bebidas">Beverages</string>
+</resources>
