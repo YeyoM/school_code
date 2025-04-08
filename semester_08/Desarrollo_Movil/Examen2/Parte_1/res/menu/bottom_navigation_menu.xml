@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_entradas"
+        android:icon="@drawable/ic_entradas"
+        android:title="@string/entradas" />
+    <item
+        android:id="@+id/nav_platos_principales"
+        android:icon="@drawable/ic_platos"
+        android:title="@string/platos" />
+    <item
+        android:id="@+id/nav_postres"
+        android:icon="@drawable/ic_postres"
+        android:title="@string/postres" />
+    <item
+        android:id="@+id/nav_bebidas"
+        android:icon="@drawable/ic_bebidas"
+        android:title="@string/bebidas" />
+</menu>
