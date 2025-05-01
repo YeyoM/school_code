@@ -1,0 +1,21 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Actividad22" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color (Amazon Orange). -->
+        <item name="colorPrimary">@color/amazon_orange</item>
+        <item name="colorPrimaryVariant">@color/amazon_orange_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary brand color (Gray for buttons, etc.). -->
+        <item name="colorSecondary">@color/gray_700</item>
+        <item name="colorSecondaryVariant">@color/gray_900</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Background and status bar. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:windowBackground">@color/white</item>
+
+        <!-- Text and icon colors. -->
+        <item name="android:textColor">@color/black</item>
+    </style>
+</resources>

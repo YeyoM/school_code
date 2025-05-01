@@ -1,0 +1,120 @@
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <!-- 1) Product Image -->
+        <ImageView
+            android:id="@+id/product_image"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription="Product image"
+            app:srcCompat="@drawable/ic_earbuds"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- 2) Title + Price Row -->
+        <TextView
+            android:id="@+id/product_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Wireless Earbuds"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/product_image"
+            app:layout_constraintTop_toTopOf="@id/product_image"
+            app:layout_constraintEnd_toStartOf="@id/button_remove"
+            android:layout_marginStart="12dp"/>
+
+        <TextView
+            android:id="@+id/product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$29.99"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/product_title"
+            app:layout_constraintEnd_toStartOf="@+id/button_remove"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- 3) Remove Button -->
+        <Button
+            android:width="0px"
+            android:height="0px"
+            android:id="@+id/button_remove"
+            android:layout_width="0px"
+            android:layout_height="0px"
+            android:text="Remove"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/amazon_orange"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- 4) Subtitle or description (optional) -->
+        <TextView
+            android:id="@+id/product_subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Bluetooth 5.0 headphones with charging case"
+            android:textSize="12sp"
+            android:textColor="@color/gray_700"
+            app:layout_constraintStart_toStartOf="@id/product_title"
+            app:layout_constraintTop_toBottomOf="@id/product_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="4dp"/>
+
+        <!-- 5) Quantity controls row -->
+        <LinearLayout
+            android:id="@+id/quantity_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/product_title"
+            app:layout_constraintTop_toBottomOf="@id/product_subtitle"
+            android:layout_marginTop="8dp">
+
+            <Button
+                android:id="@+id/btn_decrease"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:text="−"
+                android:textSize="18sp"
+                android:backgroundTint="#a0a0a0"
+                android:textColor="@color/black"
+                android:contentDescription="Decrease quantity"/>
+
+            <TextView
+                android:id="@+id/cart_item_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="1"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"/>
+
+            <Button
+                android:id="@+id/btn_increase"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:text="+"
+                android:textSize="18sp"
+                android:backgroundTint="#a0a0a0"
+                android:textColor="@color/black"
+                android:contentDescription="Increase quantity"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

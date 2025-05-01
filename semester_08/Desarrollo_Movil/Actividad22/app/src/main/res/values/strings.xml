@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">AmazonClone</string>
+    <string name="ver_carrito">View Cart</string>
+    <string name="imagen_del_plato">Product Image</string>
+    <string name="el_carrito_est_vac_o">Your cart is empty</string>
+    <string name="realizar_pedido">Place Order</string>
+    <string name="vaciar_carrito">Empty Cart</string>
+    <string name="total_0_00">Total: $0.00</string>
+    <string name="mi_carrito">My Cart</string>
+    <string name="eliminar_del_carrito">Remove from Cart</string>
+    <string name="aumentar_cantidad">Increase Quantity</string>
+    <string name="_1">1</string>
+    <string name="disminuir_cantidad">Decrease Quantity</string>
+    <string name="a_adir">Add to Cart</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+</resources>
