@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">TODOs</string>
+    <string name="app_logo" translatable="false">logo</string>
+    <string name="app_colortext" translatable="false">color</string>
+    <string name="deleteOne_title">Borrar</string>
+    <string name="deleteOne_message">Estás seguro que quieres borrar la tarea?</string>
+    <string name="app_yes">Si</string>
+    <string name="app_no">No</string>
+    <string name="app_ok" translatable="false">Okey</string>
+    <string name="app_modify">Modificar</string>
+    <string name="app_cancel">Cancelar</string>
+    <string name="addOne_title">Agregar una tarea</string>
+    <string name="addOne_message">Completa la información de la tarea</string>
+    <string name="addOne_name">Nombre</string>
+    <string name="addOne_task">Tarea</string>
+    <string name="addOne_important">Marcar como importante</string>
+    <string name="modifyOne_title">Modificar tarea</string>
+    <string name="modifyOne_message">Completa la información de la tarea</string>
+    <string name="app_listNoEmpty"></string>
+    <string name="app_listEmpty">Nada por hacer</string>
+    <string name="app_example">Tiempo de descansar</string>
+</resources>

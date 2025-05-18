@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Proyecto</string>
+    <string name="enter_name">Titulo</string>
+    <string name="add_record">Add Record</string>
+    <string name="btn_update">Update</string>
+    <string name="btn_delete">Delete</string>
+    <string name="empty_list_text">No records found</string>
+    <string name="enter_desc">Descripcion</string>
+    <string name="enter_title">Titulo</string>
+</resources>
